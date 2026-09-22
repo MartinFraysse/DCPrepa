@@ -1,0 +1,135 @@
+# Fiche d'un deck : le nom du fichier (sans extension) est l'identifiant utilisé
+# dans le champ "deck" de l'inbox et de games.csv.
+#
+#   name        nom affiché du deck (= son commandant + le plan de jeu)
+#   commandant  nom exact de la carte du commandant (face avant pour une carte double face)
+#   statut      envisage | retenu | ecarte (sans accents)
+#   versions    de la plus ancienne à la plus récente ; chaque version a :
+#               version  identifiant repris dans l'inbox (v1, v2…)
+#               date     AAAA-MM-JJ
+#               liste    liste complète, format export MTGO/Moxfield : une ligne "1 Nom de carte"
+#                        (v1 obligatoire ; ensuite, facultative si in/out suffit)
+#               in       cartes ajoutées par rapport à la version précédente
+#               out      cartes retirées par rapport à la version précédente
+#               notes    raison des changements (facultatif)
+
+name: Terra Midrange
+commandant: Terra, Magical Adept
+statut: envisage
+versions:
+    -   version: v1
+        date: 23/09/2026
+        # Coller l'export de la liste sous "liste: |", toutes les lignes avec la même indentation
+        # (100 cartes, commandant compris).
+        liste: |
+                1 Abrupt Decay
+                1 Abundant Countryside
+                1 Ajani, Nacatl Pariah // Ajani, Nacatl Avenger
+                1 Animate Dead
+                1 Arid Mesa
+                1 Badgermole Cub
+                1 Badlands
+                1 Bayou
+                1 Birds of Paradise
+                1 Bloodstained Mire
+                1 Boseiju, Who Endures
+                1 Chaos Defiler
+                1 City of Brass
+                1 Colossal Skyturtle
+                1 Command Tower
+                1 Dance of the Dead
+                1 Deadpool, Trading Card
+                1 Deathrite Shaman
+                1 Delighted Halfling
+                1 Demonic Tutor
+                1 Detective's Phoenix
+                1 Dina's Guidance
+                1 Dismember
+                1 Eagles of the North
+                1 Emperor of Bones
+                1 Endurance
+                1 Evasive Action
+                1 Fable of the Mirror-Breaker // Reflection of Kiki-Jiki
+                1 Fatal Push
+                1 Fear of Missing Out
+                1 Flooded Strand
+                1 Fury
+                1 Grief
+                1 Grove of the Burnwillows
+                1 Hushwood Verge
+                1 Ignoble Hierarch
+                1 Jennifer Walters // The Sensational She-Hulk
+                1 Leyline Binding
+                1 Lightning Bolt
+                1 Lively Dirge
+                1 Lush Portico
+                1 Mana Confluence
+                1 Mardu Siegebreaker
+                1 Marsh Flats
+                1 Mawloc
+                1 Metamorphosis Fanatic
+                1 Misty Rainforest
+                1 Necromancy
+                1 Noble Hierarch
+                1 Oliphaunt
+                1 Orcish Bowmasters
+                1 Overgrown Tomb
+                1 Overlord of the Balemurk
+                1 Parallax Wave
+                1 Path of Ancestry
+                1 Phelia, Exuberant Shepherd
+                1 Phlage, Titan of Fire's Fury
+                1 Plateau
+                1 Polluted Delta
+                1 Psychic Frog
+                1 Pyrogoyf
+                1 Pyrokinesis
+                1 Raucous Theater
+                1 Sacred Foundry
+                1 Savannah
+                1 Scalding Tarn
+                1 Scrubland
+                1 Seal of Fire
+                1 Snow-Covered Forest
+                1 Solitude
+                1 Starting Town
+                1 Stomping Ground
+                1 Summon: Yojimbo
+                1 Superior Spider-Man
+                1 Survival of the Fittest
+                1 Swift Reconfiguration
+                1 Swords to Plowshares
+                1 Taiga
+                1 Tainted Pact
+                1 Tarmogoyf
+                1 Teferi, Time Raveler
+                1 Temple Garden
+                1 Terra, Magical Adept // Esper Terra
+                1 Territorial Kavu
+                1 Thoughtseize
+                1 Troll of Khazad-dûm
+                1 Tropical Island
+                1 Tundra
+                1 Underground Sea
+                1 Utopia Sprawl
+                1 Verdant Catacombs
+                1 Volcanic Island
+                1 Wastewood Verge
+                1 Wight of the Reliquary
+                1 Wild Growth
+                1 Windswept Heath
+                1 Wooded Foothills
+                1 Worldgorger Dragon
+                1 Worldly Tutor
+                1 Wrenn and Six
+
+        notes:
+
+    # Exemple de version suivante (à décommenter et remplir) :
+    # -   version: v2
+    #     date: 2026-10-05
+    #     in:
+    #         - Carte ajoutée
+    #     out:
+    #         - Carte retirée
+    #     notes: Plus de removal contre les decks aggro.

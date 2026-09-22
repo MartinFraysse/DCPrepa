@@ -1,0 +1,31 @@
+# Boîte de réception : parties jouées loin de l'ordinateur (à remplir depuis GitHub, sur téléphone).
+# Le logiciel importe les blocs dans games.csv puis vide ce fichier ; un bloc invalide reste ici.
+# Chaque match reçoit un match_id généré à l'import (AAAA-MM-JJ-NN) : rien à saisir.
+#
+# Un bloc par session (même date, source, deck, version et oppo), blocs séparés par une ligne ---
+# Pas d'indentation : une ligne "champ: valeur" par champ.
+#
+#   date        AAAA-MM-JJ
+#   source      paper | mtgo | cockatrice
+#   deck        ton deck (= ton commandant) : nom du fichier dans decks/, sans extension
+#   version     version du deck jouée (ex. v3)
+#   oppo        deck adverse (= son commandant), nom court de préférence (voir oppos.yaml)
+#               self-play Cockatrice : ton autre deck sous la forme deck@version, ex. terra-midrange@v1
+#   parties     les matchs de la session, séparés par / ; dans un match, les parties
+#               dans l'ordre (OTP/OTD + W/L/D), séparées par des virgules (une seule si BO1)
+#                 1 BO3          : OTP W, OTD L, OTP W
+#                 3 BO3          : OTP W, OTD W / OTD L, OTP W, OTP L / OTP W, OTD W
+#                 2 BO3 + 1 BO1  : OTP W, OTD W / OTD L, OTP W, OTD L / OTP W
+#   note/ressenti  commentaire libre (facultatif)
+#
+# Exemple (à recopier sans les # en tête de ligne) :
+#
+# date: 2026-10-02
+# source: paper
+# deck: tymna-thrasios
+# version: v3
+# oppo: Ragavan
+# parties: OTP W, OTD L, OTP W / OTD L, OTP W, OTP L / OTP W
+# note/ressenti: Matchup jouable, le mull agressif paie.
+# ---
+
