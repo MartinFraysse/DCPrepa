@@ -10,6 +10,16 @@ Suivie de préparation de gros tournois DC, entrainement analyse méta winrate e
 │   ├── CLAUDE.md          # consignes de Claude Code (rôle, règles, journal)
 │   ├── SESSION_LOG.md     # journal des sessions (mémoire entre sessions)
 │   └── settings.json      # hook SessionStart : charge le journal au démarrage
+├── data/
+│   └── tournaments/       # un dossier par tournoi préparé (decks, parties, méta, rapports)
+│       └── relicfest-2026/
+│           ├── decks/           # un fichier YAML par deck : liste et versions
+│           ├── meta/            # instantanés du méta importés de MTGTop8 (un CSV par import)
+│           ├── stats/           # rapports de stats générés (Markdown, ne pas modifier à la main)
+│           ├── games.csv        # parties de préparation, une ligne par partie
+│           ├── inbox.yaml       # saisie rapide depuis le téléphone, à importer dans games.csv
+│           ├── oppos.yaml       # noms de référence des decks adverses et leurs variantes
+│           └── tournament.yaml  # fiche du tournoi (date, lieu, banlist, decks envisagés)
 ├── docs/
 │   ├── .claude_doc.md     # notes de Claude, tenues en temps réel (hors PDF et hors ~/work)
 │   └── README.md          # règles de la documentation

@@ -1,0 +1,15 @@
+# Noms de référence des decks adverses (oppo) et leurs variantes acceptées.
+# À l'import, toute variante saisie dans l'inbox est remplacée par le nom de référence :
+# les stats de matchup comptent ainsi un même deck sous un seul nom.
+#
+# Format : le nom de référence (nom court du commandant), puis la liste de ses variantes.
+# Nom de référence avec "/" pour les duos de partenaires, ex. Tymna/Thrasios.
+#
+# Exemple (à décommenter et adapter) :
+#
+# Ragavan:
+#     - Ragavan, Nimble Pilferer
+#     - raga
+# Tymna/Thrasios:
+#     - Tymna Thrasios
+#     - Thrasios/Tymna
