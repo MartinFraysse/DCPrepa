@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=\"$CLAUDE_PROJECT_DIR/.claude/SESSION_LOG.md\"; if [ -f \"$f\" ]; then echo '=== Journal de sessions (.claude/SESSION_LOG.md) — faire un résumé à l utilisateur ==='; cat \"$f\"; fi"
+          }
+        ]
+      }
+    ]
+  }
+}
