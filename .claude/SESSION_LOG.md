@@ -7,7 +7,8 @@
 ## 🔜 Prochaines étapes
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist).
 - Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- Import de l'inbox utilisable (`python -m dcprepa import relicfest-2026`) : premier vrai import à faire ; remplir `data/oppos.yaml`.
+- Valider le brouillon de doc de l'import, puis PR `feat/import-inbox` → `main`.
+- Import de l'inbox utilisable (`python -m dcprepa import relicfest-2026`) : premier vrai import à faire.
 - Logiciel, suite : stats (rapports Markdown dans `stats/`) ; plus tard vraie CLI, import MTGTop8, GUI.
 
 ## 🗓️ Historique
@@ -84,4 +85,10 @@
 - `__main__.py` : choix du module (`python -m dcprepa import <tournoi>`), table `MODULES` (un service = une entrée) ; seul `import` existe, les futurs modules seront ajoutés au besoin ; essayé à la main (usage, module/tournoi inconnus, import sur copie).
 - Appellations de decks : `decks/_alias.yaml` par tournoi (choix de l'utilisateur, plutôt qu'un champ dans chaque fiche) ; deck reconnu par fichier, `name:` ou variante, ramené au nom du fichier ; inconnu = erreur listant les decks ; self-play résolu aussi (inconnu = avertissement).
 - Code : `domain/names.py` (index souple partagé, extrait de `oppos.py`), `domain/decks.py`, `storage/decks.py::load_deck_aliases`, service mis à jour ; message « deck inconnu » avec decks disponibles ; `_alias.yaml` ajouté au modèle, à RelicFest (Terra, Terra mid) et à test_tournoi ; 44 tests de plus → 260 OK ; essayé sur une copie de test_tournoi.
+- Commits `a7c4f62` (lancement par module) et `653532a` (appellations de decks) ; `test_tournoi` commité comme exemple.
+- Brouillon de doc demandé : `docs/.claude_brouillon-import-inbox.md` (fonctionnement de l'import étape par étape, schémas) ; à valider puis à déplacer en `docs/03-architecture/import-inbox.md` (+ `index.md` du chapitre).
+- Décision : `match_id` en `JJ/MM/AAAA-NN` (remplace `AAAA-MM-JJ-NN`) ; date normalisée avec ses zéros ; code (`domain/rows.py`), tests, commentaires des 3 inbox, `test_tournoi/games.csv` (19 identifiants convertis) et docs mis à jour ; 261 tests OK. Noms de fichiers `meta/` restent `AAAA-MM-JJ.csv` (`/` impossible).
+- Brouillon de doc : schémas réalignés (flèches ASCII, emojis en fin de ligne), « tout ou rien » retiré, section « Lire » simplifiée.
+- Brouillon de doc de l'import validé par l'utilisateur ; second brouillon demandé : `docs/.claude_brouillon-donnees.md` (organisation de `data/`, commun vs par tournoi, modèle, fichiers un par un, choix des formats, conventions, trajet des données ; dossiers d'exemple, pas RelicFest ni test_tournoi).
+- Précision de l'utilisateur : à terme, le logiciel remplira tous les fichiers de saisie (en plus de la main) ; consigne : la doc décrit le logiciel comme terminé (pas de « aujourd'hui / à terme / à venir »), appliquée aux deux brouillons ; « qui écrit quoi » = saisie (logiciel ou main) / produits (logiciel uniquement).
 - Créé à la demande `docs/.claude_avancement_import_inbox.md` (renommé par l'utilisateur) : schémas de l'avancement (vue d'ensemble, fichiers par couche, flux d'import, trajet d'un bloc, reste à faire) ; README : organisation mise à jour.

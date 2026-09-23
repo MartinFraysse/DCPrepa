@@ -9,7 +9,7 @@ HEADER = ",".join(COLUMNS) + "\n"
 
 ROW = {
     "date": "02/10/2026",
-    "match_id": "2026-10-02-01",
+    "match_id": "02/10/2026-01",
     "partie": "1",
     "source": "paper",
     "deck": "terra-midrange",
@@ -19,7 +19,7 @@ ROW = {
     "resultat": "W",
     "note/ressenti": "",
 }
-LINE = "02/10/2026,2026-10-02-01,1,paper,terra-midrange,v1,Ragavan,OTP,W,\n"
+LINE = "02/10/2026,02/10/2026-01,1,paper,terra-midrange,v1,Ragavan,OTP,W,\n"
 
 
 def write_games(tmp_path, text):
@@ -52,12 +52,12 @@ def test_en_tete_seul(tmp_path):
 
 def test_match_ids_lus(tmp_path):
     text = HEADER + LINE + LINE.replace("-01,1", "-01,2") + LINE.replace("-01", "-02")
-    assert read_match_ids(write_games(tmp_path, text)) == ({"2026-10-02-01", "2026-10-02-02"}, [])
+    assert read_match_ids(write_games(tmp_path, text)) == ({"02/10/2026-01", "02/10/2026-02"}, [])
 
 
 def test_fins_de_ligne_windows_et_bom(tmp_path):
-    text = "﻿" + (HEADER + LINE).replace("\n", "\r\n")
-    assert read_match_ids(write_games(tmp_path, text)) == ({"2026-10-02-01"}, [])
+    text = "\ufeff" + (HEADER + LINE).replace("\n", "\r\n")
+    assert read_match_ids(write_games(tmp_path, text)) == ({"02/10/2026-01"}, [])
 
 
 def test_fichier_absent(tmp_path):
@@ -88,7 +88,7 @@ def test_ajout_apres_en_tete(tmp_path):
 
 def test_ajout_a_la_suite(tmp_path):
     path = write_games(tmp_path, HEADER + LINE)
-    append_rows(path, [{**ROW, "match_id": "2026-10-02-02"}])
+    append_rows(path, [{**ROW, "match_id": "02/10/2026-02"}])
     assert read_raw(path) == HEADER + LINE + LINE.replace("-01", "-02")
 
 
@@ -108,7 +108,7 @@ def test_note_avec_virgule_et_guillemets(tmp_path):
     path = write_games(tmp_path, HEADER)
     append_rows(path, [{**ROW, "note/ressenti": 'serré, le "mull" paie'}])
     assert read_raw(path).endswith(',W,"serré, le ""mull"" paie"\n')
-    assert read_match_ids(path) == ({"2026-10-02-01"}, [])
+    assert read_match_ids(path) == ({"02/10/2026-01"}, [])
 
 
 def test_ajout_de_rien(tmp_path):

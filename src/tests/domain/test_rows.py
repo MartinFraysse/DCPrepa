@@ -17,13 +17,13 @@ BOS = [[["OTP", "W"], ["OTD", "W"]], [["OTD", "L"]]]
 @pytest.mark.parametrize(
     "used_ids, expected",
     [
-        (set(), "2026-10-02-01"),
-        ({"2026-10-02-01"}, "2026-10-02-02"),
-        ({"2026-10-02-01", "2026-10-02-03"}, "2026-10-02-04"),
-        ({"2026-10-01-05", "2026-10-03-07"}, "2026-10-02-01"),
-        ({"2026-10-02-09"}, "2026-10-02-10"),
-        ({"2026-10-02-99"}, "2026-10-02-100"),
-        ({"2026-10-02-xx", "autre"}, "2026-10-02-01"),
+        (set(), "02/10/2026-01"),
+        ({"02/10/2026-01"}, "02/10/2026-02"),
+        ({"02/10/2026-01", "02/10/2026-03"}, "02/10/2026-04"),
+        ({"01/10/2026-05", "03/10/2026-07"}, "02/10/2026-01"),
+        ({"02/10/2026-09"}, "02/10/2026-10"),
+        ({"02/10/2026-99"}, "02/10/2026-100"),
+        ({"02/10/2026-xx", "autre"}, "02/10/2026-01"),
     ],
 )
 def test_next_match_id(used_ids, expected):
@@ -31,13 +31,13 @@ def test_next_match_id(used_ids, expected):
 
 
 def test_next_match_id_ne_modifie_pas_used_ids():
-    used_ids = {"2026-10-02-01"}
+    used_ids = {"02/10/2026-01"}
     next_match_id("02/10/2026", used_ids)
-    assert used_ids == {"2026-10-02-01"}
+    assert used_ids == {"02/10/2026-01"}
 
 
 def test_build_rows():
-    used_ids = {"2026-10-02-01"}
+    used_ids = {"02/10/2026-01"}
     rows = build_rows(BLOCK, BOS, "Ragavan", used_ids)
     common = {
         "date": "02/10/2026",
@@ -48,19 +48,19 @@ def test_build_rows():
         "note/ressenti": "Matchup jouable",
     }
     assert rows == [
-        {**common, "match_id": "2026-10-02-02", "partie": "1", "position": "OTP", "resultat": "W"},
-        {**common, "match_id": "2026-10-02-02", "partie": "2", "position": "OTD", "resultat": "W"},
-        {**common, "match_id": "2026-10-02-03", "partie": "1", "position": "OTD", "resultat": "L"},
+        {**common, "match_id": "02/10/2026-02", "partie": "1", "position": "OTP", "resultat": "W"},
+        {**common, "match_id": "02/10/2026-02", "partie": "2", "position": "OTD", "resultat": "W"},
+        {**common, "match_id": "02/10/2026-03", "partie": "1", "position": "OTD", "resultat": "L"},
     ]
-    assert used_ids == {"2026-10-02-01", "2026-10-02-02", "2026-10-02-03"}
+    assert used_ids == {"02/10/2026-01", "02/10/2026-02", "02/10/2026-03"}
 
 
 def test_deux_blocs_du_meme_jour_se_suivent():
     used_ids = set()
     first = build_rows(BLOCK, BOS, "Ragavan", used_ids)
     second = build_rows(BLOCK, [[["OTP", "L"]]], "Kess", used_ids)
-    assert [row["match_id"] for row in first] == ["2026-10-02-01", "2026-10-02-01", "2026-10-02-02"]
-    assert [row["match_id"] for row in second] == ["2026-10-02-03"]
+    assert [row["match_id"] for row in first] == ["02/10/2026-01", "02/10/2026-01", "02/10/2026-02"]
+    assert [row["match_id"] for row in second] == ["02/10/2026-03"]
 
 
 def test_note_absente_ou_vide():
@@ -81,3 +81,8 @@ def test_toutes_les_colonnes_presentes():
 
     rows = build_rows(BLOCK, BOS, "Ragavan", set())
     assert all(sorted(row) == sorted(COLUMNS) for row in rows)
+
+
+def test_date_sans_zeros_normalisee():
+    rows = build_rows({**BLOCK, "date": "2/10/2026"}, [[["OTP", "W"]]], "Ragavan", {"02/10/2026-01"})
+    assert (rows[0]["date"], rows[0]["match_id"]) == ("02/10/2026", "02/10/2026-02")

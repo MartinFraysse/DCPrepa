@@ -3,13 +3,18 @@ from datetime import datetime
 from dcprepa.domain.validation import DATE_FORMAT
 
 
+def normalize_date(date: str) -> str:
+    """Réécrit une date JJ/MM/AAAA déjà validée avec ses zéros, ex. « 2/10/2026 » → « 02/10/2026 »."""
+    return datetime.strptime(str(date).strip(), DATE_FORMAT).strftime(DATE_FORMAT)
+
+
 def next_match_id(date: str, used_ids: set[str]) -> str:
-    """Prochain match_id libre pour une date JJ/MM/AAAA : « AAAA-MM-JJ-NN ».
+    """Prochain match_id libre pour une date JJ/MM/AAAA : « JJ/MM/AAAA-NN », ex. « 02/10/2026-01 ».
 
     NN repart de 01 pour chaque date et suit le plus grand numéro déjà utilisé ce jour-là
     (pas de trou comblé : l'ordre des match_id reste l'ordre de saisie).
     """
-    prefix = datetime.strptime(date.strip(), DATE_FORMAT).strftime("%Y-%m-%d")
+    prefix = normalize_date(date)
     numbers = [
         int(match_id[len(prefix) + 1:])
         for match_id in used_ids
@@ -28,7 +33,7 @@ def build_rows(block: dict, bos: list[list[list[str]]], oppo: str, used_ids: set
     """
     note = block.get("note/ressenti")
     common = {
-        "date": str(block["date"]).strip(),
+        "date": normalize_date(block["date"]),
         "source": str(block["source"]).strip().lower(),
         "deck": str(block["deck"]).strip(),
         "version": str(block["version"]).strip(),

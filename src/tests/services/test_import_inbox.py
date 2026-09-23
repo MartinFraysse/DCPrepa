@@ -28,12 +28,12 @@ BLOCK_2 = (
     "parties: OTD L, OTP W, OTD W\n"
 )
 EXPECTED_ROWS = (
-    "02/10/2026,2026-10-02-01,1,paper,terra-midrange,v1,Ragavan,OTP,W,Matchup jouable\n"
-    "02/10/2026,2026-10-02-01,2,paper,terra-midrange,v1,Ragavan,OTD,W,Matchup jouable\n"
-    "02/10/2026,2026-10-02-02,1,paper,terra-midrange,v1,Ragavan,OTD,L,Matchup jouable\n"
-    "02/10/2026,2026-10-02-03,1,mtgo,terra-midrange,v2,Atraxa,OTD,L,\n"
-    "02/10/2026,2026-10-02-03,2,mtgo,terra-midrange,v2,Atraxa,OTP,W,\n"
-    "02/10/2026,2026-10-02-03,3,mtgo,terra-midrange,v2,Atraxa,OTD,W,\n"
+    "02/10/2026,02/10/2026-01,1,paper,terra-midrange,v1,Ragavan,OTP,W,Matchup jouable\n"
+    "02/10/2026,02/10/2026-01,2,paper,terra-midrange,v1,Ragavan,OTD,W,Matchup jouable\n"
+    "02/10/2026,02/10/2026-02,1,paper,terra-midrange,v1,Ragavan,OTD,L,Matchup jouable\n"
+    "02/10/2026,02/10/2026-03,1,mtgo,terra-midrange,v2,Atraxa,OTD,L,\n"
+    "02/10/2026,02/10/2026-03,2,mtgo,terra-midrange,v2,Atraxa,OTP,W,\n"
+    "02/10/2026,02/10/2026-03,3,mtgo,terra-midrange,v2,Atraxa,OTD,W,\n"
 )
 
 
@@ -80,7 +80,7 @@ def test_second_import_continue_la_numerotation(setup):
     report = import_inbox(tournament, oppos)
     assert report.ok
     lines = read_raw(tournament / "games.csv").splitlines()
-    assert [line.split(",")[1] for line in lines[-3:]] == ["2026-10-02-04", "2026-10-02-04", "2026-10-02-05"]
+    assert [line.split(",")[1] for line in lines[-3:]] == ["02/10/2026-04", "02/10/2026-04", "02/10/2026-05"]
 
 
 def test_un_bloc_invalide_rien_n_est_importe(setup):
@@ -179,7 +179,7 @@ def test_avec_le_vrai_modele_de_tournoi(tmp_path):
     assert report.ok, report.errors
     assert (report.blocks, report.matches, report.games) == (1, 2, 3)
     assert read_raw(tournament / "inbox.yaml") == header
-    assert read_raw(tournament / "games.csv").count("2026-10-02-0") == 3
+    assert read_raw(tournament / "games.csv").count("02/10/2026-0") == 3
 
 
 @pytest.mark.parametrize("deck", ["terra-midrange", "Terra Midrange", "terra", "  TERRA  mid "])
