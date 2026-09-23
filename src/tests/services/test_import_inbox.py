@@ -180,3 +180,66 @@ def test_avec_le_vrai_modele_de_tournoi(tmp_path):
     assert (report.blocks, report.matches, report.games) == (1, 2, 3)
     assert read_raw(tournament / "inbox.yaml") == header
     assert read_raw(tournament / "games.csv").count("2026-10-02-0") == 3
+
+
+@pytest.mark.parametrize("deck", ["terra-midrange", "Terra Midrange", "terra", "  TERRA  mid "])
+def test_deck_saisi_par_fichier_name_ou_alias(setup, deck):
+    tournament, oppos = setup
+    write(tournament / "decks" / "terra-midrange.yaml", "name: Terra Midrange\nversions:\n    - version: v1\n")
+    write(tournament / "decks" / "_alias.yaml", "terra-midrange:\n    - Terra\n    - Terra mid\n")
+    write(tournament / "inbox.yaml", BLOCK_1.replace("deck: terra-midrange", f"deck: {deck}"))
+    report = import_inbox(tournament, oppos)
+    assert report.ok, report.errors
+    assert all(line.split(",")[4] == "terra-midrange" for line in read_raw(tournament / "games.csv").splitlines()[1:])
+
+
+def test_deck_inconnu_liste_les_decks(setup):
+    tournament, oppos = setup
+    write(tournament / "inbox.yaml", BLOCK_1.replace("deck: terra-midrange", "deck: test_deck"))
+    before = snapshot(tournament)
+    report = import_inbox(tournament, oppos)
+    assert report.errors == ["bloc 1 : deck inconnu : test_deck (decks disponibles : terra-midrange)"]
+    assert snapshot(tournament) == before
+
+
+def test_self_play_par_alias(setup):
+    tournament, oppos = setup
+    write(tournament / "decks" / "_alias.yaml", "terra-midrange:\n    - Terra mid\n")
+    write(tournament / "inbox.yaml", BLOCK_1.replace("oppo: raga", "oppo: terra mid@v2"))
+    report = import_inbox(tournament, oppos)
+    assert report.ok and report.warnings == []
+    assert ",terra-midrange@v2,OTP,W," in read_raw(tournament / "games.csv")
+
+
+def test_self_play_deck_inconnu_avertissement(setup):
+    tournament, oppos = setup
+    write(tournament / "inbox.yaml", BLOCK_1.replace("oppo: raga", "oppo: atraxa@v1"))
+    report = import_inbox(tournament, oppos)
+    assert report.ok
+    assert report.warnings == ["bloc 1 : self-play : deck inconnu : atraxa"]
+
+
+@pytest.mark.parametrize(
+    "alias, message",
+    [
+        ("terra:\n    - Terra mid\n", "_alias.yaml : deck inconnu : terra (decks disponibles : terra-midrange)"),
+        ("terra-midrange: Terra\n", "_alias.yaml : terra-midrange : variantes attendues sous forme de liste (« - variante »)"),
+    ],
+)
+def test_alias_invalide_bloque(setup, alias, message):
+    tournament, oppos = setup
+    write(tournament / "decks" / "_alias.yaml", alias)
+    before = snapshot(tournament)
+    report = import_inbox(tournament, oppos)
+    assert report.errors == [message]
+    assert snapshot(tournament) == before
+
+
+def test_alias_ambigu_bloque(setup):
+    tournament, oppos = setup
+    write(tournament / "decks" / "terra-mono.yaml", "versions:\n    - version: v1\n")
+    write(tournament / "decks" / "_alias.yaml", "terra-midrange:\n    - Terra\nterra-mono:\n    - terra\n")
+    before = snapshot(tournament)
+    report = import_inbox(tournament, oppos)
+    assert report.errors == ["decks : « terra » renvoie à la fois vers terra-midrange et terra-mono"]
+    assert snapshot(tournament) == before

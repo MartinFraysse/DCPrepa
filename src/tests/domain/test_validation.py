@@ -69,10 +69,10 @@ def test_plusieurs_champs_manquants():
         ({"date": "29/02/2026"}, ["date invalide (attendu : JJ/MM/AAAA) : 29/02/2026"]),
         ({"date": "demain"}, ["date invalide (attendu : JJ/MM/AAAA) : demain"]),
         ({"source": "arena"}, ["source inconnue (paper, mtgo ou cockatrice) : arena"]),
-        ({"deck": "terra"}, ["deck inconnu : terra"]),
+        ({"deck": "terra"}, ["deck inconnu : terra (decks disponibles : terra-midrange)"]),
         ({"version": "v9"}, ["version inconnue pour terra-midrange : v9"]),
         ({"version": 3}, ["version inconnue pour terra-midrange : 3"]),
-        ({"deck": "terra", "version": "v9"}, ["deck inconnu : terra"]),
+        ({"deck": "terra", "version": "v9"}, ["deck inconnu : terra (decks disponibles : terra-midrange)"]),
         (
             {"parties": "OTP W / OPP L"},
             ["parties : BO 2 : game 1 : position inconnue (OTP ou OTD) : OPP"],
@@ -88,7 +88,7 @@ def test_toutes_les_erreurs_sont_remontees():
     assert validate_block(block, DECKS) == [
         "date invalide (attendu : JJ/MM/AAAA) : x",
         "source inconnue (paper, mtgo ou cockatrice) : arena",
-        "deck inconnu : terra",
+        "deck inconnu : terra (decks disponibles : terra-midrange)",
         "parties : BO 1 : game 1 : mal formée (attendu : OTP W) : OTP",
     ]
 

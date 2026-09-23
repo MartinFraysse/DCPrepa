@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from dcprepa.storage.decks import load_decks
+from dcprepa.storage.decks import load_deck_aliases, load_decks
 
 DECK_V1_V2 = """\
 name: Terra Midrange
@@ -182,3 +182,76 @@ def test_erreurs_de_plusieurs_fiches(tmp_path):
 def test_modele_du_template_ignore():
     template = Path(__file__).resolve().parents[3] / "data" / "templates" / "tournament"
     assert load_decks(template) == ({}, [])
+
+
+def load_all(tmp_path):
+    decks, errors = load_decks(tmp_path)
+    assert errors == []
+    return load_deck_aliases(tmp_path, decks)
+
+
+def test_appellations_fichier_et_name(tmp_path):
+    write_deck(tmp_path, "terra-5c.yaml", "name: Terra 5C\nversions:\n    - version: v1\n")
+    assert load_all(tmp_path) == ({"terra-5c": ["terra-5c", "Terra 5C"]}, [])
+
+
+@pytest.mark.parametrize("name_line", ["", "name:\n", "name: '   '\n"])
+def test_appellations_sans_name(tmp_path, name_line):
+    write_deck(tmp_path, "terra-5c.yaml", name_line + "versions:\n    - version: v1\n")
+    assert load_all(tmp_path) == ({"terra-5c": ["terra-5c"]}, [])
+
+
+def test_appellations_avec_alias(tmp_path):
+    write_deck(tmp_path, "terra-5c.yaml", "name: Terra 5C\nversions:\n    - version: v1\n")
+    write_deck(tmp_path, "tnt.yaml", "versions:\n    - version: v1\n")
+    write_deck(tmp_path, "_alias.yaml", "# commentaire\nterra-5c:\n    - Terra\n    - ' Terra mid '\ntnt:\n")
+    assert load_all(tmp_path) == ({"terra-5c": ["terra-5c", "Terra 5C", "Terra", "Terra mid"], "tnt": ["tnt"]}, [])
+
+
+@pytest.mark.parametrize("text", ["", "# seulement des commentaires\n"])
+def test_alias_vide(tmp_path, text):
+    write_deck(tmp_path, "terra-5c.yaml", "versions:\n    - version: v1\n")
+    write_deck(tmp_path, "_alias.yaml", text)
+    assert load_all(tmp_path) == ({"terra-5c": ["terra-5c"]}, [])
+
+
+def test_alias_deck_inconnu(tmp_path):
+    write_deck(tmp_path, "terra-5c.yaml", "versions:\n    - version: v1\n")
+    write_deck(tmp_path, "_alias.yaml", "terra:\n    - Terra mid\n")
+    assert load_all(tmp_path) == (
+        {},
+        ["_alias.yaml : deck inconnu : terra (decks disponibles : terra-5c)"],
+    )
+
+
+def test_alias_variantes_pas_en_liste(tmp_path):
+    write_deck(tmp_path, "terra-5c.yaml", "versions:\n    - version: v1\n")
+    write_deck(tmp_path, "_alias.yaml", "terra-5c: Terra\n")
+    assert load_all(tmp_path) == (
+        {},
+        ["_alias.yaml : terra-5c : variantes attendues sous forme de liste (« - variante »)"],
+    )
+
+
+@pytest.mark.parametrize("text", ["- terra-5c\n", "juste du texte\n"])
+def test_alias_structure_invalide(tmp_path, text):
+    write_deck(tmp_path, "terra-5c.yaml", "versions:\n    - version: v1\n")
+    write_deck(tmp_path, "_alias.yaml", text)
+    assert load_all(tmp_path) == (
+        {},
+        ["_alias.yaml : attendu « nom-du-fichier-deck: » suivi de ses variantes"],
+    )
+
+
+def test_alias_yaml_illisible(tmp_path):
+    write_deck(tmp_path, "terra-5c.yaml", "versions:\n    - version: v1\n")
+    write_deck(tmp_path, "_alias.yaml", "terra-5c: [Terra\n")
+    aliases, errors = load_all(tmp_path)
+    assert aliases == {}
+    assert errors[0].startswith("_alias.yaml : YAML illisible")
+
+
+def test_alias_ignore_par_load_decks(tmp_path):
+    write_deck(tmp_path, "terra-5c.yaml", "versions:\n    - version: v1\n")
+    write_deck(tmp_path, "_alias.yaml", "terra-5c:\n    - Terra\n")
+    assert load_decks(tmp_path) == ({"terra-5c": ["v1"]}, [])

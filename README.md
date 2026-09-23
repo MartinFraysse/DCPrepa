@@ -15,8 +15,9 @@ Suivie de préparation de gros tournois DC, entrainement analyse méta winrate e
 │   ├── templates/
 │   │   └── tournament/    # modèle de dossier de tournoi, à copier sous tournaments/<slug>/ (voir son README)
 │   └── tournaments/       # un dossier par tournoi préparé (decks, parties, méta, rapports)
+│       ├── test_tournoi/        # tournoi fictif pour tester l'import (mêmes fichiers que ci-dessous)
 │       └── relicfest-2026/
-│           ├── decks/           # un fichier YAML par deck : liste et versions
+│           ├── decks/           # un fichier YAML par deck (liste, versions) + _alias.yaml (appellations acceptées)
 │           ├── meta/            # instantanés du méta importés de MTGTop8 (un CSV par import)
 │           ├── stats/           # rapports de stats générés (Markdown, ne pas modifier à la main)
 │           ├── games.csv        # parties de préparation, une ligne par partie

@@ -41,7 +41,8 @@ def validate_block(block: dict, decks: dict[str, list[str]]) -> list[str]:
     deck = str(block["deck"]).strip()
     version = str(block["version"]).strip()
     if deck not in decks:
-        errors.append(f"deck inconnu : {deck}")
+        available = ", ".join(sorted(decks)) or "aucun"
+        errors.append(f"deck inconnu : {deck} (decks disponibles : {available})")
     elif version not in decks[deck]:
         errors.append(f"version inconnue pour {deck} : {version}")
 

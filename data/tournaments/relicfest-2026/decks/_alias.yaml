@@ -1,0 +1,8 @@
+# Appellations acceptées pour chaque deck de ce tournoi : champ « deck » de l'inbox et deck d'un self-play (deck@version).
+# Déjà reconnus sans rien écrire ici : le nom du fichier du deck et le champ « name » de sa fiche.
+# Format : le nom du fichier du deck (sans .yaml) suivi de « : », puis une ligne « - variante » par appellation.
+# Les majuscules et les espaces en trop sont ignorés. Le nom commence par « _ » : ce fichier n'est pas une fiche deck.
+
+terra-midrange:
+    - Terra
+    - Terra mid

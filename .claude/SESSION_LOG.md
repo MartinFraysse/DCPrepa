@@ -7,8 +7,8 @@
 ## 🔜 Prochaines étapes
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist).
 - Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- Logiciel, import de l'inbox : commande CLI `import` (`interfaces/cli/`), dernière brique.
-- Ensuite : stats (rapports Markdown) et import MTGTop8.
+- Import de l'inbox utilisable (`python -m dcprepa import relicfest-2026`) : premier vrai import à faire ; remplir `data/oppos.yaml`.
+- Logiciel, suite : stats (rapports Markdown dans `stats/`) ; plus tard vraie CLI, import MTGTop8, GUI.
 
 ## 🗓️ Historique
 
@@ -76,4 +76,12 @@
 - Décision (par défaut, option conseillée) : la note du bloc est recopiée sur chaque ligne de `games.csv`.
 - `storage/games.py` (`read_match_ids`, `append_rows`) + `domain/rows.py` (`next_match_id`, `build_rows`) codés par Claude ; 29 tests ; suite : 204 tests OK.
 - `services/import_inbox.py` : `import_inbox` + `ImportReport` codés par Claude ; 12 tests d'intégration (mini-dépôt dans `tmp_path`, dont une copie du vrai modèle) ; suite : 216 tests OK.
+- Décision : pas de vraie CLI pour l'instant ; lancement minimal `src/dcprepa/__main__.py` → `python -m dcprepa <tournoi>` depuis `src/`.
+- Essayé à la main sur une copie de `data/` (scratchpad) : bloc invalide → rien modifié ; corrigé → 6 games dans games.csv, inbox vidée, relance → « Inbox vide » ; vrai RelicFest : inbox vide, rien modifié. Pas de test pytest pour `__main__.py`.
+- `src/README.md` : point d'entrée et commande de lancement remplis.
+- `data/test_tournoi/` (vide, créé par l'utilisateur) déplacé en `data/tournaments/test_tournoi/` (sinon introuvable par la commande) et rempli : tournament.yaml, deck `test-deck` (v1, v2), games.csv (en-tête), inbox avec 3 blocs (paper, mtgo, self-play cockatrice) ; import essayé sur une copie : 3 blocs, 6 matchs, 12 games, 2 avertissements d'oppo. README : organisation mise à jour.
+- `data/oppos.yaml` prérempli : Ragavan, Kess, Tymna/Thrasios (+ variantes) ; l'exemple commenté remplacé par une aide courte ; lu et indexé sans erreur (10 formes).
+- `__main__.py` : choix du module (`python -m dcprepa import <tournoi>`), table `MODULES` (un service = une entrée) ; seul `import` existe, les futurs modules seront ajoutés au besoin ; essayé à la main (usage, module/tournoi inconnus, import sur copie).
+- Appellations de decks : `decks/_alias.yaml` par tournoi (choix de l'utilisateur, plutôt qu'un champ dans chaque fiche) ; deck reconnu par fichier, `name:` ou variante, ramené au nom du fichier ; inconnu = erreur listant les decks ; self-play résolu aussi (inconnu = avertissement).
+- Code : `domain/names.py` (index souple partagé, extrait de `oppos.py`), `domain/decks.py`, `storage/decks.py::load_deck_aliases`, service mis à jour ; message « deck inconnu » avec decks disponibles ; `_alias.yaml` ajouté au modèle, à RelicFest (Terra, Terra mid) et à test_tournoi ; 44 tests de plus → 260 OK ; essayé sur une copie de test_tournoi.
 - Créé à la demande `docs/.claude_avancement_import_inbox.md` (renommé par l'utilisateur) : schémas de l'avancement (vue d'ensemble, fichiers par couche, flux d'import, trajet d'un bloc, reste à faire) ; README : organisation mise à jour.

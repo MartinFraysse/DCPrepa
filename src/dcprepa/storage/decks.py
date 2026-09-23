@@ -29,6 +29,59 @@ def load_decks(tournament_dir: Path) -> tuple[dict[str, list[str]], list[str]]:
     return decks, errors
 
 
+ALIAS_FILE = "_alias.yaml"
+
+
+def load_deck_aliases(tournament_dir: Path, decks: dict[str, list[str]]) -> tuple[dict[str, list[str]], list[str]]:
+    """Rassemble les appellations acceptées de chaque deck chargé par load_decks.
+
+    Pour chaque deck : le nom de son fichier, le champ « name » de sa fiche, et ses variantes
+    dans decks/_alias.yaml (facultatif, même format que data/oppos.yaml : nom du fichier → liste).
+
+    Renvoie (aliases, errors), jamais les deux remplis,
+    ex. ({"terra-5c": ["terra-5c", "Terra 5C", "Terra", "Terra mid"]}, []).
+    """
+    decks_dir = tournament_dir / "decks"
+    aliases = {}
+    for deck in decks:
+        aliases[deck] = [deck]
+        content = yaml.safe_load((decks_dir / f"{deck}.yaml").read_text(encoding="utf-8"))
+        name = content.get("name") if isinstance(content, dict) else None
+        if name is not None and str(name).strip():
+            aliases[deck].append(str(name).strip())
+
+    alias_path = decks_dir / ALIAS_FILE
+    if not alias_path.is_file():
+        return aliases, []
+
+    try:
+        content = yaml.safe_load(alias_path.read_text(encoding="utf-8"))
+    except yaml.YAMLError as error:
+        return {}, [f"{ALIAS_FILE} : YAML illisible : {error}"]
+    if content is None:
+        return aliases, []
+    if not isinstance(content, dict):
+        return {}, [f"{ALIAS_FILE} : attendu « nom-du-fichier-deck: » suivi de ses variantes"]
+
+    errors = []
+    available = ", ".join(sorted(decks)) or "aucun"
+    for deck, variants in content.items():
+        deck = str(deck).strip()
+        if deck not in aliases:
+            errors.append(f"{ALIAS_FILE} : deck inconnu : {deck} (decks disponibles : {available})")
+            continue
+        if variants is None:
+            continue
+        if not isinstance(variants, list):
+            errors.append(f"{ALIAS_FILE} : {deck} : variantes attendues sous forme de liste (« - variante »)")
+            continue
+        aliases[deck] += [str(variant).strip() for variant in variants if variant is not None]
+
+    if errors:
+        return {}, errors
+    return aliases, errors
+
+
 def _read_versions(path: Path) -> tuple[list[str], list[str]]:
     """Lit une fiche deck et renvoie (identifiants de version, erreurs)."""
     try:

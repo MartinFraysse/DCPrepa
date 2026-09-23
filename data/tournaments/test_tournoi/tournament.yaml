@@ -1,0 +1,9 @@
+# Fiche du tournoi préparé.
+
+name: Tournoi de test
+slug: test_tournoi          # nom du dossier
+format: Duel Commander
+date: 15/11/2026            # JJ/MM/AAAA, date de l'événement
+location: Test
+banlist:                    # date ou lien de la banlist en vigueur
+notes: Tournoi fictif pour tester l'import de l'inbox.
