@@ -7,7 +7,7 @@
 ## 🔜 Prochaines étapes
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist).
 - Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- Logiciel, import de l'inbox : `__init__.py` + `requirements.txt`, choisir pytest/unittest, puis `parse_games` (découpe sur `/`, appelle `_parse_bo`) dans `domain/games.py`.
+- Logiciel, import de l'inbox : `__init__.py` + `requirements.txt`, choisir pytest/unittest, puis mettre en place pytest et écrire les tests de `domain/games.py` ; ensuite la validation d'un bloc.
 - Ensuite : validation d'un bloc, lecture inbox, normalisation oppo, games.csv, service d'import, CLI ; puis stats et import MTGTop8.
 
 ## 🗓️ Historique
@@ -61,4 +61,7 @@
 - Venv recréé à la racine (`.venv/`), `src/requirements.txt` (pyyaml).
 - `src/dcprepa/domain/games.py` : `_parse_bo(text)` écrite par l'utilisateur (un BO « OTP W, OTD L… ») ; valide format, position, résultat, max 3 games, BO déjà terminé à 2 victoires ; 26 cas testés OK.
 - `_parse_bo` renvoie toujours `(games, errors)` ; exclusifs : s'il y a des erreurs, `games` est vide (jamais de games partielles).
+- Commits sur `feat/import-inbox` : `412c2a6` (architecture) et `194371a` (`_parse_bo`) ; les scopes sont écrits `<…>` au lieu de `(…)`.
+- `_parse_bo` renommée `_parse_games` (games d'un BO) ; `parse_bos` (champ `parties` entier, découpe sur `/`, erreurs préfixées « BO n : ») codée par Claude à la demande ; docstrings ajoutées ; 9 cas testés OK.
+- `_parse_games` reprise par Claude pour la cohérence avec `parse_bos` : noms explicites (`chunks`, `parts`, `position`, `result`, `wins`, `losses`), constante `WINS_TO_END_BO`, messages préfixés « game n : » ; 25 cas testés, comportement inchangé.
 - Ouvert : pytest ou unittest ; `__init__.py` et `requirements.txt` à créer.
