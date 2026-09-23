@@ -7,8 +7,8 @@ Logiciel DCPrepa : importe les parties saisies dans l'inbox vers `games.csv` et 
 | Élément                  | Choix |
 |--------------------------|-------|
 | Langage et version       | Python 3.13 |
-| Dépendances principales  | PyYAML |
-| Gestion des dépendances  | pip + venv (`.venv/` à la racine), `src/requirements.txt` |
+| Dépendances principales  | PyYAML ; développement : pytest |
+| Gestion des dépendances  | pip + venv (`.venv/` à la racine), `src/requirements.txt` (exécution), `src/requirements-dev.txt` (développement) |
 
 ## Organisation
 
@@ -30,9 +30,10 @@ Point d'entrée : pas encore défini (future commande CLI dans `interfaces/`).
 # installer les dépendances (PowerShell ; sous Linux : source .venv/bin/activate)
 python -m venv .venv
 .venv\Scripts\Activate.ps1
-pip install -r src/requirements.txt
+pip install -r src/requirements-dev.txt   # dépendances d'exécution + pytest
 # lancer
-# tester
+# tester (depuis src/)
+python -m pytest
 # linter / formater
 ```
 
