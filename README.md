@@ -11,6 +11,9 @@ Suivie de préparation de gros tournois DC, entrainement analyse méta winrate e
 │   ├── SESSION_LOG.md     # journal des sessions (mémoire entre sessions)
 │   └── settings.json      # hook SessionStart : charge le journal au démarrage
 ├── data/
+│   ├── oppos.yaml         # noms de référence des decks adverses et leurs variantes (communs à tous les tournois)
+│   ├── templates/
+│   │   └── tournament/    # modèle de dossier de tournoi, à copier sous tournaments/<slug>/ (voir son README)
 │   └── tournaments/       # un dossier par tournoi préparé (decks, parties, méta, rapports)
 │       └── relicfest-2026/
 │           ├── decks/           # un fichier YAML par deck : liste et versions
@@ -18,8 +21,7 @@ Suivie de préparation de gros tournois DC, entrainement analyse méta winrate e
 │           ├── stats/           # rapports de stats générés (Markdown, ne pas modifier à la main)
 │           ├── games.csv        # parties de préparation, une ligne par partie
 │           ├── inbox.yaml       # saisie rapide depuis le téléphone, à importer dans games.csv
-│           ├── oppos.yaml       # noms de référence des decks adverses et leurs variantes
-│           └── tournament.yaml  # fiche du tournoi (date, lieu, banlist, decks envisagés)
+│           └── tournament.yaml  # fiche du tournoi (date, lieu, banlist)
 ├── docs/
 │   ├── .claude_doc.md     # notes de Claude, tenues en temps réel (hors PDF et hors ~/work)
 │   └── README.md          # règles de la documentation

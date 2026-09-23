@@ -6,7 +6,6 @@
 #   statut      envisage | retenu | ecarte (sans accents)
 #   versions    de la plus ancienne à la plus récente ; chaque version a :
 #               version  identifiant repris dans l'inbox (v1, v2…)
-#               date     AAAA-MM-JJ
 #               liste    liste complète, format export MTGO/Moxfield : une ligne "1 Nom de carte"
 #                        (v1 obligatoire ; ensuite, facultative si in/out suffit)
 #               in       cartes ajoutées par rapport à la version précédente
@@ -18,7 +17,6 @@ commandant: Terra, Magical Adept
 statut: envisage
 versions:
     -   version: v1
-        date: 23/09/2026
         # Coller l'export de la liste sous "liste: |", toutes les lignes avec la même indentation
         # (100 cartes, commandant compris).
         liste: |
@@ -127,7 +125,6 @@ versions:
 
     # Exemple de version suivante (à décommenter et remplir) :
     # -   version: v2
-    #     date: 2026-10-05
     #     in:
     #         - Carte ajoutée
     #     out:

@@ -5,6 +5,7 @@ Fichiers Markdown, lisibles directement sur GitHub : ne pas les modifier à la m
 
 - `synthese.md` : tous les decks côte à côte, poids des oppos dans le méta, winrate attendu, matchups non testés.
 - `<deck>.md` : détail d'un deck (même nom que sa fiche dans `decks/`).
+- `_modele-deck.md` (modèle uniquement) : à copier en `<deck>.md` pour chaque deck, puis supprimer.
 
 Conventions :
 

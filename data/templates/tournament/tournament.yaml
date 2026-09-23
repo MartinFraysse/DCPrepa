@@ -1,0 +1,9 @@
+# Fiche du tournoi préparé.
+
+name:                       # nom affiché, ex. RelicFest 2026
+slug:                       # nom du dossier, en minuscules, ex. relicfest-2026
+format: Duel Commander
+date:                       # JJ/MM/AAAA, date de l'événement
+location:
+banlist:                    # date ou lien de la banlist en vigueur
+notes:
