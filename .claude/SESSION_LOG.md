@@ -7,7 +7,7 @@
 ## 🔜 Prochaines étapes
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist).
 - Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- Logiciel, import de l'inbox : normalisation des oppos (`domain/oppos.py`), conversion des blocs en lignes de `games.csv` (match_id), écriture de `games.csv` et vidage de l'inbox, service d'import tout ou rien, CLI.
+- Logiciel, import de l'inbox : lecture/écriture de `games.csv`, conversion des blocs en lignes de `games.csv` (match_id), écriture de `games.csv` et vidage de l'inbox, service d'import tout ou rien, CLI.
 - Ensuite : stats (rapports Markdown) et import MTGTop8.
 
 ## 🗓️ Historique
@@ -71,4 +71,6 @@
 - Commentaire d'en-tête des deux `inbox.yaml` mis à jour avec la règle tout ou rien.
 - `storage/inbox.py` : `read_inbox(path)` → `(blocks, errors)`, découpe sur `---` et lit bloc par bloc (toutes les erreurs YAML d'un coup, avec n° de bloc et de ligne) ; codée par Claude ; tests `src/tests/storage/test_inbox.py` (25 cas) ; suite : 132 tests OK.
 - `storage/inbox.py` : `clear_inbox(path)` (garde l'en-tête, écriture atomique via `.tmp`) ; 9 tests de plus ; suite : 141 tests OK ; `storage/inbox.py` terminé.
+- Décisions : oppo inconnu = avertissement (import quand même) ; comparaison souple (majuscules, espaces).
+- `storage/oppos.py::load_oppos` + `domain/oppos.py::build_oppo_index/normalize_oppo` codés par Claude ; 34 tests ; suite : 175 tests OK ; `.claude_avancement_import_inbox.md` mis à jour.
 - Créé à la demande `docs/.claude_avancement_import_inbox.md` (renommé par l'utilisateur) : schémas de l'avancement (vue d'ensemble, fichiers par couche, flux d'import, trajet d'un bloc, reste à faire) ; README : organisation mise à jour.
