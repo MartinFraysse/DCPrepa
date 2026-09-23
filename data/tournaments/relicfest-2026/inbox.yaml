@@ -1,6 +1,7 @@
 # Boîte de réception : parties jouées loin de l'ordinateur (à remplir depuis GitHub, sur téléphone).
-# Le logiciel importe les blocs dans games.csv puis vide ce fichier ; un bloc invalide reste ici.
-# Chaque match reçoit un match_id généré à l'import (AAAA-MM-JJ-NN) : rien à saisir.
+# Le logiciel importe les blocs dans games.csv puis vide ce fichier.
+# Au moindre bloc invalide, rien n'est importé : corriger les erreurs affichées puis relancer.
+# Chaque match reçoit un match_id généré à l'import (JJ/MM/AAAA-NN) : rien à saisir.
 #
 # Un bloc par session (même date, source, deck, version et oppo), blocs séparés par une ligne ---
 # Pas d'indentation : une ligne "champ: valeur" par champ.

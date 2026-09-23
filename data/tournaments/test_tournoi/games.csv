@@ -1,0 +1,20 @@
+date,match_id,partie,source,deck,version,oppo,position,resultat,note/ressenti
+01/11/2026,01/11/2026-01,1,paper,test-deck,v1,Ragavan,OTP,W,"Session de test en paper, deux BO3."
+01/11/2026,01/11/2026-01,2,paper,test-deck,v1,Ragavan,OTD,L,"Session de test en paper, deux BO3."
+01/11/2026,01/11/2026-01,3,paper,test-deck,v1,Ragavan,OTP,W,"Session de test en paper, deux BO3."
+01/11/2026,01/11/2026-02,1,paper,test-deck,v1,Ragavan,OTD,W,"Session de test en paper, deux BO3."
+01/11/2026,01/11/2026-02,2,paper,test-deck,v1,Ragavan,OTP,W,"Session de test en paper, deux BO3."
+01/11/2026,01/11/2026-03,1,mtgo,test-deck,v2,Kess,OTD,L,
+01/11/2026,01/11/2026-04,1,mtgo,test-deck,v2,Kess,OTP,W,
+01/11/2026,01/11/2026-05,1,mtgo,test-deck,v2,Kess,OTD,W,
+01/11/2026,01/11/2026-05,2,mtgo,test-deck,v2,Kess,OTP,L,
+01/11/2026,01/11/2026-05,3,mtgo,test-deck,v2,Kess,OTD,L,
+02/11/2026,02/11/2026-01,1,cockatrice,test-deck,v2,test-deck@v1,OTP,W,Self-play v2 contre v1.
+02/11/2026,02/11/2026-01,2,cockatrice,test-deck,v2,test-deck@v1,OTD,W,Self-play v2 contre v1.
+23/10/2026,23/10/2026-01,1,mtgo,test-deck,v2,Kess,OTP,W,Nouveau test de nouvelle methode d'import
+23/10/2026,23/10/2026-01,2,mtgo,test-deck,v2,Kess,OTD,L,Nouveau test de nouvelle methode d'import
+23/10/2026,23/10/2026-01,3,mtgo,test-deck,v2,Kess,OTP,W,Nouveau test de nouvelle methode d'import
+23/10/2026,23/10/2026-02,1,mtgo,test-deck,v2,Kess,OTD,L,Nouveau test de nouvelle methode d'import
+23/10/2026,23/10/2026-02,2,mtgo,test-deck,v2,Kess,OTP,W,Nouveau test de nouvelle methode d'import
+23/10/2026,23/10/2026-02,3,mtgo,test-deck,v2,Kess,OTP,L,Nouveau test de nouvelle methode d'import
+23/10/2026,23/10/2026-03,1,mtgo,test-deck,v2,Kess,OTP,W,Nouveau test de nouvelle methode d'import
