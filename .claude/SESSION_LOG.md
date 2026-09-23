@@ -7,8 +7,8 @@
 ## 🔜 Prochaines étapes
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist).
 - Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- Logiciel, import de l'inbox : `__init__.py` + `requirements.txt`, choisir pytest/unittest, puis lecture de l'inbox (`storage/inbox.py`), normalisation des oppos (`domain/oppos.py`), écriture de `games.csv`.
-- Ensuite : validation d'un bloc, lecture inbox, normalisation oppo, games.csv, service d'import, CLI ; puis stats et import MTGTop8.
+- Logiciel, import de l'inbox : normalisation des oppos (`domain/oppos.py`), conversion des blocs en lignes de `games.csv` (match_id), écriture de `games.csv` et vidage de l'inbox, service d'import tout ou rien, CLI.
+- Ensuite : stats (rapports Markdown) et import MTGTop8.
 
 ## 🗓️ Historique
 
@@ -67,3 +67,8 @@
 - pytest retenu (`src/requirements-dev.txt`) ; tests dans `src/tests/domain/test_games.py` (écrits par Claude à la demande, `parametrize`) : 30 tests OK via `python -m pytest` depuis `src/`.
 - `domain/validation.py` : `validate_block(block, decks)` codée par Claude à la demande ; `decks` = {deck: [versions]} fourni par l'appelant ; renvoie la liste de toutes les erreurs (champs, date, source, deck, version, parties via `parse_bos`) ; tests pytest dans `src/tests/domain/test_validation.py` (50 cas) ; suite complète : 80 tests OK.
 - `storage/decks.py` : `load_decks(tournament_dir)` → `(decks, errors)` (option A : fiche invalide écartée et signalée) ; codée par Claude ; tests `src/tests/storage/test_decks.py` avec `tmp_path` (27 cas, dont le modèle réel du template) ; suite : 107 tests OK ; lit bien RelicFest → {terra-midrange: [v1]}.
+- Décision (importante pour l'utilisateur) : import de l'inbox **tout ou rien** ; une seule erreur → rien n'est importé, aucun fichier modifié, toutes les erreurs affichées. Remplace « bloc invalide laissé dans l'inbox ».
+- Commentaire d'en-tête des deux `inbox.yaml` mis à jour avec la règle tout ou rien.
+- `storage/inbox.py` : `read_inbox(path)` → `(blocks, errors)`, découpe sur `---` et lit bloc par bloc (toutes les erreurs YAML d'un coup, avec n° de bloc et de ligne) ; codée par Claude ; tests `src/tests/storage/test_inbox.py` (25 cas) ; suite : 132 tests OK.
+- `storage/inbox.py` : `clear_inbox(path)` (garde l'en-tête, écriture atomique via `.tmp`) ; 9 tests de plus ; suite : 141 tests OK ; `storage/inbox.py` terminé.
+- Créé à la demande `docs/.claude_avancement_import_inbox.md` (renommé par l'utilisateur) : schémas de l'avancement (vue d'ensemble, fichiers par couche, flux d'import, trajet d'un bloc, reste à faire) ; README : organisation mise à jour.

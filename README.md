@@ -23,6 +23,7 @@ Suivie de préparation de gros tournois DC, entrainement analyse méta winrate e
 │           ├── inbox.yaml       # saisie rapide depuis le téléphone, à importer dans games.csv
 │           └── tournament.yaml  # fiche du tournoi (date, lieu, banlist)
 ├── docs/
+│   ├── .claude_avancement_import_inbox.md  # schémas de l'avancement de l'import de l'inbox (codé / à faire), privé
 │   ├── .claude_doc.md     # notes de Claude, tenues en temps réel (hors PDF et hors ~/work)
 │   └── README.md          # règles de la documentation
 ├── src/
