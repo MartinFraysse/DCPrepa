@@ -296,9 +296,3 @@ src/dcprepa/
 - Le service renvoie un `ImportReport` (blocs, matchs, games, erreurs, avertissements) : la ligne de commande
   et l'interface graphique l'affichent chacune à leur façon, à partir du même service.
 - Chaque fichier a ses tests dans `src/tests/`, rangés de la même façon (`python -m pytest` depuis `src/`).
-
-## Voir aussi
-
-- Mode d'emploi du format : en-tête commenté de `inbox.yaml` dans chaque tournoi.
-- Modèle de tournoi : `data/templates/tournament/` et son `README.md`.
-- Code et commandes : `src/README.md`.

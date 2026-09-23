@@ -7,7 +7,7 @@
 ## 🔜 Prochaines étapes
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist).
 - Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- Valider le brouillon de doc de l'import, puis PR `feat/import-inbox` → `main`.
+- Commiter la doc (`docs(architecture): …`), puis PR `feat/import-inbox` → `main`.
 - Import de l'inbox utilisable (`python -m dcprepa import relicfest-2026`) : premier vrai import à faire.
 - Logiciel, suite : stats (rapports Markdown dans `stats/`) ; plus tard vraie CLI, import MTGTop8, GUI.
 
@@ -20,6 +20,13 @@
 - décisions prises
 - problèmes ouverts
 -->
+
+### 2026-09-23 — Documentation officielle : chapitre Architecture
+- Brouillons publiés dans `docs/03-architecture/` : `donnees.md` et `import-inbox.md`, section « Voir aussi » retirée des deux.
+- `docs/03-architecture/index.md` créé (présentation du chapitre et liens vers les deux pages).
+- Dans `donnees.md`, la mention de la page « Import de l'inbox » devient un lien relatif.
+- Brouillons `docs/.claude_brouillon-*.md` supprimés ; README : organisation mise à jour.
+- `donnees.md` : schéma « Le trajet des données » jugé peu clair, remplacé par deux étapes (import, puis stats) et une légende saisie / produits.
 
 ### 2026-09-23 — Cadrage du projet et format des données
 - But : outil générique de préparation de tournois Duel Commander (suivi d'entraînement, stats méta, tests de decks).

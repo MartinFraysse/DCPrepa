@@ -159,7 +159,7 @@ C'est le nom de référence qui est écrit dans `games.csv`, pour qu'un même de
 ### `inbox.yaml` : la boîte de réception
 
 Les sessions saisies loin de l'ordinateur, un bloc par session, en attente d'import.
-Son fonctionnement complet est décrit dans la page « Import de l'inbox ».
+Son fonctionnement complet est décrit dans la page [Import de l'inbox](import-inbox.md).
 
 ### `games.csv` : les parties jouées
 
@@ -236,24 +236,23 @@ Les fins de ligne (Windows ou Linux) de chaque fichier sont conservées par le l
 
 ## 🔄 Le trajet des données
 
+Les données passent par deux étapes : on range d'abord ce qui est saisi, puis on calcule les stats.
+
+**Étape 1 : ranger les données** (commande `import`)
+
 ```
-     saisie                       logiciel                         à lire
- ┌───────────────┐
- │ inbox.yaml    │ ──import──> games.csv ─────┐
- └───────────────┘                            │
- ┌───────────────┐                            │
- │ decks/        │ ───────────────────────────┤
- │ oppos.yaml    │ ───────────────────────────┼──stats──> stats/*.md
- └───────────────┘                            │
- ┌───────────────┐                            │
- │ MTGTop8       │ ──import──> meta/*.csv ────┘
- └───────────────┘
+ inbox.yaml          ──import──>   games.csv     les parties saisies
+ MTGTop8 (site web)  ──import──>   meta/*.csv    le méta du moment
 ```
 
-`games.csv`, `meta/` et `stats/` ne sont jamais la source d'une saisie : ils découlent de ce qui est à leur gauche.
+**Étape 2 : calculer les stats** (commande `stats`)
 
-## Voir aussi
+```
+ games.csv    ─┐
+ meta/*.csv   ─┤
+ decks/       ─┼──stats──>   stats/*.md   les rapports à lire
+ oppos.yaml   ─┘
+```
 
-- Import de l'inbox : fonctionnement détaillé de `inbox.yaml` → `games.csv`.
-- Modèle de tournoi : `data/templates/tournament/README.md`.
-- Règles de calcul des stats : `stats/README.md` de chaque tournoi.
+- ✍️ **Fichiers de saisie** : `inbox.yaml`, `decks/` et `oppos.yaml`. Ils sont remplis par le logiciel ou à la main.
+- 🧩 **Fichiers produits** : `games.csv`, `meta/` et `stats/`. Ils découlent des précédents et ne se modifient jamais à la main.
