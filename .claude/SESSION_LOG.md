@@ -7,7 +7,8 @@
 ## 🔜 Prochaines étapes
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist).
 - Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- Plus tard : le logiciel (import de l'inbox, stats, rapports Markdown, import MTGTop8).
+- Logiciel, import de l'inbox : `__init__.py` + `requirements.txt`, choisir pytest/unittest, puis `parse_games` (découpe sur `/`, appelle `_parse_bo`) dans `domain/games.py`.
+- Ensuite : validation d'un bloc, lecture inbox, normalisation oppo, games.csv, service d'import, CLI ; puis stats et import MTGTop8.
 
 ## 🗓️ Historique
 
@@ -53,3 +54,11 @@
 - Liste `decks` retirée de `tournament.yaml` (tournoi + template), le `statut` des fiches suffit.
 - Reporté : noms MTGTop8 dans `data/oppos.yaml` (plus tard, pas urgent).
 - claude_doc : nouvelle sous-section « Statistiques » (`04-reference/statistiques.md`, page absente de `docs/`).
+- Début du logiciel, branche `feat/import-inbox` : l'utilisateur écrit le code lui-même, Claude guide et relit.
+- Architecture en couches décidée : `src/dcprepa/{domain,storage,services,interfaces}` + `src/tests/` ; arborescence créée par l'utilisateur (dossiers vides pour l'instant).
+- `src/README.md` rempli (stack Python 3.13 + PyYAML, organisation, installation, conventions) ; README racine : organisation mise à jour.
+- Convention : tout le code en anglais (fichiers, fonctions, variables, constantes) ; clés de `data/` inchangées, messages utilisateur en français.
+- Venv recréé à la racine (`.venv/`), `src/requirements.txt` (pyyaml).
+- `src/dcprepa/domain/games.py` : `_parse_bo(text)` écrite par l'utilisateur (un BO « OTP W, OTD L… ») ; valide format, position, résultat, max 3 games, BO déjà terminé à 2 victoires ; 26 cas testés OK.
+- `_parse_bo` renvoie toujours `(games, errors)` ; exclusifs : s'il y a des erreurs, `games` est vide (jamais de games partielles).
+- Ouvert : pytest ou unittest ; `__init__.py` et `requirements.txt` à créer.

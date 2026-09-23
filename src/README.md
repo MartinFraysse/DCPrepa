@@ -1,28 +1,36 @@
 # src
 
-<!-- TODO : ce que fait le code, en une phrase. -->
+Logiciel DCPrepa : importe les parties saisies dans l'inbox vers `games.csv` et génère les rapports de stats d'un tournoi (CLI d'abord, interface graphique plus tard).
 
 ## Stack
 
 | Élément                  | Choix |
 |--------------------------|-------|
-| Langage et version       | <!-- ex. Python 3.12, Bash, Node 22 --> |
-| Dépendances principales  | <!-- bibliothèques ou frameworks --> |
-| Gestion des dépendances  | <!-- ex. uv, pip, npm, aucun --> |
+| Langage et version       | Python 3.13 |
+| Dépendances principales  | PyYAML |
+| Gestion des dépendances  | pip + venv (`.venv/` à la racine), `src/requirements.txt` |
 
 ## Organisation
 
 ```
 src/
-└── <!-- point d'entrée et dossiers principaux -->
+├── dcprepa/
+│   ├── domain/      # règles métier pures : aucun fichier lu, rien d'affiché
+│   ├── storage/     # seul endroit qui lit / écrit dans data/ (YAML, CSV)
+│   ├── services/    # cas d'usage : enchaîne domain + storage, renvoie un rapport
+│   └── interfaces/  # CLI (puis GUI) : seule couche qui affiche
+└── tests/           # même arborescence que dcprepa/
 ```
 
-Point d'entrée : <!-- fichier ou commande qui démarre le programme -->
+Point d'entrée : pas encore défini (future commande CLI dans `interfaces/`).
 
 ## Commandes
 
 ```bash
-# installer les dépendances
+# installer les dépendances (PowerShell ; sous Linux : source .venv/bin/activate)
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r src/requirements.txt
 # lancer
 # tester
 # linter / formater
@@ -35,7 +43,11 @@ Point d'entrée : <!-- fichier ou commande qui démarre le programme -->
 
 ## Conventions
 
-<!-- Nommage, découpage en modules, emplacement des tests, règles propres à ce code. -->
+- Découpage en couches : `interfaces` → `services` → `domain` et `storage`. Une couche n'importe que celles du dessous.
+- `domain/` et `services/` ne font jamais de `print`, `input` ni `sys.exit` : ils renvoient des données ou lèvent une erreur avec un message clair.
+- Code en anglais : noms de fichiers, modules, fonctions, variables, constantes. Les clés des fichiers de `data/` (`parties`, `resultat`…) restent telles quelles ; les messages affichés à l'utilisateur sont en français.
+- Chaque dossier de code contient un `__init__.py` (vide) pour être importable.
+- Un dossier n'est créé qu'avec son premier fichier ; les tests reproduisent l'arborescence de `dcprepa/`.
 
 ## Idée d'ajout
 

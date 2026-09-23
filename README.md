@@ -26,6 +26,8 @@ Suivie de préparation de gros tournois DC, entrainement analyse méta winrate e
 │   ├── .claude_doc.md     # notes de Claude, tenues en temps réel (hors PDF et hors ~/work)
 │   └── README.md          # règles de la documentation
 ├── src/
+│   ├── dcprepa/           # code du logiciel, en couches : domain, storage, services, interfaces
+│   ├── tests/             # tests, même arborescence que dcprepa/
 │   └── README.md          # stack, organisation et commandes du code
 ├── .editorconfig          # style commun à tous les éditeurs
 ├── .git.md                # aide-mémoire des commandes git du projet
