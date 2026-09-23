@@ -7,7 +7,7 @@
 ## 🔜 Prochaines étapes
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist).
 - Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- Logiciel, import de l'inbox : `__init__.py` + `requirements.txt`, choisir pytest/unittest, puis la validation d'un bloc d'inbox (`domain/validation.py`).
+- Logiciel, import de l'inbox : `__init__.py` + `requirements.txt`, choisir pytest/unittest, puis normalisation des oppos (`domain/oppos.py`), lecture de l'inbox et des decks (`storage/`).
 - Ensuite : validation d'un bloc, lecture inbox, normalisation oppo, games.csv, service d'import, CLI ; puis stats et import MTGTop8.
 
 ## 🗓️ Historique
@@ -65,4 +65,4 @@
 - `_parse_bo` renommée `_parse_games` (games d'un BO) ; `parse_bos` (champ `parties` entier, découpe sur `/`, erreurs préfixées « BO n : ») codée par Claude à la demande ; docstrings ajoutées ; 9 cas testés OK.
 - `_parse_games` reprise par Claude pour la cohérence avec `parse_bos` : noms explicites (`chunks`, `parts`, `position`, `result`, `wins`, `losses`), constante `WINS_TO_END_BO`, messages préfixés « game n : » ; 25 cas testés, comportement inchangé.
 - pytest retenu (`src/requirements-dev.txt`) ; tests dans `src/tests/domain/test_games.py` (écrits par Claude à la demande, `parametrize`) : 30 tests OK via `python -m pytest` depuis `src/`.
-- Ouvert : `-r requirements.txt` manquant dans `requirements-dev.txt`, fin de ligne finale absente des deux fichiers requirements.
+- `domain/validation.py` : `validate_block(block, decks)` codée par Claude à la demande ; `decks` = {deck: [versions]} fourni par l'appelant ; renvoie la liste de toutes les erreurs (champs, date, source, deck, version, parties via `parse_bos`) ; tests pytest dans `src/tests/domain/test_validation.py` (50 cas) ; suite complète : 80 tests OK.
