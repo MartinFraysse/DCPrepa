@@ -7,7 +7,7 @@
 ## 🔜 Prochaines étapes
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist).
 - Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- Logiciel, import de l'inbox : `__init__.py` + `requirements.txt`, choisir pytest/unittest, puis normalisation des oppos (`domain/oppos.py`), lecture de l'inbox et des decks (`storage/`).
+- Logiciel, import de l'inbox : `__init__.py` + `requirements.txt`, choisir pytest/unittest, puis lecture de l'inbox (`storage/inbox.py`), normalisation des oppos (`domain/oppos.py`), écriture de `games.csv`.
 - Ensuite : validation d'un bloc, lecture inbox, normalisation oppo, games.csv, service d'import, CLI ; puis stats et import MTGTop8.
 
 ## 🗓️ Historique
@@ -66,3 +66,4 @@
 - `_parse_games` reprise par Claude pour la cohérence avec `parse_bos` : noms explicites (`chunks`, `parts`, `position`, `result`, `wins`, `losses`), constante `WINS_TO_END_BO`, messages préfixés « game n : » ; 25 cas testés, comportement inchangé.
 - pytest retenu (`src/requirements-dev.txt`) ; tests dans `src/tests/domain/test_games.py` (écrits par Claude à la demande, `parametrize`) : 30 tests OK via `python -m pytest` depuis `src/`.
 - `domain/validation.py` : `validate_block(block, decks)` codée par Claude à la demande ; `decks` = {deck: [versions]} fourni par l'appelant ; renvoie la liste de toutes les erreurs (champs, date, source, deck, version, parties via `parse_bos`) ; tests pytest dans `src/tests/domain/test_validation.py` (50 cas) ; suite complète : 80 tests OK.
+- `storage/decks.py` : `load_decks(tournament_dir)` → `(decks, errors)` (option A : fiche invalide écartée et signalée) ; codée par Claude ; tests `src/tests/storage/test_decks.py` avec `tmp_path` (27 cas, dont le modèle réel du template) ; suite : 107 tests OK ; lit bien RelicFest → {terra-midrange: [v1]}.
