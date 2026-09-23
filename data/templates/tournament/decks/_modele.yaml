@@ -1,0 +1,34 @@
+# Modèle de fiche deck : à copier en decks/<deck>.yaml, puis remplir.
+# Le nom du fichier (sans extension) est l'identifiant utilisé
+# dans le champ "deck" de l'inbox et de games.csv.
+#
+#   name        nom affiché du deck (= son commandant + le plan de jeu)
+#   commandant  nom exact de la carte du commandant (face avant pour une carte double face)
+#   statut      envisage | retenu | ecarte (sans accents)
+#   versions    de la plus ancienne à la plus récente ; chaque version a :
+#               version  identifiant repris dans l'inbox (v1, v2…)
+#               liste    liste complète, format export MTGO/Moxfield : une ligne "1 Nom de carte"
+#                        (v1 obligatoire ; ensuite, facultative si in/out suffit)
+#               in       cartes ajoutées par rapport à la version précédente
+#               out      cartes retirées par rapport à la version précédente
+#               notes    raison des changements (facultatif)
+
+
+name:
+commandant:
+statut: envisage
+versions:
+    -   version: v1
+        # Coller l'export de la liste sous "liste: |", toutes les lignes avec la même indentation
+        # (100 cartes, commandant compris).
+        liste: |
+                1 Nom de carte
+        notes:
+
+    # Exemple de version suivante (à décommenter et remplir) :
+    # -   version: v2
+    #     in:
+    #         - Carte ajoutée
+    #     out:
+    #         - Carte retirée
+    #     notes: Plus de removal contre les decks aggro.

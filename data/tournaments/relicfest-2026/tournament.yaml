@@ -3,9 +3,7 @@
 name: RelicFest 2026
 slug: relicfest-2026        # nom du dossier
 format: Duel Commander
-date:                       # AAAA-MM-JJ, date de l'événement
+date: 31/10/2026            # JJ/MM/AAAA, date de l'événement
 location: Toulouse
 banlist:                    # date ou lien de la banlist en vigueur
-decks:                      # decks envisagés : noms des fichiers de decks/, sans extension
-    - terra-midrange
 notes:
