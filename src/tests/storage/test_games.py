@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from dcprepa.storage.games import COLUMNS, append_rows, read_match_ids
+from dcprepa.storage.games import COLUMNS, append_rows, read_games, read_match_ids
 
 DATA_DIR = Path(__file__).resolve().parents[3] / "data"
 HEADER = ",".join(COLUMNS) + "\n"
@@ -120,3 +120,81 @@ def test_ajout_de_rien(tmp_path):
 def test_pas_de_fichier_temporaire_restant(tmp_path):
     append_rows(write_games(tmp_path, HEADER), [ROW])
     assert sorted(p.name for p in tmp_path.iterdir()) == ["games.csv"]
+
+
+# read_games
+
+
+def test_lecture_des_games(tmp_path):
+    path = write_games(tmp_path, HEADER + LINE + LINE.replace(",1,", ",2,").replace("OTP,W", "OTD,L"))
+    games, errors = read_games(path)
+    assert errors == []
+    assert games == [ROW, {**ROW, "partie": "2", "position": "OTD", "resultat": "L"}]
+
+
+def test_lecture_en_tete_seul(tmp_path):
+    assert read_games(write_games(tmp_path, HEADER)) == ([], [])
+
+
+def test_lecture_note_avec_virgule(tmp_path):
+    path = write_games(tmp_path, HEADER + LINE.rstrip("\n") + '"serré, OK"\n')
+    games, errors = read_games(path)
+    assert errors == []
+    assert games[0]["note/ressenti"] == "serré, OK"
+
+
+def test_lecture_fins_de_ligne_windows(tmp_path):
+    path = write_games(tmp_path, (HEADER + LINE).replace("\n", "\r\n"))
+    assert read_games(path) == ([ROW], [])
+
+
+def test_lecture_lignes_vides_ignorees(tmp_path):
+    assert read_games(write_games(tmp_path, HEADER + "\n" + LINE + ",,,,,,,,,\n")) == ([ROW], [])
+
+
+def test_lecture_fichier_absent(tmp_path):
+    games, errors = read_games(tmp_path / "games.csv")
+    assert games == []
+    assert errors[0].startswith("fichier introuvable")
+
+
+@pytest.mark.parametrize("text", ["", "date,deck\n" + LINE])
+def test_lecture_en_tete_invalide(tmp_path, text):
+    games, errors = read_games(write_games(tmp_path, text))
+    assert games == []
+    assert len(errors) == 1 and "en-tête inattendu" in errors[0]
+
+
+def test_lecture_colonnes_manquantes(tmp_path):
+    games, errors = read_games(write_games(tmp_path, HEADER + LINE + "02/10/2026,02/10/2026-01,1\n"))
+    assert games == []
+    assert errors == ["games.csv : ligne 3 : 3 colonnes au lieu de 10"]
+
+
+def test_lecture_position_et_resultat_invalides(tmp_path):
+    games, errors = read_games(write_games(tmp_path, HEADER + LINE.replace("OTP,W", "otp,D")))
+    assert games == []
+    assert errors == [
+        "games.csv : ligne 2 : position inconnue (OTP ou OTD) : otp",
+        "games.csv : ligne 2 : résultat inconnu (W ou L) : D",
+    ]
+
+
+def test_lecture_toutes_les_erreurs(tmp_path):
+    text = HEADER + LINE.replace("OTP", "XX") + LINE + LINE.replace(",W,", ",N,")
+    games, errors = read_games(write_games(tmp_path, text))
+    assert games == []
+    assert [error.split(" : ")[1] for error in errors] == ["ligne 2", "ligne 4"]
+
+
+@pytest.mark.parametrize(
+    "path",
+    [
+        DATA_DIR / "tournaments" / "relicfest-2026" / "games.csv",
+        DATA_DIR / "tournaments" / "test_tournoi" / "games.csv",
+        DATA_DIR / "templates" / "tournament" / "games.csv",
+    ],
+)
+def test_lecture_des_vrais_fichiers(path):
+    games, errors = read_games(path)
+    assert errors == []

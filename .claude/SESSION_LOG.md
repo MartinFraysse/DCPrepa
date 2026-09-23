@@ -7,9 +7,9 @@
 ## 🔜 Prochaines étapes
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist).
 - Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- Commiter la doc (`docs(architecture): …`), puis PR `feat/import-inbox` → `main`.
+- Stats d'un deck (branche `feat/stats-deck`) : relire l'étape 2, puis étape 3 du plan (`docs/.claude_plan_stats_deck.md`) : brique winrate.
 - Import de l'inbox utilisable (`python -m dcprepa import relicfest-2026`) : premier vrai import à faire.
-- Logiciel, suite : stats (rapports Markdown dans `stats/`) ; plus tard vraie CLI, import MTGTop8, GUI.
+- Ensuite : import méta MTGTop8 (`feat/import-meta`), puis `synthese.md` (`feat/stats-synthese`) ; plus tard vraie CLI, GUI.
 
 ## 🗓️ Historique
 
@@ -20,6 +20,15 @@
 - décisions prises
 - problèmes ouverts
 -->
+
+### 2026-09-23 — Stats d'un deck : plan d'action
+- Branche `feat/stats-deck` créée par l'utilisateur ; périmètre : `stats/<deck>.md` seulement (synthèse et méta reportés à d'autres branches).
+- Plan créé à la demande : `docs/.claude_plan_stats_deck.md` (objectif, chemin en 8 étapes, fichiers par couche, statuts ✅/⬜).
+- Étape 1 tranchée : BO3 = match de 2 ou 3 games, 1 game = BO1 (compte par partie, pas en BO3) ; matchups triés par nombre de parties tant qu'il n'y a pas de méta ;
+  nouvelle fonction `load_deck_sheets()` (import intact) ; rapport généré même sans partie ; Claude code, l'utilisateur relit étape par étape.
+- README : organisation de `docs/` mise à jour (plan ajouté, `.claude_avancement_import_inbox.md` absent du disque retiré de l'arbre).
+- Étape 2 codée par Claude : `storage/games.py::read_games` (en-tête, 10 colonnes, OTP/OTD, W/L, n° de ligne) et `storage/decks.py::load_deck_sheets` (versions via `load_decks`, + name/commandant/statut).
+- 22 tests ajoutés (`test_games.py`, `test_decks.py`) ; suite : 283 OK ; lancée dans un venv du scratchpad car `.venv/` absent de la racine.
 
 ### 2026-09-23 — Documentation officielle : chapitre Architecture
 - Brouillons publiés dans `docs/03-architecture/` : `donnees.md` et `import-inbox.md`, section « Voir aussi » retirée des deux.

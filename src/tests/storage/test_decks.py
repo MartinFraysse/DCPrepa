@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from dcprepa.storage.decks import load_deck_aliases, load_decks
+from dcprepa.storage.decks import load_deck_aliases, load_deck_sheets, load_decks
 
 DECK_V1_V2 = """\
 name: Terra Midrange
@@ -255,3 +255,59 @@ def test_alias_ignore_par_load_decks(tmp_path):
     write_deck(tmp_path, "terra-5c.yaml", "versions:\n    - version: v1\n")
     write_deck(tmp_path, "_alias.yaml", "terra-5c:\n    - Terra\n")
     assert load_decks(tmp_path) == ({"terra-5c": ["v1"]}, [])
+
+
+# load_deck_sheets
+
+
+def test_fiche_complete(tmp_path):
+    write_deck(tmp_path, "terra-midrange.yaml", DECK_V1_V2)
+    assert load_deck_sheets(tmp_path) == (
+        {
+            "terra-midrange": {
+                "name": "Terra Midrange",
+                "commandant": "Terra, Magical Adept",
+                "statut": "envisage",
+                "versions": ["v1", "v2"],
+            }
+        },
+        [],
+    )
+
+
+@pytest.mark.parametrize("line", ["commandant:\n", "commandant: '  '\n", ""])
+def test_fiche_champ_absent_ou_vide(tmp_path, line):
+    content = DECK_V1_V2.replace("commandant: Terra, Magical Adept\n", line)
+    write_deck(tmp_path, "terra-midrange.yaml", content)
+    sheets, errors = load_deck_sheets(tmp_path)
+    assert errors == []
+    assert sheets["terra-midrange"]["commandant"] == ""
+
+
+def test_fiche_invalide_ecartee_et_signalee(tmp_path):
+    write_deck(tmp_path, "terra-midrange.yaml", DECK_V1_V2)
+    write_deck(tmp_path, "cassee.yaml", "name: Cassée\n")
+    sheets, errors = load_deck_sheets(tmp_path)
+    assert list(sheets) == ["terra-midrange"]
+    assert len(errors) == 1 and errors[0].startswith("cassee.yaml")
+
+
+def test_fiche_modele_et_alias_ignores(tmp_path):
+    write_deck(tmp_path, "_modele.yaml", DECK_V1_V2)
+    write_deck(tmp_path, "_alias.yaml", "terra-midrange:\n    - Terra\n")
+    assert load_deck_sheets(tmp_path) == ({}, [])
+
+
+def test_fiche_dossier_decks_absent(tmp_path):
+    sheets, errors = load_deck_sheets(tmp_path)
+    assert sheets == {}
+    assert errors[0].startswith("dossier introuvable")
+
+
+def test_fiche_modele_du_template_rempli(tmp_path):
+    template = Path(__file__).resolve().parents[3] / "data" / "templates" / "tournament" / "decks" / "_modele.yaml"
+    write_deck(tmp_path, "terra-midrange.yaml", template.read_text(encoding="utf-8"))
+    assert load_deck_sheets(tmp_path) == (
+        {"terra-midrange": {"name": "", "commandant": "", "statut": "envisage", "versions": ["v1"]}},
+        [],
+    )

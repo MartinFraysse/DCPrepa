@@ -28,7 +28,7 @@ Suivie de préparation de gros tournois DC, entrainement analyse méta winrate e
 │   │   ├── index.md       # présentation du chapitre et liste des pages
 │   │   ├── donnees.md     # organisation de data/ : fichiers, formats, conventions
 │   │   └── import-inbox.md  # import de l'inbox : étapes, contrôles, code
-│   ├── .claude_avancement_import_inbox.md  # schémas de l'avancement de l'import de l'inbox (codé / à faire), privé
+│   ├── .claude_plan_stats_deck.md  # plan d'action de la branche feat/stats-deck (étapes, fait / à faire), privé
 │   ├── .claude_doc.md     # notes de Claude, tenues en temps réel (hors PDF et hors ~/work)
 │   └── README.md          # règles de la documentation
 ├── src/
