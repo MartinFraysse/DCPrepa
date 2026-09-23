@@ -5,11 +5,16 @@
 # Format : le nom de référence (nom court du commandant), puis la liste de ses variantes.
 # Nom de référence avec "/" pour les duos de partenaires, ex. Tymna/Thrasios.
 #
-# Exemple (à décommenter et adapter) :
-#
-# Ragavan:
-#     - Ragavan, Nimble Pilferer
-#     - raga
-# Tymna/Thrasios:
-#     - Tymna Thrasios
-#     - Thrasios/Tymna
+# Pour ajouter un deck : son nom de référence suivi de « : », puis une ligne « - variante » par façon de l'écrire.
+# Les majuscules et les espaces en trop sont ignorés à la comparaison.
+
+Ragavan:
+    - Ragavan, Nimble Pilferer
+    - raga
+Kess:
+    - Kess, Dissident Mage
+Tymna/Thrasios:
+    - Tymna Thrasios
+    - Thrasios/Tymna
+    - Tymna the Weaver
+    - Thrasios, Triton Hero
