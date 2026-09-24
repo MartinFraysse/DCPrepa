@@ -1,14 +1,3 @@
-<!-- Brouillon privé (fichier caché : hors PDF, hors ~/work). Ne pas publier tel quel. -->
-
-> **Brouillon de la nouvelle page `docs/03-architecture/saisie.md`** (branche `feat/saisie`, 2026-09-24).
-> 🟩 **Page entièrement nouvelle** : tout le texte sous la ligne est à relire.
-> Une fois validé, il devient `saisie.md` (sans cet encadré) et ce fichier est supprimé.
->
-> **Aussi prévu, hors de cette page :** `docs/03-architecture/index.md`, ajouter la ligne
-> « [Saisie](saisie.md) : comment le logiciel crée un tournoi, un deck ou un oppo, ajoute des games et les corrige, sans ouvrir de fichier. »
-
----
-
 # Saisie
 
 > Comment le logiciel remplit lui-même les fichiers de saisie : créer un tournoi ou un deck, ajouter une version, un oppo,
@@ -76,6 +65,34 @@ la GUI l'affichera à sa façon.
 
 Depuis `src/`, venv activé. `python -m dcprepa --help` liste les modules, `python -m dcprepa <module> --help` leurs options.
 
+### 📋 Tous les modules
+
+`<tournoi>` est le slug du dossier (ex. `relicfest-2026`) ; `<deck>` accepte le fichier, le `name` ou une appellation du deck ;
+une game se désigne par `<match_id>` (ex. `02/10/2026-01`) et `<game>`, son numéro dans le BO. Options entre crochets : facultatives.
+
+| Module | Arguments | Options | Rôle |
+|---|---|---|---|
+| `import` | `<tournoi>` | — | importe `inbox.yaml` dans `games.csv` (voir [Import de l'inbox](import-inbox.md)) |
+| `meta` | `<tournoi>` | — | importe le méta MTGTop8 dans `meta/AAAA-MM-JJ/` (voir [Import du méta](import-meta.md)) |
+| `stats` | `<tournoi>` | — | écrit les rapports de deck et la synthèse (voir [Rapports de stats](stats.md)) |
+| `tournament-create` | `<nom>` | `[--date] [--location] [--format] [--banlist] [--notes]` | crée `data/tournaments/<slug>/`, slug déduit du nom |
+| `tournament-edit` | `<tournoi>` | `[--name] [--date] [--location] [--format] [--banlist] [--notes]` | modifie `tournament.yaml` |
+| `game-add` | `<tournoi>` | `--source --deck --version --oppo --games [--date] [--note]` | ajoute les games d'une session (date du jour par défaut) |
+| `game-edit` | `<tournoi> <match_id> <game>` | `[--position] [--resultat] [--note]` | corrige une game |
+| `bo-edit` | `<tournoi> <match_id>` | `[--date] [--source] [--deck] [--version] [--oppo]` | corrige toutes les games d'un BO |
+| `game-delete` | `<tournoi> <match_id> <game>` | — | supprime une game, renumérote les suivantes |
+| `bo-delete` | `<tournoi> <match_id>` | — | supprime un BO |
+| `oppo-add` | `<nom>` | `[--variant-of <oppo>]` | ajoute un oppo, ou une variante d'un oppo connu, à `data/oppos.yaml` |
+| `deck-create` | `<tournoi> <nom>` | `[--commandant] [--statut] [--liste <fichier>] [--notes]` | crée `decks/<deck>.yaml` avec la version v1 |
+| `deck-version` | `<tournoi> <deck>` | `[--version] [--in <carte>]… [--out <carte>]… [--liste <fichier>] [--notes]` | ajoute une version (suivante automatique) |
+| `deck-status` | `<tournoi> <deck> <statut>` | — | `retenu`, `envisage` ou `ecarte` |
+| `deck-edit` | `<tournoi> <deck>` | `[--name] [--commandant]` | corrige le nom affiché ou le commandant |
+| `deck-alias` | `<tournoi> <deck> <appellation>` | — | ajoute une appellation dans `decks/_alias.yaml` |
+
+`--in` et `--out` se répètent, une carte par option : `--in "Force of Will" --in Daze`.
+
+### Exemples
+
 ```
 python -m dcprepa tournament-create "RelicFest 2026" --date 31/10/2026
 python -m dcprepa deck-create relicfest-2026 "Kinnan Combo" --commandant "Kinnan, Bonder Prodigy" --liste kinnan.txt
@@ -102,6 +119,13 @@ Issues possibles :
 | `0` | écrit (avec ou sans avertissements) |
 | `1` | erreurs : rien n'a été modifié |
 | `2` | mauvaise utilisation (module, argument) ou tournoi introuvable |
+
+Une erreur d'utilisation affiche la ligne d'utilisation du module et la raison, en français :
+
+```
+utilisation : python -m dcprepa deck-status [-h] tournoi deck {retenu,envisage,ecarte}
+python -m dcprepa deck-status : erreur : argument statut : valeur invalide : 'écarté' (possibles : 'retenu', 'envisage', 'ecarte')
+```
 
 Deux commodités : `game-add` prend la date du jour sans `--date` ; une liste de cartes se donne par un fichier texte
 (`--liste kinnan.txt`, export MTGO / Moxfield, une ligne « 1 Nom de carte » par carte).
@@ -131,6 +155,9 @@ Le formulaire d'une session a **les mêmes champs qu'un bloc de l'inbox** : date
 Il passe par `prepare_block()`, la fonction de l'import : deck ramené au nom de son fichier (« Terra » → `terra-midrange`),
 oppo ramené à son nom de référence, `match_id` qui suivent ceux du jour, mêmes messages d'erreur.
 Un oppo inconnu n'est pas bloquant : la game est écrite avec le nom saisi, et un avertissement propose de l'ajouter.
+
+`games.csv` est entièrement vérifié avant tout ajout : si une de ses lignes est déjà invalide (position `OTX`, colonne manquante…),
+rien n'est ajouté, comme pour l'import et les stats. On corrige d'abord le fichier, puis on relance.
 
 ### Corriger et supprimer
 
@@ -186,7 +213,7 @@ add_oppo("Ragavn", variant_of="raga")       ──> variante, sous « Ragavan: �
 | | ❌ Erreur | ⚠️ Avertissement |
 |---|---|---|
 | Effet | rien n'est modifié | l'écriture est faite |
-| Exemples | deck, version ou `match_id` inconnus ; BO impossible ; nom déjà pris ou réservé ; statut ou date invalide ; fichier de référence illisible | oppo inconnu ; liste qui ne fait pas 100 cartes ; BO3 réduit à un BO1 |
+| Exemples | deck, version ou `match_id` inconnus ; BO impossible ; nom déjà pris ou réservé ; statut ou date invalide ; `games.csv`, fiche deck ou `oppos.yaml` illisible ou ambigu | oppo inconnu ; liste qui ne fait pas 100 cartes ; BO3 réduit à un BO1 |
 | Que faire | corriger la valeur puis relancer | ajouter l'oppo, compléter la liste (facultatif) |
 
 ## 🛡️ Protection des données
@@ -201,7 +228,7 @@ add_oppo("Ragavn", variant_of="raga")       ──> variante, sous « Ragavan: �
 
 ```
 src/dcprepa/
-├── __main__.py              un module par service (argparse), affiche le bilan
+├── __main__.py              un module par service (argparse, messages en français), affiche le bilan
 ├── services/
 │   ├── games.py             add_games, edit_game, edit_match, delete_game, delete_match, load_game_references
 │   ├── tournament.py        create_tournament, edit_tournament
@@ -222,9 +249,3 @@ src/dcprepa/
 
 - Chaque service renvoie un bilan (`GamesReport`, `TournamentReport`, `DeckReport`, `OppoReport`) avec `errors`, `warnings` et `ok`.
 - Chaque fichier a ses tests dans `src/tests/`, rangés de la même façon (`python -m pytest` depuis `src/`).
-
-## Voir aussi
-
-- [Organisation des données](donnees.md) : les fichiers de saisie et leurs formats.
-- [Import de l'inbox](import-inbox.md) : la saisie depuis le téléphone, et les contrôles partagés.
-- [Rapports de stats](stats.md) : ce que deviennent les games saisies.

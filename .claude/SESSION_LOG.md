@@ -5,7 +5,7 @@
 > Entrées les plus récentes en haut, une idée par puce.
 
 ## 🔜 Prochaines étapes
-- `feat/saisie` : commit (améliorations + modèles de data/), valider et publier le brouillon `saisie.md`, PR.
+- `feat/saisie` : commit (améliorations, modèles de data/, doc `saisie.md`), puis PR vers `main`.
 - `data/tournaments/test_tournoi/decks/_alias.yaml` : bloc `test-deck` à retirer (bloque import et corrections sur test_tournoi), en attente de l'accord de l'utilisateur.
 - Régénérer les rapports de RelicFest (`python -m dcprepa stats relicfest-2026`) : `synthese.md` encore à l'ancien modèle.
 - Premier vrai import de l'inbox (`python -m dcprepa import relicfest-2026`) ; `meta` sur RelicFest avant `stats`.
@@ -51,6 +51,8 @@
 - Recette sur `test_tournoi` (demande utilisateur) : 90 commandes dont toutes les erreurs provoquées, 90 conformes ; test_tournoi et oppos.yaml restaurés à l'identique.
 - 3 améliorations relevées puis corrigées (décision utilisateur) : games.csv invalide refusé par game-add et l'import (`read_games`),
   plus d'erreur en cascade pour une fiche illisible, messages argparse en français ; suite : 665 OK ; recette rejouée : 91/91.
+- Brouillon `saisie.md` mis à jour : tableau des 16 modules (arguments, options, rôle ; vérifié contre `--help`), messages en français, games.csv invalide refusé.
+- Brouillon validé, « Voir aussi » retiré (demande utilisateur), publié : `docs/03-architecture/saisie.md` + `index.md` ; brouillon supprimé ; README à jour.
 
 ### AAAA-MM-JJ — titre
 - ce qui a été fait
