@@ -15,7 +15,7 @@ def format_percent(value: float) -> str:
 
 @dataclass(frozen=True)
 class Winrate:
-    """Victoires sur un total de parties (ou de matchs pour le BO3).
+    """Victoires sur un total de games (ou de BO3).
 
     Affichage (str) : « 55 % (66/120) », « 12.2 % (… ) », « ⚠️ 33.3 % (1/3) » sous 10, « — » si le total est nul.
     """
@@ -29,14 +29,14 @@ class Winrate:
 
     @property
     def rate(self) -> float | None:
-        """Winrate exact en pourcentage (ex. 66.666…), None si aucune partie."""
+        """Winrate exact en pourcentage (ex. 66.666…), None si aucune game."""
         if self.total == 0:
             return None
         return 100 * self.wins / self.total
 
     @property
     def reliable(self) -> bool:
-        """Vrai à partir de 10 (parties, ou matchs pour le BO3)."""
+        """Vrai à partir de 10 (games, ou BO3)."""
         return self.total >= MIN_RELIABLE
 
     def __str__(self) -> str:

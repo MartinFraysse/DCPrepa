@@ -11,7 +11,7 @@ def resolve_deck(name: str, index: dict[str, str]) -> str | None:
 
 
 def resolve_self_play(oppo: str, index: dict[str, str]) -> tuple[str, str | None]:
-    """Reconnaît la partie deck d'un oppo self-play « deck@version », ex. « terra mid@v1 » → « terra-5c@v1 ».
+    """Reconnaît le deck d'un oppo self-play « deck@version », ex. « terra mid@v1 » → « terra-5c@v1 ».
 
     Deck reconnu : (« fichier@version », None) ; sinon l'oppo est gardé tel quel avec un avertissement.
     """

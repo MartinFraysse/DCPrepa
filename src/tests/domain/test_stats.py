@@ -6,13 +6,13 @@ from dcprepa.domain.winrate import Winrate
 
 def game(match_id, resultat, *, deck="terra", version="v1", oppo="Ragavan", source="paper", position="OTP"):
     return {
-        "date": "01/11/2026", "match_id": match_id, "partie": "1", "source": source, "deck": deck,
+        "date": "01/11/2026", "match_id": match_id, "game": "1", "source": source, "deck": deck,
         "version": version, "oppo": oppo, "position": position, "resultat": resultat, "note/ressenti": "",
     }
 
 
 def match(match_id, results, **fields):
-    """Un match écrit comme « WLW » : une game par lettre, positions alternées à partir d'OTP."""
+    """Un BO écrit comme « WLW » : une game par lettre, positions alternées à partir d'OTP."""
     return [
         game(match_id, result, position=("OTP", "OTD")[number % 2], **fields)
         for number, result in enumerate(results)
@@ -21,7 +21,7 @@ def match(match_id, results, **fields):
 
 @pytest.fixture
 def exemple():
-    """L'exemple des conventions : 4 BO3 (WLW, WW, LWL, LWL) + 4 BO1 gagnés = 15 parties."""
+    """L'exemple des conventions : 4 BO3 (WLW, WW, LWL, LWL) + 4 BO1 gagnés = 15 games."""
     games = []
     for number, results in enumerate(["WLW", "WW", "LWL", "LWL", "W", "W", "W", "W"], start=1):
         games += match(f"m{number}", results)
@@ -47,7 +47,7 @@ def test_bo3_nul_non_gagne():
     assert rec.games == Winrate(1, 2)
 
 
-def test_aucune_partie():
+def test_aucune_game():
     stats = compute_deck_stats([], "terra", ["v1"])
     assert str(stats.overall.games) == "—"
     assert str(stats.overall.bo3) == "—"
@@ -75,13 +75,13 @@ def test_self_play_exclu_de_tout():
     ]
 
 
-def test_positions_par_partie():
+def test_positions_par_game():
     stats = compute_deck_stats(match("a", "WLW") + match("b", "LW"), "terra", ["v1"])
     # OTP : W, W, L ; OTD : L, W
     assert stats.positions == {"OTP": Winrate(2, 3), "OTD": Winrate(1, 2)}
 
 
-def test_sources_parties_et_bo3():
+def test_sources_games_et_bo3():
     games = match("a", "WW", source="mtgo") + match("b", "W", source="mtgo") + match("c", "LL")
     sources = compute_deck_stats(games, "terra", ["v1"]).sources
     assert sources["mtgo"] == record(match("a", "WW") + match("b", "W"))
@@ -97,11 +97,11 @@ def test_versions_ordre_fiche_puis_inconnues():
     assert [v.version for v in stats.versions] == ["v1", "v2", "v9"]
 
 
-def test_ecarts_parties_et_bo3_distincts():
+def test_ecarts_games_et_bo3_distincts():
     games = (
-        match("a", "WW", version="v1") + match("b", "LL", version="v1")  # parties 50 %, BO3 50 %
-        + match("c", "WW", version="v2") + match("d", "W", version="v2")  # parties 100 %, BO3 100 %
-        + match("e", "L", version="v3")  # parties 0 %, pas de BO3
+        match("a", "WW", version="v1") + match("b", "LL", version="v1")  # games 50 %, BO3 50 %
+        + match("c", "WW", version="v2") + match("d", "W", version="v2")  # games 100 %, BO3 100 %
+        + match("e", "L", version="v3")  # games 0 %, pas de BO3
     )
     versions = {v.version: v for v in compute_deck_stats(games, "terra", ["v1", "v2", "v3"]).versions}
     assert versions["v1"].gap_games == pytest.approx(50 - (100 + 0) / 2)
@@ -124,11 +124,11 @@ def test_version_gaps(rates, expected):
     assert version_gaps(rates) == expected
 
 
-def test_matchups_tri_et_otp_otd_des_10_parties():
+def test_matchups_tri_et_otp_otd_des_10_games():
     games = (
-        match("a", "WL", oppo="Kess") + match("b", "WLW", oppo="Kess")  # 5 parties
+        match("a", "WL", oppo="Kess") + match("b", "WLW", oppo="Kess")  # 5 games
         + [game(f"r{n}", "W", oppo="Ragavan", position=("OTP", "OTD")[n % 2]) for n in range(10)]  # 10 BO1
-        + match("c", "WW", oppo="Atraxa") + match("d", "LWL", oppo="abzan")  # 2 et 3 parties
+        + match("c", "WW", oppo="Atraxa") + match("d", "LWL", oppo="abzan")  # 2 et 3 games
     )
     matchups = compute_deck_stats(games, "terra", ["v1"]).matchups
     assert [m.oppo for m in matchups] == ["Ragavan", "Kess", "abzan", "Atraxa"]
@@ -140,7 +140,7 @@ def test_matchups_tri_et_otp_otd_des_10_parties():
     assert kess.record.bo3 == Winrate(1, 2)
 
 
-def test_egalite_de_parties_triee_par_nom():
+def test_egalite_de_games_triee_par_nom():
     games = match("a", "WW", oppo="kess") + match("b", "WW", oppo="Atraxa")
     assert [m.oppo for m in compute_deck_stats(games, "terra", ["v1"]).matchups] == ["Atraxa", "kess"]
 
@@ -152,7 +152,7 @@ def test_matchups_tries_par_poids_du_meta():
     )
     weights = {"Ragavan": 20.0, "Atraxa": 12.5, "Absent": 30.0}
     matchups = compute_deck_stats(games, "terra", ["v1"], weights).matchups
-    # méta d'abord (poids ↓), puis les oppos hors méta (parties ↓, puis nom)
+    # méta d'abord (poids ↓), puis les oppos hors méta (games ↓, puis nom)
     assert [(m.oppo, m.weight) for m in matchups] == [
         ("Ragavan", 20.0), ("Atraxa", 12.5), ("Kess", None), ("Tymna", None)
     ]

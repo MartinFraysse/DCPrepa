@@ -12,7 +12,7 @@ GENERATED = date(2026, 9, 24)
 
 def game(match_id, resultat, *, version="v1", oppo="Ragavan", source="paper", position="OTP"):
     return {
-        "date": "01/11/2026", "match_id": match_id, "partie": "1", "source": source, "deck": "terra",
+        "date": "01/11/2026", "match_id": match_id, "game": "1", "source": source, "deck": "terra",
         "version": version, "oppo": oppo, "position": position, "resultat": resultat, "note/ressenti": "",
     }
 
@@ -72,13 +72,13 @@ def test_sections_remplies(sheet):
     text = render_deck_report("terra", sheet, compute_deck_stats(games, "terra", sheet["versions"]), GENERATED)
 
     assert section(text, "Général")[2:] == [
-        "| Par partie | ⚠️ 66.7 % (4/6) |",
-        "| Par match (BO3) | ⚠️ 100 % (2/2) |",
+        "| Par game | ⚠️ 66.7 % (4/6) |",
+        "| Par BO3 | ⚠️ 100 % (2/2) |",
         "| Winrate attendu au tournoi | — |",
     ]
     assert section(text, "Versions")[3:] == [
-        "| v1 | 5 | +80 | 2 | — |",
-        "| v2 | 1 | -80 | — | — |",
+        "| v1 | 5 | ⚠️ 80 % (4/5) | +80 | 2 | ⚠️ 100 % (2/2) | — |",
+        "| v2 | 1 | ⚠️ 0 % (0/1) | -80 | — | — | — |",
     ]
     assert section(text, "Position")[3:] == ["| ⚠️ 75 % (3/4) | ⚠️ 50 % (1/2) |"]
     assert section(text, "Source")[2:] == [
@@ -93,7 +93,7 @@ def test_sections_remplies(sheet):
     assert section(text, "Self-play")[3:] == ["| terra@v1 | ⚠️ 100 % (2/2) | ⚠️ 100 % (1/1) | — | — |"]
 
 
-def test_otp_otd_du_matchup_des_10_parties(sheet):
+def test_otp_otd_du_matchup_des_10_games(sheet):
     games = [game(f"m{n}", "W", position=("OTP", "OTD")[n % 2]) for n in range(10)]
     text = render_deck_report("terra", sheet, compute_deck_stats(games, "terra", sheet["versions"]), GENERATED)
     assert section(text, "Matchups")[3:] == ["| Ragavan | — | 100 % (10/10) | — | ⚠️ 100 % (5/5) | ⚠️ 100 % (5/5) |"]

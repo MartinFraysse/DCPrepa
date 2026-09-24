@@ -25,7 +25,7 @@ def run_import(tournament_dir: Path) -> int:
     elif report.blocks == 0:
         print("Inbox vide : rien à importer.")
     else:
-        print(f"✅ {report.blocks} bloc(s) importé(s) : {report.matches} match(s), {report.games} game(s).")
+        print(f"✅ {report.blocks} bloc(s) importé(s) : {report.matches} BO, {report.games} game(s).")
 
     if report.warnings:
         print("⚠️  Avertissements :")
@@ -48,7 +48,7 @@ def run_stats(tournament_dir: Path) -> int:
         if report.meta:
             print(f"   Méta : meta/{report.meta} (matchups triés par poids).")
         else:
-            print("   Pas de méta : matchups triés par nombre de parties.")
+            print("   Pas de méta : matchups triés par nombre de games.")
 
     if report.warnings:
         print("⚠️  Avertissements :")

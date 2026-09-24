@@ -8,7 +8,7 @@ BLOCK = {
     "deck": "terra-midrange",
     "version": "v1",
     "oppo": "raga",
-    "parties": "OTP W, OTD W / OTD L",
+    "games": "OTP W, OTD W / OTD L",
     "note/ressenti": "Matchup  jouable",
 }
 BOS = [[["OTP", "W"], ["OTD", "W"]], [["OTD", "L"]]]
@@ -48,9 +48,9 @@ def test_build_rows():
         "note/ressenti": "Matchup jouable",
     }
     assert rows == [
-        {**common, "match_id": "02/10/2026-02", "partie": "1", "position": "OTP", "resultat": "W"},
-        {**common, "match_id": "02/10/2026-02", "partie": "2", "position": "OTD", "resultat": "W"},
-        {**common, "match_id": "02/10/2026-03", "partie": "1", "position": "OTD", "resultat": "L"},
+        {**common, "match_id": "02/10/2026-02", "game": "1", "position": "OTP", "resultat": "W"},
+        {**common, "match_id": "02/10/2026-02", "game": "2", "position": "OTD", "resultat": "W"},
+        {**common, "match_id": "02/10/2026-03", "game": "1", "position": "OTD", "resultat": "L"},
     ]
     assert used_ids == {"02/10/2026-01", "02/10/2026-02", "02/10/2026-03"}
 

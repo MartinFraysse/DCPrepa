@@ -11,7 +11,7 @@ VALID_BLOCK = {
     "deck": "terra-midrange",
     "version": "v1",
     "oppo": "Ragavan",
-    "parties": "OTP W, OTD L, OTP W / OTD W",
+    "games": "OTP W, OTD L, OTP W / OTD W",
     "note/ressenti": "Matchup jouable",
 }
 
@@ -50,15 +50,15 @@ def test_variantes_acceptees(changes):
     assert validate_block(make_block(**changes), DECKS) == []
 
 
-@pytest.mark.parametrize("field", ["date", "source", "deck", "version", "oppo", "parties"])
+@pytest.mark.parametrize("field", ["date", "source", "deck", "version", "oppo", "games"])
 @pytest.mark.parametrize("value", [MISSING, None, "", "   "])
 def test_champ_obligatoire_manquant(field, value):
     assert validate_block(make_block(**{field: value}), DECKS) == [f"champ manquant : {field}"]
 
 
 def test_plusieurs_champs_manquants():
-    block = make_block(oppo=MISSING, parties="")
-    assert validate_block(block, DECKS) == ["champ manquant : oppo", "champ manquant : parties"]
+    block = make_block(oppo=MISSING, games="")
+    assert validate_block(block, DECKS) == ["champ manquant : oppo", "champ manquant : games"]
 
 
 @pytest.mark.parametrize(
@@ -74,8 +74,8 @@ def test_plusieurs_champs_manquants():
         ({"version": 3}, ["version inconnue pour terra-midrange : 3"]),
         ({"deck": "terra", "version": "v9"}, ["deck inconnu : terra (decks disponibles : terra-midrange)"]),
         (
-            {"parties": "OTP W / OPP L"},
-            ["parties : BO 2 : game 1 : position inconnue (OTP ou OTD) : OPP"],
+            {"games": "OTP W / OPP L"},
+            ["games : BO 2 : game 1 : position inconnue (OTP ou OTD) : OPP"],
         ),
     ],
 )
@@ -84,12 +84,12 @@ def test_champ_invalide(changes, expected):
 
 
 def test_toutes_les_erreurs_sont_remontees():
-    block = make_block(date="x", source="arena", deck="terra", parties="OTP")
+    block = make_block(date="x", source="arena", deck="terra", games="OTP")
     assert validate_block(block, DECKS) == [
         "date invalide (attendu : JJ/MM/AAAA) : x",
         "source inconnue (paper, mtgo ou cockatrice) : arena",
         "deck inconnu : terra (decks disponibles : terra-midrange)",
-        "parties : BO 1 : game 1 : mal formée (attendu : OTP W) : OTP",
+        "games : BO 1 : game 1 : mal formée (attendu : OTP W) : OTP",
     ]
 
 
@@ -107,7 +107,7 @@ def test_bloc_lu_par_yaml():
         "deck: terra-midrange\n"
         "version: v1\n"
         "oppo: Ragavan\n"
-        "parties: OTP W, OTD L, OTP W / OTD W\n"
+        "games: OTP W, OTD L, OTP W / OTD W\n"
         "note/ressenti: Matchup jouable, le mull agressif paie.\n"
     )
     assert validate_block(yaml.safe_load(text), DECKS) == []
@@ -120,7 +120,7 @@ def test_pieges_yaml():
         "deck: terra-midrange\n"
         "version: 1.10\n"
         "oppo: Ragavan\n"
-        "parties: OTP W\n"
+        "games: OTP W\n"
     )
     decks = {"terra-midrange": ["1.10"]}
     assert validate_block(yaml.safe_load(text), decks) == [

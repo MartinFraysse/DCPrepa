@@ -1,7 +1,7 @@
 import csv
 from pathlib import Path
 
-COLUMNS = ["date", "match_id", "partie", "source", "deck", "version", "oppo", "position", "resultat", "note/ressenti"]
+COLUMNS = ["date", "match_id", "game", "source", "deck", "version", "oppo", "position", "resultat", "note/ressenti"]
 
 
 def read_match_ids(path: Path) -> tuple[set[str], list[str]]:

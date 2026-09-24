@@ -18,12 +18,17 @@ def write_meta(tournament_dir, name, text):
     "tournament_dir",
     [
         DATA_DIR / "tournaments" / "relicfest-2026",
-        DATA_DIR / "tournaments" / "test_tournoi",
         DATA_DIR / "templates" / "tournament",
     ],
 )
 def test_depot_sans_meta(tournament_dir):
     assert load_latest_meta(tournament_dir) == (None, {}, [])
+
+
+def test_meta_du_tournoi_de_test():
+    name, weights, errors = load_latest_meta(DATA_DIR / "tournaments" / "test_tournoi")
+    assert errors == []
+    assert name is None or weights
 
 
 def test_dossier_meta_absent(tmp_path):

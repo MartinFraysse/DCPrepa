@@ -10,7 +10,7 @@ HEADER = ",".join(COLUMNS) + "\n"
 ROW = {
     "date": "02/10/2026",
     "match_id": "02/10/2026-01",
-    "partie": "1",
+    "game": "1",
     "source": "paper",
     "deck": "terra-midrange",
     "version": "v1",
@@ -129,7 +129,7 @@ def test_lecture_des_games(tmp_path):
     path = write_games(tmp_path, HEADER + LINE + LINE.replace(",1,", ",2,").replace("OTP,W", "OTD,L"))
     games, errors = read_games(path)
     assert errors == []
-    assert games == [ROW, {**ROW, "partie": "2", "position": "OTD", "resultat": "L"}]
+    assert games == [ROW, {**ROW, "game": "2", "position": "OTD", "resultat": "L"}]
 
 
 def test_lecture_en_tete_seul(tmp_path):

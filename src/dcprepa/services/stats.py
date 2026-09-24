@@ -30,7 +30,7 @@ def generate_stats(tournament_dir: Path, generated: date | None = None) -> Stats
 
     1. lit games.csv, les fiches deck et le méta le plus récent (s'il y en a un) ;
     2. à la moindre erreur : rien n'est écrit, le bilan liste les erreurs ;
-    3. sinon : calcule et rend tous les rapports, PUIS les écrit (un par fiche, même sans partie).
+    3. sinon : calcule et rend tous les rapports, PUIS les écrit (un par fiche, même sans game).
 
     Avertissements : deck de games.csv sans fiche (pas de rapport), version jouée absente de la fiche.
     generated : date affichée dans les rapports (aujourd'hui par défaut).

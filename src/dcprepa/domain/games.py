@@ -53,7 +53,7 @@ def _parse_games(text: str) -> tuple[list[list[str]], list[str]]:
 
 
 def parse_bos(text: str) -> tuple[list[list[list[str]]], list[str]]:
-    """Analyse le champ « parties » d'un bloc d'inbox : un ou plusieurs BO séparés par « / ».
+    """Analyse le champ « games » d'un bloc d'inbox : un ou plusieurs BO séparés par « / ».
 
     Ex. « OTP W, OTD W / OTD L » = un BO3 gagné 2-0 puis un BO1.
     Chaque BO passe par _parse_games ; ses erreurs sont préfixées par « BO <numéro> : ».

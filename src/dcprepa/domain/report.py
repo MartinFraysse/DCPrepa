@@ -6,7 +6,7 @@ from dcprepa.domain.winrate import NO_DATA, Winrate, format_percent
 
 SOURCE_LABELS = {"paper": "Paper", "cockatrice": "Cockatrice", "mtgo": "MTGO"}
 MATCHUPS_SORT_META = "Triés par poids dans le méta"
-MATCHUPS_SORT_NO_META = "Triés par nombre de parties (pas encore de méta)"
+MATCHUPS_SORT_NO_META = "Triés par nombre de games (pas encore de méta)"
 
 
 def render_deck_report(deck: str, sheet: dict, stats: DeckStats, generated: date, meta_file: str | None = None) -> str:
@@ -15,7 +15,7 @@ def render_deck_report(deck: str, sheet: dict, stats: DeckStats, generated: date
     deck : nom du fichier de la fiche ; sheet : fiche de load_deck_sheets (name, commandant, statut, versions) ;
     meta_file : fichier méta utilisé par compute_deck_stats (ex. « 2026-10-01.csv »), None sans méta.
     Avec méta : l'en-tête le cite, matchups triés par poids, colonne « Poids méta » remplie.
-    Sans méta : « meta/—.csv », matchups triés par parties. « Winrate attendu au tournoi » reste à « — ».
+    Sans méta : « meta/—.csv », matchups triés par games. « Winrate attendu au tournoi » reste à « — ».
     """
     versions = sheet.get("versions") or []
     meta_path = f"meta/{meta_file or NO_DATA + '.csv'}"
@@ -35,52 +35,56 @@ def render_deck_report(deck: str, sheet: dict, stats: DeckStats, generated: date
         *_table(
             ["", "Winrate"],
             [
-                ["Par partie", stats.overall.games],
-                ["Par match (BO3)", stats.overall.bo3],
+                ["Par game", stats.overall.games],
+                ["Par BO3", stats.overall.bo3],
                 ["Winrate attendu au tournoi", NO_DATA],
             ],
         ),
         "",
         "## Versions",
         "",
-        "Winrate de chaque version non affiché : seulement son écart aux autres versions.",
+        "Écart : winrate de la version − moyenne simple des winrates des autres versions, en points.",
         "",
         *_table(
-            ["Version", "Parties", "Écart (parties)", "Matchs BO3", "Écart BO3"],
+            ["Version", "Games", "Winrate (games)", "Écart (games)", "BO3", "Winrate BO3", "Écart BO3"],
             [
-                [v.version, _count(v.record.games), _gap(v.gap_games), _count(v.record.bo3), _gap(v.gap_bo3)]
+                [
+                    v.version,
+                    _count(v.record.games), v.record.games, _gap(v.gap_games),
+                    _count(v.record.bo3), v.record.bo3, _gap(v.gap_bo3),
+                ]
                 for v in stats.versions
             ],
         ),
         "",
         "## Position",
         "",
-        "Par partie seulement : la position change d'une game à l'autre dans un BO3.",
+        "Par game seulement : la position change d'une game à l'autre dans un BO3.",
         "",
         *_table(["OTP", "OTD"], [[stats.positions["OTP"], stats.positions["OTD"]]]),
         "",
         "## Source",
         "",
         *_table(
-            ["Source", "Winrate (parties)", "Winrate BO3 (matchs)"],
+            ["Source", "Winrate (games)", "Winrate BO3"],
             [[SOURCE_LABELS.get(source, source), rec.games, rec.bo3] for source, rec in stats.sources.items()],
         ),
         "",
         "## Matchups",
         "",
-        f"{MATCHUPS_SORT_META if meta_file else MATCHUPS_SORT_NO_META}, self-play exclu. OTP / OTD affichés seulement à partir de 10 parties contre l'oppo.",
+        f"{MATCHUPS_SORT_META if meta_file else MATCHUPS_SORT_NO_META}, self-play exclu. OTP / OTD affichés seulement à partir de 10 games contre l'oppo.",
         "",
         *_table(
-            ["Oppo", "Poids méta", "Winrate (parties)", "Winrate BO3 (matchs)", "OTP", "OTD"],
+            ["Oppo", "Poids méta", "Winrate (games)", "Winrate BO3", "OTP", "OTD"],
             [[m.oppo, _weight(m.weight), *_matchup_cells(m)] for m in stats.matchups],
         ),
         "",
         "## Self-play",
         "",
-        "Parties contre ses propres decks (oppo = `deck@version`), hors winrate général.",
+        "Games contre ses propres decks (oppo = `deck@version`), hors winrate général.",
         "",
         *_table(
-            ["Oppo", "Winrate (parties)", "Winrate BO3 (matchs)", "OTP", "OTD"],
+            ["Oppo", "Winrate (games)", "Winrate BO3", "OTP", "OTD"],
             [[m.oppo, *_matchup_cells(m)] for m in stats.self_play],
         ),
     ]

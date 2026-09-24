@@ -11,7 +11,7 @@ WINS_TO_WIN_BO3 = 2
 
 @dataclass(frozen=True)
 class Record:
-    """Les deux winrates, toujours distincts : par partie (toutes les games) et par match BO3 (2 ou 3 games)."""
+    """Les deux winrates, toujours distincts : par game (toutes les games) et par BO3 (2 ou 3 games)."""
 
     games: Winrate
     bo3: Winrate
@@ -29,7 +29,7 @@ class VersionStats:
 
 @dataclass(frozen=True)
 class MatchupStats:
-    """Un oppo : parties et BO3 ; OTP / OTD seulement à partir de 10 parties contre lui (sinon None).
+    """Un oppo : games et BO3 ; OTP / OTD seulement à partir de 10 games contre lui (sinon None).
 
     weight : son poids dans le méta, en % (None sans méta ou si l'oppo n'y figure pas).
     """
@@ -78,7 +78,7 @@ def compute_deck_stats(
 
 
 def record(games: list[dict[str, str]]) -> Record:
-    """Winrate par partie et winrate BO3 d'un ensemble de games."""
+    """Winrate par game et winrate BO3 d'un ensemble de games."""
     matches = bo3_matches(games)
     return Record(
         games=_game_winrate(games),
@@ -87,7 +87,7 @@ def record(games: list[dict[str, str]]) -> Record:
 
 
 def bo3_matches(games: list[dict[str, str]]) -> list[list[dict[str, str]]]:
-    """Regroupe les games par match_id et garde les BO3 (2 ou 3 games) ; un match d'une game est un BO1."""
+    """Regroupe les games par match_id et garde les BO3 (2 ou 3 games) ; un BO d'une seule game est un BO1."""
     matches = {}
     for game in games:
         matches.setdefault(game["match_id"], []).append(game)
@@ -97,8 +97,8 @@ def bo3_matches(games: list[dict[str, str]]) -> list[list[dict[str, str]]]:
 def version_gaps(rates: dict[str, float | None]) -> dict[str, float | None]:
     """Écart de chaque version : son winrate − moyenne simple des winrates des autres versions.
 
-    Les versions sans partie (None) ne comptent pas dans la moyenne ; écart None si la version
-    n'a pas de partie ou si aucune autre version n'en a.
+    Les versions sans game (None) ne comptent pas dans la moyenne ; écart None si la version
+    n'a pas de game ou si aucune autre version n'en a.
     """
     gaps = {}
     for version, rate in rates.items():
@@ -112,7 +112,7 @@ def _game_winrate(games: list[dict[str, str]]) -> Winrate:
 
 
 def _bo3_won(match: list[dict[str, str]]) -> bool:
-    """Gagné = 2 victoires ; un 1-1 est un match non gagné."""
+    """Gagné = 2 victoires ; un 1-1 est un BO3 non gagné."""
     return sum(game["resultat"] == "W" for game in match) >= WINS_TO_WIN_BO3
 
 
@@ -137,7 +137,7 @@ def _matchups(games: list[dict[str, str]], weights: dict[str, float]) -> list[Ma
     """Un MatchupStats par oppo.
 
     Tri : par poids dans le méta (décroissant), les oppos absents du méta à la fin ;
-    à égalité, et toujours sans méta, par nombre de parties (décroissant) puis par nom.
+    à égalité, et toujours sans méta, par nombre de games (décroissant) puis par nom.
     """
     by_oppo = {}
     for game in games:

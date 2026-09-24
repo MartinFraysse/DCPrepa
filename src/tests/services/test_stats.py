@@ -44,12 +44,12 @@ def test_un_rapport_par_fiche(tournament):
 
     terra = (tournament / "stats" / "terra.md").read_text(encoding="utf-8")
     assert terra.startswith("# Terra Midrange\n\n> Généré le 24/09/2026 à partir de `games.csv`, `decks/terra.yaml` et `meta/—.csv`.")
-    assert "| Par partie | ⚠️ 66.7 % (2/3) |" in terra
-    assert "| Par match (BO3) | ⚠️ 100 % (1/1) |" in terra
+    assert "| Par game | ⚠️ 66.7 % (2/3) |" in terra
+    assert "| Par BO3 | ⚠️ 100 % (1/1) |" in terra
 
     tymna = (tournament / "stats" / "tymna.md").read_text(encoding="utf-8")
     assert tymna.startswith("# Tymna Thrasios\n")
-    assert "| Par partie | — |" in tymna
+    assert "| Par game | — |" in tymna
     assert not (tournament / "stats" / "_modele.md").exists()
 
 
@@ -115,10 +115,13 @@ def test_date_du_jour_par_defaut(tournament):
 
 
 def test_test_tournoi(tmp_path):
-    """Le tournoi de test du dépôt, copié : un rapport pour test-deck, 19 games."""
+    """Le tournoi de test du dépôt (données fictives qui changent), copié : aucune erreur, un rapport par fiche."""
     tournament = tmp_path / "test_tournoi"
     shutil.copytree(DATA_DIR / "tournaments" / "test_tournoi", tournament)
     report = generate_stats(tournament, GENERATED)
-    assert (report.ok, report.decks, report.games, report.warnings) == (True, ["test-deck"], 19, [])
-    text = (tournament / "stats" / "test-deck.md").read_text(encoding="utf-8")
-    assert "| Par partie | 58.8 % (10/17) |" in text
+    assert report.errors == []
+    sheets = sorted(path.stem for path in (tournament / "decks").glob("*.yaml") if not path.name.startswith("_"))
+    assert report.decks == sheets
+    lines = (tournament / "games.csv").read_text(encoding="utf-8").splitlines()
+    assert report.games == len([line for line in lines[1:] if line.strip()])
+    assert all((tournament / "stats" / f"{deck}.md").is_file() for deck in sheets)

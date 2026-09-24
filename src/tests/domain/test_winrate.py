@@ -3,7 +3,7 @@ import pytest
 from dcprepa.domain.winrate import Winrate, format_percent
 
 
-def test_aucune_partie():
+def test_aucune_game():
     winrate = Winrate(0, 0)
     assert str(winrate) == "—"
     assert winrate.rate is None

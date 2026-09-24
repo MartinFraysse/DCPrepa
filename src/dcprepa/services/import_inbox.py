@@ -37,7 +37,7 @@ def import_inbox(tournament_dir: Path, oppos_path: Path) -> ImportReport:
     4. sinon : ajoute les lignes à games.csv, PUIS vide l'inbox (en-tête gardé).
 
     Le deck saisi est ramené au nom de son fichier (nom du fichier, name: ou variante de decks/_alias.yaml),
-    y compris la partie deck d'un oppo self-play « deck@version ».
+    y compris le deck d'un oppo self-play « deck@version ».
     Un oppo inconnu est un avertissement, pas une erreur. Une inbox sans bloc ne modifie rien.
     """
     report = ImportReport()
@@ -77,7 +77,7 @@ def import_inbox(tournament_dir: Path, oppos_path: Path) -> ImportReport:
             oppo, warning = normalize_oppo(block["oppo"], index)
         if warning:
             report.warnings.append(f"bloc {number} : {warning}")
-        bos, _ = parse_bos(str(block["parties"]))
+        bos, _ = parse_bos(str(block["games"]))
         rows += build_rows(block, bos, oppo, used_ids)
         report.blocks += 1
         report.matches += len(bos)

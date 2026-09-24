@@ -3,7 +3,7 @@ from datetime import datetime
 from dcprepa.domain.games import parse_bos
 
 SOURCES = {"paper", "mtgo", "cockatrice"}
-REQUIRED_FIELDS = ["date", "source", "deck", "version", "oppo", "parties"]
+REQUIRED_FIELDS = ["date", "source", "deck", "version", "oppo", "games"]
 DATE_FORMAT = "%d/%m/%Y"
 
 
@@ -14,7 +14,7 @@ def validate_block(block: dict, decks: dict[str, list[str]]) -> list[str]:
     (fourni par l'appelant : domain ne lit aucun fichier).
 
     Contrôles : champs obligatoires présents et non vides, date JJ/MM/AAAA valide,
-    source connue, deck connu, version existante pour ce deck, champ « parties » valide.
+    source connue, deck connu, version existante pour ce deck, champ « games » valide.
     Renvoie [] si le bloc est valide.
     """
     if not isinstance(block, dict):
@@ -46,8 +46,8 @@ def validate_block(block: dict, decks: dict[str, list[str]]) -> list[str]:
     elif version not in decks[deck]:
         errors.append(f"version inconnue pour {deck} : {version}")
 
-    _, parties_errors = parse_bos(str(block["parties"]))
-    for message in parties_errors:
-        errors.append(f"parties : {message}")
+    _, games_errors = parse_bos(str(block["games"]))
+    for message in games_errors:
+        errors.append(f"games : {message}")
 
     return errors

@@ -8,7 +8,7 @@ SEPARATOR = "---"
 def read_inbox(path: Path) -> tuple[list, list[str]]:
     """Lit inbox.yaml et renvoie ses blocs, lus un par un.
 
-    Les blocs sont séparés par une ligne « --- » ; les parties sans contenu (en-tête commenté,
+    Les blocs sont séparés par une ligne « --- » ; les morceaux sans contenu (en-tête commenté,
     lignes vides, « --- » en trop) sont ignorées. Chaque bloc est lu séparément : un bloc
     illisible n'empêche pas de signaler les erreurs des suivants.
 

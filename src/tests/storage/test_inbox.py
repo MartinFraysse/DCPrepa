@@ -8,10 +8,10 @@ DATA_DIR = Path(__file__).resolve().parents[3] / "data"
 
 HEADER = "# Boîte de réception\n# Un bloc par session, blocs séparés par ---\n#\n# date: 02/10/2026\n# ---\n\n"
 
-BLOCK_A = "date: 02/10/2026\nsource: paper\nparties: OTP W, OTD L, OTP W\n"
-BLOCK_B = "date: 03/10/2026\nsource: mtgo\nparties: OTD W\n"
-DATA_A = {"date": "02/10/2026", "source": "paper", "parties": "OTP W, OTD L, OTP W"}
-DATA_B = {"date": "03/10/2026", "source": "mtgo", "parties": "OTD W"}
+BLOCK_A = "date: 02/10/2026\nsource: paper\ngames: OTP W, OTD L, OTP W\n"
+BLOCK_B = "date: 03/10/2026\nsource: mtgo\ngames: OTD W\n"
+DATA_A = {"date": "02/10/2026", "source": "paper", "games": "OTP W, OTD L, OTP W"}
+DATA_B = {"date": "03/10/2026", "source": "mtgo", "games": "OTD W"}
 
 
 def write_inbox(tmp_path, text):
@@ -82,9 +82,9 @@ def test_accents_et_deux_points_dans_la_note(tmp_path):
 
 
 def test_tirets_dans_une_valeur_ne_separent_pas(tmp_path):
-    text = "note/ressenti: parties serrées --- à revoir\nsource: paper\n"
+    text = "note/ressenti: games serrées --- à revoir\nsource: paper\n"
     assert read_inbox(write_inbox(tmp_path, text)) == (
-        [{"note/ressenti": "parties serrées --- à revoir", "source": "paper"}],
+        [{"note/ressenti": "games serrées --- à revoir", "source": "paper"}],
         [],
     )
 
@@ -109,7 +109,7 @@ def test_tout_ou_rien_et_toutes_les_erreurs(tmp_path):
         + "---\n"            # ligne 6
         + BLOCK_B            # lignes 7-9   bloc 3 : valide
         + "---\n"            # ligne 10
-        + "parties: [OTP\n"  # ligne 11     bloc 4 : illisible
+        + "games: [OTP\n"  # ligne 11     bloc 4 : illisible
     )
     blocks, errors = read_inbox(write_inbox(tmp_path, text))
     assert blocks == []
