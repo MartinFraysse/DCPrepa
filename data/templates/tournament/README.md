@@ -1,6 +1,13 @@
 # Modèle de dossier de tournoi
 
-Point de départ pour préparer un nouveau tournoi à la main.
+Point de départ d'un nouveau tournoi. Le plus simple : le logiciel fait les étapes 1 à 4 (depuis `src/`) :
+
+```
+python -m dcprepa tournament-create "RelicFest 2026" --date 31/10/2026     # étapes 1 à 3, slug déduit du nom
+python -m dcprepa deck-create relicfest-2026 "Terra Midrange" --liste terra.txt   # étape 4, un deck à la fois
+```
+
+À la main :
 
 1. Copier ce dossier sous `data/tournaments/<slug>/` (slug en minuscules, ex. `relicfest-2026`) :
    `cp -r data/templates/tournament data/tournaments/<slug>`

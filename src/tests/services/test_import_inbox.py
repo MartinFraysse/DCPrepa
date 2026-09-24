@@ -243,3 +243,12 @@ def test_alias_ambigu_bloque(setup):
     report = import_inbox(tournament, oppos)
     assert report.errors == ["decks : « terra » renvoie à la fois vers terra-midrange et terra-mono"]
     assert snapshot(tournament) == before
+
+
+def test_games_csv_invalide_rien_n_est_importe(setup):
+    tournament, oppos = setup
+    write(tournament / "games.csv", HEADER_CSV + "02/10/2026,02/10/2026-01,1,paper,terra-midrange,v1,Ragavan,OTX,W,\n")
+    before = snapshot(tournament)
+    report = import_inbox(tournament, oppos)
+    assert report.errors == ["games.csv : ligne 2 : position inconnue (OTP ou OTD) : OTX"]
+    assert snapshot(tournament) == before

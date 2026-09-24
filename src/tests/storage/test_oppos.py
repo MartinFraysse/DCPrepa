@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from dcprepa.storage.oppos import append_oppos, load_oppos
+from dcprepa.storage.oppos import append_oppos, insert_variant, load_oppos
 
 DATA_DIR = Path(__file__).resolve().parents[3] / "data"
 
@@ -124,3 +124,44 @@ def test_ajout_au_vrai_fichier(tmp_path):
     after, errors = load_oppos(path)
     assert errors == []
     assert after == {**before, **NEW}
+
+
+OPPOS_TEXT = (
+    "# Noms de référence\n"
+    "Ragavan:\n"
+    "    - raga\n"
+    "    # commentaire dans le bloc\n"
+    "\n"
+    '"Tymna/Thrasios":\n'
+    "Kess:\n"
+    "    - kess\n"
+)
+
+
+@pytest.mark.parametrize(
+    "reference, variant, expected",
+    [
+        ("Ragavan", "Ragavn", OPPOS_TEXT.replace("    # commentaire dans le bloc\n", "    # commentaire dans le bloc\n    - Ragavn\n")),
+        ("Tymna/Thrasios", "Tymna Thrasios", OPPOS_TEXT.replace('"Tymna/Thrasios":\n', '"Tymna/Thrasios":\n    - Tymna Thrasios\n')),
+        ("Kess", "Kess, Dissident Mage", OPPOS_TEXT + "    - Kess, Dissident Mage\n"),
+    ],
+)
+def test_insert_variant(tmp_path, reference, variant, expected):
+    path = write_oppos(tmp_path, OPPOS_TEXT)
+    assert insert_variant(path, reference, variant) is True
+    assert path.read_text(encoding="utf-8") == expected
+    oppos, errors = load_oppos(path)
+    assert errors == [] and variant in oppos[reference]
+
+
+def test_insert_variant_fichier_sans_fin_de_ligne(tmp_path):
+    path = write_oppos(tmp_path, "Kess:\n    - kess")
+    assert insert_variant(path, "Kess", "Kess2")
+    assert path.read_text(encoding="utf-8") == "Kess:\n    - kess\n    - Kess2"
+
+
+def test_insert_variant_reference_introuvable(tmp_path):
+    path = write_oppos(tmp_path, OPPOS_TEXT)
+    assert insert_variant(path, "Atraxa", "atra") is False
+    assert path.read_text(encoding="utf-8") == OPPOS_TEXT
+    assert not (tmp_path / "oppos.yaml.tmp").exists()

@@ -1,4 +1,5 @@
-# Modèle de fiche deck : à copier en decks/<deck>.yaml, puis remplir.
+# Modèle de fiche deck : à copier en decks/<deck>.yaml, puis remplir
+# (ou, depuis src/ : python -m dcprepa deck-create <tournoi> "<nom>" ; versions : deck-version, statut : deck-status).
 # Le nom du fichier (sans extension) est l'identifiant utilisé
 # dans le champ "deck" de l'inbox et de games.csv.
 #

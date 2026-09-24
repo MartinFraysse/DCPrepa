@@ -5,14 +5,55 @@
 > Entrées les plus récentes en haut, une idée par puce.
 
 ## 🔜 Prochaines étapes
-- `feat/stats-synthese` : relancer `stats` sur RelicFest, commiter (nom réservé, README des stats, doc), puis PR vers `main`.
-- Premier vrai import de l'inbox (`python -m dcprepa import relicfest-2026`).
+- `feat/saisie` : commit (améliorations, modèles de data/, doc `saisie.md`), puis PR vers `main`.
+- `data/tournaments/test_tournoi/decks/_alias.yaml` : bloc `test-deck` à retirer (bloque import et corrections sur test_tournoi), en attente de l'accord de l'utilisateur.
+- Régénérer les rapports de RelicFest (`python -m dcprepa stats relicfest-2026`) : `synthese.md` encore à l'ancien modèle.
+- Premier vrai import de l'inbox (`python -m dcprepa import relicfest-2026`) ; `meta` sur RelicFest avant `stats`.
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist) ; remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- Après `feat/stats-synthese` : vraie CLI, puis GUI.
+- Recréer `.venv/` à la racine (absent : tests lancés dans un venv du scratchpad).
 
 ## 🗓️ Historique
 
 <!-- Ajouter les entrées ici, la plus récente en haut :
+### 2026-09-24 — Services de saisie : plan d'action
+- Branche `feat/saisie` créée par l'utilisateur ; plan de `feat/stats-synthese` supprimé par l'utilisateur (branche finie).
+- Plan créé à partir du modèle : `docs/.claude_plan_saisie.md` (7 étapes : décisions, games, tournoi, deck, version / statut, lancement minimal, essai).
+- Idée directrice : `add_games()` reçoit un bloc identique à l'inbox et réutilise ses contrôles (`validate_block`, `parse_bos`, `build_rows`, `append_rows`).
+- À trancher : services retenus, ordre, games.csv ou inbox, écriture des fiches deck (ajout de texte, commentaires gardés), champs du tournoi, lancement minimal.
+- README : organisation de `docs/` (plan ajouté, plan stats-synthese retiré) ; feuille de route : lien vers le plan.
+- Services listés et validés par l'utilisateur (tous) : tournoi (create, edit), games (add, delete_match), decks (create, version, statut, edit, alias), oppos (add_oppo) ; tableaux repris dans le plan.
+- Services de lecture pour la GUI : reportés à `feat/gui`.
+- Décisions utilisateur : games écrites dans `games.csv` ; fiches deck modifiées en texte (commentaires gardés) ; slug déduit du nom ;
+  corriger une game ou un BO (`edit_game`, `edit_match`) et supprimer une game ou un BO ; services exposés dans `__main__.py`.
+- Validés ensuite : slug (minuscules, sans accents, `-`, doublon = erreur) ; tournoi (`name` obligatoire, format Duel Commander par défaut) ; date changée → nouveau `match_id` ; game supprimée → renumérotation, BO3 réduit à 1 game → avertissement ; `argparse`. Étape 1 ✅.
+- Constat : un oppo inconnu est un avertissement (pas bloquant) à l'import comme à la saisie ; `add_oppo` sert à éviter les doublons de noms.
+- Refactor validé : `domain/blocks.py::prepare_block` + `services/games.py::load_game_references`, utilisés par `import_inbox` (tests d'import inchangés, verts).
+- `add_games` codé (`services/games.py`, `GamesReport` avec `match_ids`) ; tests `test_games.py` (11), `test_blocks.py` (4) ; suite : 526 OK.
+- Commité par l'utilisateur (`70358e3`).
+- Corrections codées : `domain/edits.py` (BO reconstruit et revérifié par `prepare_block`), services `edit_game`, `edit_match`, `delete_game`, `delete_match`, `storage/games.py::write_games` ; 19 + 6 tests (dont L → W, ajouté après relecture) ; suite : 551 OK.
+- Constat : `data/tournaments/test_tournoi/decks/_alias.yaml` référence `test-deck` (inexistant, depuis #3) → import et corrections refusés sur test_tournoi ; signalé.
+- Corrections commitées par l'utilisateur (`6552503`) ; test L → W ajouté après sa relecture du plan (ligne de tests non cochée : oubli de Claude).
+- `add_oppo` codé : `services/oppos.py`, `domain/oppos.py::check_new_oppo`, `storage/oppos.py::insert_variant` (variante sous sa référence, commentaires gardés) ; 21 tests ; suite : 572 OK.
+- `add_oppo` commité par l'utilisateur (`330d4dc`).
+- Tournoi codé : `services/tournament.py` (`create_tournament`, `edit_tournament`), `domain/saisie.py` (`slugify`, `check_tournament_fields`),
+  `storage/tournament.py` (`create_tournament_dir` via `<slug>.tmp`, `update_tournament_file`), `storage/yaml_text.py` (`set_fields`, commentaires gardés) ; suite : 611 OK.
+- Tournoi commité par l'utilisateur (`b663733`).
+- Decks codés : `services/decks.py` (`create_deck`, `add_version`, `set_status`, `edit_deck`, `add_deck_alias`), contrôles dans `domain/saisie.py`,
+  écriture dans `storage/decks.py` ; `append_list_item` générique (oppos refactoré dessus) ; suite : 652 OK.
+- Choix validés par l'utilisateur : fichier déduit du nom, version suivante automatique, liste de v1 facultative (avertissement si ≠ 100), deck désigné par toute appellation.
+- Decks commités par l'utilisateur (`7007a1f`).
+- Étape 6 : `__main__.py` en `argparse`, modules de saisie en anglais (décision utilisateur ; `bo-edit` / `bo-delete` plutôt que match) ;
+  `src/README.md` (commandes) à jour ; 5 tests ; suite : 657 OK.
+- Étape 6 commitée (`85f53e5`). Étape 7 : l'utilisateur teste sur `test_tournoi` (RelicFest pas nécessaire).
+- Modèles de `data/` : README du tournoi, en-têtes `_modele.yaml`, `_alias.yaml`, `oppos.yaml` citent les modules ; brouillon `docs/.claude_brouillon_saisie.md` écrit.
+- Sur demande : bloc `test-deck` retiré de `test_tournoi/decks/_alias.yaml` ; parcours de 13 modules joué par Claude sur une copie de `data/` : tout conforme.
+- Détail corrigé : nouvelle clé en fin de YAML précédée d'une ligne vide (`append_list_item`) ; suite : 657 OK.
+- Recette sur `test_tournoi` (demande utilisateur) : 90 commandes dont toutes les erreurs provoquées, 90 conformes ; test_tournoi et oppos.yaml restaurés à l'identique.
+- 3 améliorations relevées puis corrigées (décision utilisateur) : games.csv invalide refusé par game-add et l'import (`read_games`),
+  plus d'erreur en cascade pour une fiche illisible, messages argparse en français ; suite : 665 OK ; recette rejouée : 91/91.
+- Brouillon `saisie.md` mis à jour : tableau des 16 modules (arguments, options, rôle ; vérifié contre `--help`), messages en français, games.csv invalide refusé.
+- Brouillon validé, « Voir aussi » retiré (demande utilisateur), publié : `docs/03-architecture/saisie.md` + `index.md` ; brouillon supprimé ; README à jour.
+
 ### AAAA-MM-JJ — titre
 - ce qui a été fait
 - fichiers touchés
@@ -20,7 +61,7 @@
 - problèmes ouverts
 -->
 
-### 2026-09-24 — Synthèse du tournoi : plan d'action
+### 2026-09-24 — Synthèse du tournoi (feat/stats-synthese, PR #6)
 - Étape 1 (décisions) : calcul sur les données disponibles seulement ; ⚠️ si couverture < 30 % ; `—` sans oppo joué ; section Général validée ;
   tableau Decks en méta papier seulement ; tableau Méta = union des top 20, une colonne par deck non écarté ; Claude code et explique, l'utilisateur supervise.
 - Couverture affichée (`49.8 % (16.2 % du méta)`) ; étape 1 ✅.
@@ -43,6 +84,10 @@
 - Décision utilisateur : un brouillon de page va dans un fichier privé `docs/.claude_brouillon_<page>.md`, nouveautés repérées ; la doc officielle ne change qu'après validation.
 - Brouillon créé : `docs/.claude_brouillon_stats.md` (🟩 nouveau, 🟨 modifié avec ancienne version repliée) ; README : organisation de `docs/` mise à jour.
 - Brouillon validé → publié dans `docs/03-architecture/stats.md` et `index.md` (texte identique, repères retirés) ; brouillon supprimé ; README à jour.
+- Commits `778377a` (noms réservés) et `ecc3346` (doc) ; PR #6 fusionnée dans `main` : `feat/stats-synthese` ✅.
+- Décision utilisateur : pas de CLI complète (la GUI sera la seule interface) ; `feat/cli` abandonnée, remplacée par `feat/saisie` (services de saisie testés), puis `feat/gui`.
+- Feuille de route, `src/README.md` et claude_doc mis à jour ; `__main__.py` gardé (lancement minimal pour dépanner).
+- Changement de branche pendant les mises à jour : modifications non commitées perdues (pas de stash), refaites sur `feat/saisie`.
 - Décisions utilisateur : winrate attendu calculé avec le méta papier ET général, par game ET par BO3, sur les seuls oppos joués du top 20 (poids ramenés à 100 %) ;
   matchups non testés : top 10 papier, decks `envisage` / `retenu`, seuils 10 BO3 / 30 games.
 - Plan créé à partir du modèle : `docs/.claude_plan_stats_synthese.md` (7 étapes ; pas de nouvelle commande, `stats` écrit aussi `synthese.md`).
