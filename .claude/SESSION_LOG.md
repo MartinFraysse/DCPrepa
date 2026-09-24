@@ -7,7 +7,7 @@
 ## 🔜 Prochaines étapes
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist).
 - Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- `feat/import-meta` : relire l'étape 2, puis étape 3 du plan (`docs/.claude_plan_import_meta.md`) : lire la page (`domain/mtgtop8.py`).
+- `feat/import-meta` : relire l'étape 3, puis étape 4 du plan (`docs/.claude_plan_import_meta.md`) : construire le méta (`domain/meta.py`).
 - Import de l'inbox utilisable (`python -m dcprepa import relicfest-2026`) : premier vrai import à faire.
 - Ensuite : import méta MTGTop8 (`feat/import-meta`), puis `synthese.md` (`feat/stats-synthese`) ; plus tard vraie CLI, GUI.
 
@@ -40,6 +40,9 @@
 - Étape 1 ✅ ; prochaine : étape 2 (`storage/mtgtop8.py`, seul accès réseau).
 - Étape 2 codée : `src/dcprepa/storage/mtgtop8.py` (`META_IDS`, `meta_url`, `fetch_meta_page` avec `opener` injectable, timeout 20 s, User-Agent, erreurs HTTP / réseau / délai / page vide sans exception).
 - 12 tests (`src/tests/storage/test_mtgtop8.py`, sans réseau) ; suite : 394 OK ; essai réel : général 1447 decks, papier 1309 decks.
+- Page MTGTop8 gardée en mémoire seulement ; décision utilisateur : ne pas stocker les pages brutes dans `meta/`.
+- Étape 2 commitée et poussée (`f5142e7`). Étape 3 codée : `src/dcprepa/domain/mtgtop8.py` (`MetaPage`, `parse_meta_page` : total + parts ‰, erreurs si page inattendue, somme ± 20 ‰).
+- Fixtures réelles enregistrées : `src/tests/fixtures/mtgtop8_general.html` et `mtgtop8_paper.html` ; 14 tests ; suite : 408 OK ; `src/README.md` : `fixtures/` ajouté à l'organisation.
 
 ### 2026-09-24 — Stats d'un deck : brique winrate (étape 3)
 - Étape 2 validée par l'utilisateur.

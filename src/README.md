@@ -20,6 +20,7 @@ src/
 │   ├── services/    # cas d'usage : enchaîne domain + storage, renvoie un rapport
 │   └── interfaces/  # CLI (puis GUI) : seule couche qui affiche
 └── tests/           # même arborescence que dcprepa/
+    └── fixtures/    # pages web enregistrées (MTGTop8) : tests sans réseau
 ```
 
 Point d'entrée : `dcprepa/__main__.py` (lancement minimal, en attendant la vraie CLI dans `interfaces/cli/`).
