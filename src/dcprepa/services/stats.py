@@ -42,7 +42,7 @@ def generate_stats(tournament_dir: Path, generated: date | None = None) -> Stats
     report.errors += errors
     sheets, errors = load_deck_sheets(tournament_dir)
     report.errors += errors
-    meta_file, weights, errors = load_latest_meta(tournament_dir)
+    meta_dir, metas, errors = load_latest_meta(tournament_dir)
     report.errors += errors
     if report.errors:
         return report
@@ -57,12 +57,12 @@ def generate_stats(tournament_dir: Path, generated: date | None = None) -> Stats
         for version in played:
             if version not in sheet["versions"]:
                 report.warnings.append(f"{deck} : version jouée absente de la fiche : {version}")
-        stats = compute_deck_stats(games, deck, sheet["versions"], weights)
-        texts[deck] = render_deck_report(deck, sheet, stats, generated, meta_file)
+        stats = compute_deck_stats(games, deck, sheet["versions"], metas)
+        texts[deck] = render_deck_report(deck, sheet, stats, generated, meta_dir)
 
     for deck, text in texts.items():
         write_report(tournament_dir / "stats" / f"{deck}.md", text)
     report.decks = list(texts)
     report.games = len(games)
-    report.meta = meta_file
+    report.meta = meta_dir
     return report

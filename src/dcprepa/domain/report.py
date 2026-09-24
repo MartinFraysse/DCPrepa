@@ -5,20 +5,20 @@ from dcprepa.domain.validation import DATE_FORMAT
 from dcprepa.domain.winrate import NO_DATA, WARNING, Winrate, format_percent
 
 SOURCE_LABELS = {"paper": "Paper", "cockatrice": "Cockatrice", "mtgo": "MTGO"}
-MATCHUPS_SORT_META = "Triés par poids dans le méta"
+MATCHUPS_SORT_META = "Triés par poids dans le méta papier"
 MATCHUPS_SORT_NO_META = "Triés par nombre de games (pas encore de méta)"
 
 
-def render_deck_report(deck: str, sheet: dict, stats: DeckStats, generated: date, meta_file: str | None = None) -> str:
+def render_deck_report(deck: str, sheet: dict, stats: DeckStats, generated: date, meta_dir: str | None = None) -> str:
     """Texte Markdown de stats/<deck>.md, dans la structure de data/templates/tournament/stats/_modele-deck.md.
 
     deck : nom du fichier de la fiche ; sheet : fiche de load_deck_sheets (name, commandant, statut, versions) ;
-    meta_file : fichier méta utilisé par compute_deck_stats (ex. « 2026-10-01.csv »), None sans méta.
-    Avec méta : l'en-tête le cite, matchups triés par poids, colonne « Poids méta » remplie.
-    Sans méta : « meta/—.csv », matchups triés par games. « Winrate attendu au tournoi » reste à « — ».
+    meta_dir : dossier méta utilisé par compute_deck_stats (ex. « 2026-09-24 »), None sans méta.
+    Avec méta : l'en-tête le cite, matchups triés par poids papier, colonnes « Poids papier » et « Poids général » remplies.
+    Sans méta : « meta/— », matchups triés par games. « Winrate attendu au tournoi » reste à « — ».
     """
     versions = sheet.get("versions") or []
-    meta_path = f"meta/{meta_file or NO_DATA + '.csv'}"
+    meta_path = f"meta/{meta_dir}/" if meta_dir else f"meta/{NO_DATA}"
     lines = [
         f"# {sheet.get('name') or deck}",
         "",
@@ -72,16 +72,16 @@ def render_deck_report(deck: str, sheet: dict, stats: DeckStats, generated: date
         "",
         "## Matchups",
         "",
-        f"{MATCHUPS_SORT_META if meta_file else MATCHUPS_SORT_NO_META}, self-play exclu. OTP / OTD affichés seulement à partir de 10 games contre l'oppo.",
+        f"{MATCHUPS_SORT_META if meta_dir else MATCHUPS_SORT_NO_META}, self-play exclu. OTP / OTD affichés seulement à partir de 10 games contre l'oppo.",
         "",
         "Meilleure version : la version au meilleur winrate contre l'oppo et son écart au winrate du matchup, en points"
         " (« — » si une seule version l'a joué).",
         "",
         *_table(
-            ["Oppo", "Poids méta", "Winrate (games)", "Meilleure version (games)", "Winrate BO3", "Meilleure version BO3", "OTP", "OTD"],
+            ["Oppo", "Poids papier", "Poids général", "Winrate (games)", "Meilleure version (games)", "Winrate BO3", "Meilleure version BO3", "OTP", "OTD"],
             [
                 [
-                    m.oppo, _weight(m.weight),
+                    m.oppo, _weight(m.weight_paper), _weight(m.weight_general),
                     m.record.games, _best(m.best_games), m.record.bo3, _best(m.best_bo3),
                     m.otp or NO_DATA, m.otd or NO_DATA,
                 ]

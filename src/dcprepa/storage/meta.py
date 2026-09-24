@@ -5,27 +5,40 @@ from pathlib import Path
 
 META_COLUMNS = ["oppo", "decks", "poids"]
 META_NAME_FORMAT = "%Y-%m-%d"
+META_FILES = {"general": "general.csv", "paper": "paper.csv"}
 
 
-def load_latest_meta(tournament_dir: Path) -> tuple[str | None, dict[str, float], list[str]]:
-    """Lit le méta le plus récent du tournoi : meta/AAAA-MM-JJ.csv, choisi d'après la date du nom.
+def load_latest_meta(tournament_dir: Path) -> tuple[str | None, dict[str, dict[str, float]], list[str]]:
+    """Lit le méta le plus récent du tournoi : le dossier meta/AAAA-MM-JJ/ à la date la plus récente.
 
-    Les autres fichiers de meta/ (README.md, CSV mal nommé) sont ignorés. Pas de méta
-    (dossier absent ou aucun fichier daté) : (None, {}, []), ce n'est pas une erreur.
-    Vérifie l'en-tête (exactement META_COLUMNS), puis chaque ligne : colonnes, oppo non vide
-    et non répété, decks entier ≥ 0, poids nombre ≥ 0 (en %, point décimal).
+    Un import = un dossier daté avec general.csv et paper.csv (META_FILES) ; les imports précédents
+    restent à côté. Tout ce qui n'est pas un dossier daté (README.md, ancien meta/AAAA-MM-JJ.csv) est ignoré.
+    Pas de méta (dossier absent ou aucun dossier daté) : (None, {}, []), ce n'est pas une erreur.
+    Un fichier manquant ou invalide dans le dossier le plus récent en est une (contrôles de read_meta).
 
-    Renvoie (nom du fichier, poids par oppo, errors), ex. ("2026-10-01.csv", {"Ragavan": 12.5}, []) ;
-    en cas d'erreur, poids vides.
+    Renvoie (nom du dossier, {type: {oppo: poids}}, errors),
+    ex. ("2026-09-24", {"general": {"Phelia": 5.81}, "paper": {"Cloud": 6.04}}, []) ; en cas d'erreur, poids vides.
     """
     meta_dir = tournament_dir / "meta"
-    dated = [path for path in meta_dir.glob("*.csv") if _date_of(path)] if meta_dir.is_dir() else []
+    dated = [path for path in meta_dir.iterdir() if path.is_dir() and _date_of(path)] if meta_dir.is_dir() else []
     if not dated:
         return None, {}, []
-    path = max(dated, key=_date_of)
+    folder = max(dated, key=_date_of)
 
-    weights, errors = read_meta(path, f"meta/{path.name}")
-    return path.name, weights, errors
+    metas = {}
+    errors = []
+    for kind, file_name in META_FILES.items():
+        path = folder / file_name
+        label = f"meta/{folder.name}/{file_name}"
+        if not path.is_file():
+            errors.append(f"{label} : fichier manquant")
+            continue
+        metas[kind], file_errors = read_meta(path, label)
+        errors += file_errors
+
+    if errors:
+        return folder.name, {}, errors
+    return folder.name, metas, errors
 
 
 def read_meta(path: Path, label: str) -> tuple[dict[str, float], list[str]]:
@@ -89,7 +102,7 @@ def write_meta(path: Path, rows: list[tuple[str, int, float]]) -> None:
 
 def _date_of(path: Path) -> datetime | None:
     try:
-        return datetime.strptime(path.stem, META_NAME_FORMAT)
+        return datetime.strptime(path.name, META_NAME_FORMAT)
     except ValueError:
         return None
 

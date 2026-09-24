@@ -1,6 +1,6 @@
 # Terra Midrange
 
-> Généré le 24/09/2026 à partir de `games.csv`, `decks/terra-midrange.yaml` et `meta/—.csv`. Ne pas modifier à la main.
+> Généré le 24/09/2026 à partir de `games.csv`, `decks/terra-midrange.yaml` et `meta/—`. Ne pas modifier à la main.
 > Conventions : voir `README.md`.
 
 - **Commandant :** Terra, Magical Adept
@@ -45,9 +45,9 @@ Triés par nombre de games (pas encore de méta), self-play exclu. OTP / OTD aff
 
 Meilleure version : la version au meilleur winrate contre l'oppo et son écart au winrate du matchup, en points (« — » si une seule version l'a joué).
 
-| Oppo | Poids méta | Winrate (games) | Meilleure version (games) | Winrate BO3 | Meilleure version BO3 | OTP | OTD |
-|---|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — | — |
+| Oppo | Poids papier | Poids général | Winrate (games) | Meilleure version (games) | Winrate BO3 | Meilleure version BO3 | OTP | OTD |
+|---|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — | — |
 
 ## Self-play
 

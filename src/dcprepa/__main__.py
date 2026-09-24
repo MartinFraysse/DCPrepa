@@ -46,7 +46,7 @@ def run_stats(tournament_dir: Path) -> int:
     else:
         print(f"✅ {len(report.decks)} rapport(s) écrit(s) à partir de {report.games} game(s) : {', '.join(report.decks) or 'aucun deck'}.")
         if report.meta:
-            print(f"   Méta : meta/{report.meta} (matchups triés par poids).")
+            print(f"   Méta : meta/{report.meta}/ (matchups triés par poids papier).")
         else:
             print("   Pas de méta : matchups triés par nombre de games.")
 

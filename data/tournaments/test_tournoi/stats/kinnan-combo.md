@@ -1,6 +1,6 @@
 # Kinnan Combo
 
-> Généré le 24/09/2026 à partir de `games.csv`, `decks/kinnan-combo.yaml` et `meta/2026-10-25.csv`. Ne pas modifier à la main.
+> Généré le 24/09/2026 à partir de `games.csv`, `decks/kinnan-combo.yaml` et `meta/2026-10-25/`. Ne pas modifier à la main.
 > Conventions : voir `README.md`.
 
 - **Commandant :** Kinnan, Bonder Prodigy
@@ -41,15 +41,15 @@ Par game seulement : la position change d'une game à l'autre dans un BO3.
 
 ## Matchups
 
-Triés par poids dans le méta, self-play exclu. OTP / OTD affichés seulement à partir de 10 games contre l'oppo.
+Triés par poids dans le méta papier, self-play exclu. OTP / OTD affichés seulement à partir de 10 games contre l'oppo.
 
 Meilleure version : la version au meilleur winrate contre l'oppo et son écart au winrate du matchup, en points (« — » si une seule version l'a joué).
 
-| Oppo | Poids méta | Winrate (games) | Meilleure version (games) | Winrate BO3 | Meilleure version BO3 | OTP | OTD |
-|---|---|---|---|---|---|---|---|
-| Ragavan | 15.2 % | ⚠️ 0 % (0/5) | — | ⚠️ 0 % (0/2) | — | — | — |
-| Kess | 12.2 % | ⚠️ 28.6 % (2/7) | — | ⚠️ 0 % (0/2) | — | — | — |
-| Ertai | — | ⚠️ 66.7 % (2/3) | — | ⚠️ 100 % (1/1) | — | — | — |
+| Oppo | Poids papier | Poids général | Winrate (games) | Meilleure version (games) | Winrate BO3 | Meilleure version BO3 | OTP | OTD |
+|---|---|---|---|---|---|---|---|---|
+| Ragavan | 16.1 % | 15.2 % | ⚠️ 0 % (0/5) | — | ⚠️ 0 % (0/2) | — | — | — |
+| Kess | 9.6 % | 12.2 % | ⚠️ 28.6 % (2/7) | — | ⚠️ 0 % (0/2) | — | — | — |
+| Ertai | 3.7 % | — | ⚠️ 66.7 % (2/3) | — | ⚠️ 100 % (1/1) | — | — | — |
 
 ## Self-play
 
