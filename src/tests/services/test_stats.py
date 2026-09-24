@@ -89,6 +89,21 @@ def test_fiche_invalide(tournament):
     assert_nothing_written(tournament)
 
 
+@pytest.mark.parametrize(
+    "deck, message",
+    [
+        ("synthese", "decks/synthese.yaml : nom réservé (stats/synthese.md serait écrasé par la synthèse du tournoi) → renommer la fiche"),
+        ("README", "decks/README.yaml : nom réservé (stats/README.md serait écrasé par la page des conventions) → renommer la fiche"),
+        ("Synthese", "decks/Synthese.yaml : nom réservé (stats/Synthese.md serait écrasé par la synthèse du tournoi) → renommer la fiche"),
+    ],
+)
+def test_fiche_au_nom_reserve(tournament, deck, message):
+    write(tournament / "decks" / f"{deck}.yaml", TYMNA)
+    report = generate_stats(tournament, GENERATED)
+    assert report.errors == [message]
+    assert_nothing_written(tournament)
+
+
 def test_meta_invalide(tournament):
     write(tournament / "meta" / "2026-09-24" / "general.csv", "oppo,decks,poids\nKess,10,beaucoup\n")
     report = generate_stats(tournament, GENERATED)

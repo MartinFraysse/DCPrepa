@@ -12,6 +12,7 @@ from dcprepa.storage.stats import write_report
 from dcprepa.storage.tournament import load_tournament_name
 
 SYNTHESE_FILE = "synthese.md"
+RESERVED_REPORTS = {"synthese": "la synthèse du tournoi", "readme": "la page des conventions"}
 
 
 @dataclass
@@ -33,7 +34,7 @@ def generate_stats(tournament_dir: Path, generated: date | None = None) -> Stats
     """Génère stats/<deck>.md pour chaque fiche deck du tournoi et stats/synthese.md, en tout ou rien.
 
     1. lit games.csv, les fiches deck, le méta le plus récent (s'il y en a un) et le nom du tournoi (tournament.yaml) ;
-    2. à la moindre erreur : rien n'est écrit, le bilan liste les erreurs ;
+    2. à la moindre erreur (dont une fiche au nom réservé : synthese, README) : rien n'est écrit, le bilan liste les erreurs ;
     3. sinon : calcule et rend tous les rapports et la synthèse, PUIS les écrit (un rapport par fiche, même sans game).
 
     Avertissements : deck de games.csv sans fiche (pas de rapport), version jouée absente de la fiche,
@@ -47,6 +48,11 @@ def generate_stats(tournament_dir: Path, generated: date | None = None) -> Stats
     report.errors += errors
     sheets, errors = load_deck_sheets(tournament_dir)
     report.errors += errors
+    for deck in sheets:
+        if deck.lower() in RESERVED_REPORTS:
+            report.errors.append(
+                f"decks/{deck}.yaml : nom réservé (stats/{deck}.md serait écrasé par {RESERVED_REPORTS[deck.lower()]}) → renommer la fiche"
+            )
     meta_dir, metas, errors = load_latest_meta(tournament_dir)
     report.errors += errors
     if report.errors:
