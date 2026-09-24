@@ -51,5 +51,7 @@ def test_append_list_item():
     text = "# Appellations\nterra:\n    - Terra\n\nkinnan:\n"
     assert append_list_item(text, "terra", "Terra mid") == "# Appellations\nterra:\n    - Terra\n    - Terra mid\n\nkinnan:\n"
     assert append_list_item(text, "kinnan", "Kinnan") == text + "    - Kinnan\n"
-    assert append_list_item(text, "sythis", "Sythis") == text + "sythis:\n    - Sythis\n"
+    assert append_list_item(text, "sythis", "Sythis") == text + "\nsythis:\n    - Sythis\n"
+    assert append_list_item("# commentaire\n", "terra", "Terra") == "# commentaire\n\nterra:\n    - Terra\n"
+    assert append_list_item("", "terra", "Terra") == "terra:\n    - Terra\n"
     assert append_list_item("- liste\n", "terra", "x") is None

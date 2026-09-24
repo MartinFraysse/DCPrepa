@@ -96,6 +96,8 @@ def load_deck_aliases(tournament_dir: Path, decks: dict[str, list[str]]) -> tupl
     for deck, variants in content.items():
         deck = str(deck).strip()
         if deck not in aliases:
+            if (decks_dir / f"{deck}.yaml").is_file():
+                continue  # fiche présente mais en erreur : load_decks la signale déjà
             errors.append(f"{ALIAS_FILE} : deck inconnu : {deck} (decks disponibles : {available})")
             continue
         if variants is None:

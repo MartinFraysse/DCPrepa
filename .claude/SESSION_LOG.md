@@ -5,7 +5,7 @@
 > Entrées les plus récentes en haut, une idée par puce.
 
 ## 🔜 Prochaines étapes
-- `feat/saisie` : commiter l'étape 6 (modules), puis étape 7 (essai sur copie de RelicFest, README de `data/`, brouillon de doc, PR).
+- `feat/saisie` : commit (améliorations + modèles de data/), valider et publier le brouillon `saisie.md`, PR.
 - `data/tournaments/test_tournoi/decks/_alias.yaml` : bloc `test-deck` à retirer (bloque import et corrections sur test_tournoi), en attente de l'accord de l'utilisateur.
 - Régénérer les rapports de RelicFest (`python -m dcprepa stats relicfest-2026`) : `synthese.md` encore à l'ancien modèle.
 - Premier vrai import de l'inbox (`python -m dcprepa import relicfest-2026`) ; `meta` sur RelicFest avant `stats`.
@@ -44,6 +44,13 @@
 - Decks commités par l'utilisateur (`7007a1f`).
 - Étape 6 : `__main__.py` en `argparse`, modules de saisie en anglais (décision utilisateur ; `bo-edit` / `bo-delete` plutôt que match) ;
   `src/README.md` (commandes) à jour ; 5 tests ; suite : 657 OK.
+- Étape 6 commitée (`85f53e5`). Étape 7 : l'utilisateur teste sur `test_tournoi` (RelicFest pas nécessaire).
+- Modèles de `data/` : README du tournoi, en-têtes `_modele.yaml`, `_alias.yaml`, `oppos.yaml` citent les modules ; brouillon `docs/.claude_brouillon_saisie.md` écrit.
+- Sur demande : bloc `test-deck` retiré de `test_tournoi/decks/_alias.yaml` ; parcours de 13 modules joué par Claude sur une copie de `data/` : tout conforme.
+- Détail corrigé : nouvelle clé en fin de YAML précédée d'une ligne vide (`append_list_item`) ; suite : 657 OK.
+- Recette sur `test_tournoi` (demande utilisateur) : 90 commandes dont toutes les erreurs provoquées, 90 conformes ; test_tournoi et oppos.yaml restaurés à l'identique.
+- 3 améliorations relevées puis corrigées (décision utilisateur) : games.csv invalide refusé par game-add et l'import (`read_games`),
+  plus d'erreur en cascade pour une fiche illisible, messages argparse en français ; suite : 665 OK ; recette rejouée : 91/91.
 
 ### AAAA-MM-JJ — titre
 - ce qui a été fait

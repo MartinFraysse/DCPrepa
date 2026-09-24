@@ -174,3 +174,13 @@ def test_games_csv_invalide(played):
     write(tournament / "games.csv", HEADER_CSV + EXISTING.replace(",OTP,", ",OTX,"))
     report = edit_game(tournament, "02/10/2026-01", "1", {"resultat": "L"}, oppos)
     assert report.errors == ["games.csv : ligne 2 : position inconnue (OTP ou OTD) : OTX"]
+
+
+def test_add_games_refuse_un_games_csv_invalide(setup):
+    """Une ligne cassée dans games.csv : rien n'est ajouté (les stats refuseraient le fichier ensuite)."""
+    tournament, oppos = setup
+    write(tournament / "games.csv", HEADER_CSV + EXISTING.replace(",OTP,", ",OTX,"))
+    before = read_raw(tournament / "games.csv")
+    report = add_games(tournament, BLOCK, oppos)
+    assert report.errors == ["games.csv : ligne 2 : position inconnue (OTP ou OTD) : OTX"]
+    assert read_raw(tournament / "games.csv") == before

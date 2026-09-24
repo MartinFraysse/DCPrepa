@@ -11,6 +11,7 @@
 # Ajouts automatiques : « python -m dcprepa meta <tournoi> » ajoute à la fin de ce fichier les oppos du top 20 MTGTop8
 # qui n'y sont pas encore (nom court en référence, nom complet MTGTop8 en variante), sous un commentaire daté.
 # On peut les renommer (garder l'ancien nom en variante) ou rattacher un « Partner XYZ » à un duo comme variante.
+# Ajout par le logiciel (depuis src/) : python -m dcprepa oppo-add "<nom>" [--variant-of "<oppo connu>"].
 
 # Ajoutés par l'import du méta du 24/09/2026 (top 20 MTGTop8) : à renommer ou regrouper au besoin.
 Phelia:

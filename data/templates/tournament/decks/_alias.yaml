@@ -2,6 +2,7 @@
 # Déjà reconnus sans rien écrire ici : le nom du fichier du deck et le champ « name » de sa fiche.
 # Format : le nom du fichier du deck (sans .yaml) suivi de « : », puis une ligne « - variante » par appellation.
 # Les majuscules et les espaces en trop sont ignorés. Le nom commence par « _ » : ce fichier n'est pas une fiche deck.
+# Ajout par le logiciel (depuis src/) : python -m dcprepa deck-alias <tournoi> <deck> "<appellation>".
 #
 # Exemple (à décommenter et adapter) :
 #

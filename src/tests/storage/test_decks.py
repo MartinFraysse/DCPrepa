@@ -389,3 +389,16 @@ def test_add_alias(tmp_path):
     assert add_alias(decks, "kinnan", "Kinnan turbo") == []
     text = (decks / "_alias.yaml").read_text(encoding="utf-8")
     assert text.endswith("kinnan:\n    - Kinnan\n    - Kinnan turbo\n")
+
+
+def test_appellations_d_une_fiche_en_erreur_sans_erreur_en_cascade(tmp_path):
+    """Fiche illisible : load_decks la signale ; ses appellations ne donnent pas en plus « deck inconnu »."""
+    decks_dir = tmp_path / "decks"
+    decks_dir.mkdir()
+    (decks_dir / "terra.yaml").write_text("versions:\n    - version: v1\n", encoding="utf-8")
+    (decks_dir / "tymna.yaml").write_text("versions: [\n", encoding="utf-8")
+    (decks_dir / "_alias.yaml").write_text("terra:\n    - Terra\ntymna:\n    - Tymna\nfantome:\n    - F\n", encoding="utf-8")
+    decks, errors = load_decks(tmp_path)
+    assert list(decks) == ["terra"] and errors[0].startswith("tymna.yaml : YAML illisible")
+    aliases, errors = load_deck_aliases(tmp_path, decks)
+    assert errors == ["_alias.yaml : deck inconnu : fantome (decks disponibles : terra)"]

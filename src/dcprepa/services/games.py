@@ -7,7 +7,7 @@ from dcprepa.domain.edits import References
 from dcprepa.domain.names import build_name_index
 from dcprepa.domain.oppos import build_oppo_index
 from dcprepa.storage.decks import load_deck_aliases, load_decks
-from dcprepa.storage.games import append_rows, read_games, read_match_ids, write_games
+from dcprepa.storage.games import append_rows, read_games, write_games
 from dcprepa.storage.oppos import load_oppos
 
 
@@ -40,8 +40,9 @@ class GamesReport:
 
 
 def load_game_references(tournament_dir: Path, oppos_path: Path) -> tuple[GameReferences, list[str]]:
-    """Lit les fiches deck, decks/_alias.yaml, data/oppos.yaml et les match_id de games.csv.
+    """Lit les fiches deck, decks/_alias.yaml, data/oppos.yaml et games.csv (pour ses match_id).
 
+    games.csv est entièrement vérifié (read_games) : on n'ajoute jamais de games à un fichier déjà invalide, que les stats refuseraient.
     Toutes les erreurs sont rassemblées (lecture et appellations ambiguës) ; avec une erreur, les références ne sont pas fiables.
     """
     errors = []
@@ -55,8 +56,9 @@ def load_game_references(tournament_dir: Path, oppos_path: Path) -> tuple[GameRe
     errors += found
     oppo_index, found = build_oppo_index(oppos)
     errors += found
-    used_ids, found = read_match_ids(tournament_dir / "games.csv")
+    games, found = read_games(tournament_dir / "games.csv")
     errors += found
+    used_ids = {game["match_id"] for game in games if game["match_id"]}
     return GameReferences(decks, deck_index, oppo_index, used_ids), errors
 
 

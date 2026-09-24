@@ -8,6 +8,7 @@ Ajouter un module = une fonction run_… (arguments nommés comme ses options) +
 """
 
 import argparse
+import re
 import sys
 from datetime import date
 from pathlib import Path
@@ -328,9 +329,42 @@ MODULES = {
 }
 
 
+ARGPARSE_FR = [
+    (r"the following arguments are required: ", "arguments obligatoires manquants : "),
+    (r"unrecognized arguments: ", "arguments inconnus : "),
+    (r"invalid choice: (.*) \(choose from (.*)\)", r"valeur invalide : \1 (possibles : \2)"),
+    (r"expected one argument", "une valeur est attendue"),
+    (r"^argument ([^:]+): ", r"argument \1 : "),
+]
+
+
+class FrenchHelpFormatter(argparse.HelpFormatter):
+    """Aide en français : « utilisation : » au lieu de « usage: »."""
+
+    def add_usage(self, usage, actions, groups, prefix=None):
+        super().add_usage(usage, actions, groups, "utilisation : " if prefix is None else prefix)
+
+
+class FrenchParser(argparse.ArgumentParser):
+    """ArgumentParser dont l'aide et les erreurs d'arguments s'affichent en français (code de sortie 2, comme argparse)."""
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("formatter_class", FrenchHelpFormatter)
+        super().__init__(*args, add_help=False, **{k: v for k, v in kwargs.items() if k != "add_help"})
+        self._positionals.title = "arguments"
+        self._optionals.title = "options"
+        self.add_argument("-h", "--help", action="help", help="affiche cette aide")
+
+    def error(self, message: str):
+        for pattern, replacement in ARGPARSE_FR:
+            message = re.sub(pattern, replacement, message)
+        self.print_usage(sys.stderr)
+        self.exit(2, f"{self.prog} : erreur : {message}\n")
+
+
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="python -m dcprepa", description="DCPrepa : préparation d'un tournoi de Duel Commander.")
-    modules = parser.add_subparsers(dest="module", required=True, metavar="module")
+    parser = FrenchParser(prog="python -m dcprepa", description="DCPrepa : préparation d'un tournoi de Duel Commander.")
+    modules = parser.add_subparsers(dest="module", required=True, metavar="module", title="modules")
     for name, (_, description, configure) in MODULES.items():
         configure(modules.add_parser(name, help=description, description=description))
     return parser

@@ -50,14 +50,15 @@ def append_list_item(text: str, key: str, item: str) -> str | None:
     """Ajoute « - item » à la liste d'une clé non indentée « key: » d'un texte YAML, sans toucher au reste.
 
     La ligne (indentée de 4 espaces) est placée après les éléments existants de la clé ; clé absente : « key: » et l'élément
-    sont ajoutés à la fin. Le texte obtenu est relu : None si l'élément n'y est pas rattaché à la clé (fichier inattendu).
+    sont ajoutés à la fin, précédés d'une ligne vide. Le texte obtenu est relu : None si l'élément n'y est pas rattaché à la clé (fichier inattendu).
     """
     lines = text.split("\n")
     start = next((index for index, line in enumerate(lines) if top_level_key(line) == key), None)
     entry = f"    - {yaml_scalar(item)}"
     if start is None:
         position = len(lines) - 1 if lines and lines[-1] == "" else len(lines)
-        lines[position:position] = [f"{yaml_scalar(key)}:", entry]
+        spacer = [""] if position and lines[position - 1].strip() else []
+        lines[position:position] = [*spacer, f"{yaml_scalar(key)}:", entry]
     else:
         end = start + 1
         while end < len(lines) and lines[end][:1] in (" ", "\t"):

@@ -182,3 +182,29 @@ def test_erreurs_et_avertissements(data, capsys):
         f"❌ Tournoi non créé. Erreurs à corriger :\n  - dossier déjà existant : {data / 'tournaments' / 'test'}\n"
     )
     assert run(capsys, "deck-create", "test", "Kinnan", "--liste", "/absent.txt")[0] == 1
+
+
+@pytest.mark.parametrize(
+    "argv, message",
+    [
+        (["deck-status", "t", "d", "écarté"], "python -m dcprepa deck-status : erreur : argument statut : valeur invalide : 'écarté' (possibles : 'retenu', 'envisage', 'ecarte')"),
+        (["game-add", "t", "--source", "paper"], "python -m dcprepa game-add : erreur : arguments obligatoires manquants : --deck, --version, --oppo, --games"),
+        (["stats", "t", "--slug", "x"], "python -m dcprepa : erreur : arguments inconnus : --slug x"),
+        (["game-add", "t", "--deck"], "python -m dcprepa game-add : erreur : argument --deck : une valeur est attendue"),
+    ],
+)
+def test_erreurs_d_arguments_en_francais(capsys, argv, message):
+    with pytest.raises(SystemExit) as exit_info:
+        main_module.main(argv)
+    assert exit_info.value.code == 2
+    err = capsys.readouterr().err
+    assert err.startswith("utilisation : python -m dcprepa")
+    assert err.rstrip().endswith(message)
+
+
+def test_aide_en_francais(capsys):
+    with pytest.raises(SystemExit):
+        main_module.main(["bo-delete", "--help"])
+    out = capsys.readouterr().out
+    assert out.startswith("utilisation : python -m dcprepa bo-delete [-h] tournoi match_id\n")
+    assert "\narguments:\n" in out and "\noptions:\n" in out and "affiche cette aide" in out
