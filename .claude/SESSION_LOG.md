@@ -7,7 +7,7 @@
 ## 🔜 Prochaines étapes
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist).
 - Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- `feat/import-meta` : relire l'étape 4, puis étape 5 du plan (`docs/.claude_plan_import_meta.md`) : écrire le méta (`storage/meta.py::write_meta`).
+- `feat/import-meta` : relire l'étape 5, puis étape 5b du plan (`docs/.claude_plan_import_meta.md`) : adapter les stats (dossier daté, Poids papier + général, tri papier).
 - Import de l'inbox utilisable (`python -m dcprepa import relicfest-2026`) : premier vrai import à faire.
 - Ensuite : import méta MTGTop8 (`feat/import-meta`), puis `synthese.md` (`feat/stats-synthese`) ; plus tard vraie CLI, GUI.
 
@@ -49,6 +49,8 @@
   les oppos du top absents (nom court avant la virgule + nom complet en variante, sinon nom complet).
 - Code : `domain/meta.py` (`META_TOP`, coupe dans `build_meta`, `propose_oppos`) ; `storage/oppos.py::append_oppos` (ajout en fin de fichier, commentaire daté, guillemets si besoin, `.tmp`).
 - Tests : 12 + 5 ; suite : 441 OK. Essai sur une copie de `oppos.yaml` avec les vraies pages : 20 oppos ajoutés, relus sans erreur, plus aucun inconnu ; top 20 ≈ 63 % du méta.
+- Étape 4 commitée (`7a69b49`). Étape 5 codée : `storage/meta.py::write_meta` (dossier daté, `.tmp`, poids sans zéro inutile) et `read_meta` extrait de `load_latest_meta` (réutilisé en 5b).
+- 10 tests (aller-retour, format du poids, remplacement du jour, autres dates intactes) ; suite : 451 OK.
 
 ### 2026-09-24 — Stats d'un deck : brique winrate (étape 3)
 - Étape 2 validée par l'utilisateur.
