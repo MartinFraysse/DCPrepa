@@ -5,7 +5,7 @@
 > Entrées les plus récentes en haut, une idée par puce.
 
 ## 🔜 Prochaines étapes
-- `feat/stats-synthese` : relire et commiter l'étape 2 (`domain/synthese.py`), puis étape 3 (matchups non testés).
+- `feat/stats-synthese` : relire et commiter l'étape 3 (matchups non testés), puis étape 4 (section Général du rapport de deck).
 - Premier vrai import de l'inbox (`python -m dcprepa import relicfest-2026`).
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist) ; remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
 - Après `feat/stats-synthese` : vraie CLI, puis GUI.
@@ -27,6 +27,8 @@
 - Étape 2 codée : `src/dcprepa/domain/synthese.py` (`ExpectedWinrate`, `expected_winrate`) + 10 tests (`src/tests/domain/test_synthese.py`) ; suite : 482 OK.
 - `.venv/` absent de la racine : tests lancés dans un venv du scratchpad.
 - Feuille de route : `feat/stats-synthese` 🔄.
+- Étape 2 commitée et poussée par l'utilisateur (`e691515`).
+- Étape 3 codée : `untested_matchups` + `UntestedMatchup` dans `domain/synthese.py`, 11 tests ; suite : 493 OK ; statut vide ou mal écrit → deck ignoré, avec un avertissement dans le bilan de `stats` (décision utilisateur, étape 6).
 - Décisions utilisateur : winrate attendu calculé avec le méta papier ET général, par game ET par BO3, sur les seuls oppos joués du top 20 (poids ramenés à 100 %) ;
   matchups non testés : top 10 papier, decks `envisage` / `retenu`, seuils 10 BO3 / 30 games.
 - Plan créé à partir du modèle : `docs/.claude_plan_stats_synthese.md` (7 étapes ; pas de nouvelle commande, `stats` écrit aussi `synthese.md`).

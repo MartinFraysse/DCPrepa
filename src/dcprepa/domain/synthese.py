@@ -6,6 +6,10 @@ from dcprepa.domain.winrate import NO_DATA, WARNING, format_percent
 METAS = ("paper", "general")
 BASES = ("games", "bo3")
 MIN_COVERAGE = 30
+ACTIVE_STATUSES = ("retenu", "envisage")
+UNTESTED_TOP = 10
+MIN_TESTED_BO3 = 10
+MIN_TESTED_GAMES = 30
 
 
 @dataclass(frozen=True)
@@ -51,3 +55,39 @@ def expected_winrate(matchups: list[MatchupStats], meta: str, base: str) -> Expe
         coverage += weight
         weighted += weight * rate
     return ExpectedWinrate(weighted / coverage if coverage else None, coverage)
+
+
+@dataclass(frozen=True)
+class UntestedMatchup:
+    """Un oppo du top 10 papier pas encore assez testé par un deck ; rank : son rang dans le méta papier (1 = le plus joué)."""
+
+    deck: str
+    oppo: str
+    rank: int
+    weight: float
+    bo3: int
+    games: int
+
+
+def untested_matchups(
+    decks: dict[str, tuple[str, list[MatchupStats]]], paper: dict[str, float], top: int = UNTESTED_TOP
+) -> list[UntestedMatchup]:
+    """Les matchups à tester avant le tournoi : pour chaque deck retenu ou envisagé, les oppos du top 10 papier pas assez joués.
+
+    decks : {deck: (statut, matchups)}, les autres statuts (ecarte, vide…) sont ignorés ;
+    paper : poids du méta papier par oppo (load_latest_meta), top 10 par poids décroissant puis par nom.
+    Testé = au moins 10 BO3 OU au moins 30 games contre l'oppo ; un oppo jamais joué est non testé (0 / 0).
+    Tri : decks dans l'ordre reçu, puis par rang.
+    """
+    ranking = sorted(paper.items(), key=lambda item: (-item[1], item[0].lower()))[:top]
+    untested = []
+    for deck, (status, matchups) in decks.items():
+        if status not in ACTIVE_STATUSES:
+            continue
+        records = {matchup.oppo: matchup.record for matchup in matchups}
+        for rank, (oppo, weight) in enumerate(ranking, start=1):
+            record = records.get(oppo)
+            bo3, games = (record.bo3.total, record.games.total) if record else (0, 0)
+            if bo3 < MIN_TESTED_BO3 and games < MIN_TESTED_GAMES:
+                untested.append(UntestedMatchup(deck, oppo, rank, weight, bo3, games))
+    return untested

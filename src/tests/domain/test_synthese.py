@@ -1,7 +1,7 @@
 import pytest
 
 from dcprepa.domain.stats import MatchupStats, Record
-from dcprepa.domain.synthese import ExpectedWinrate, expected_winrate
+from dcprepa.domain.synthese import ExpectedWinrate, UntestedMatchup, expected_winrate, untested_matchups
 from dcprepa.domain.winrate import Winrate
 
 
@@ -77,3 +77,57 @@ def test_avertissement_sous_30_pourcent(paper, text):
 def test_meta_ou_base_inconnu(meta, base):
     with pytest.raises(ValueError):
         expected_winrate([], meta, base)
+
+
+def paper_meta(count=12):
+    """Méta papier de test : Oppo1 (poids 30) … Oppo12 (poids 8), rang = numéro."""
+    return {f"Oppo{number}": 32 - 2 * number for number in range(1, count + 1)}
+
+
+def oppos_of(untested, deck="cloud"):
+    return [row.oppo for row in untested if row.deck == deck]
+
+
+def test_non_testes_deck_sans_game_top_10_seulement():
+    untested = untested_matchups({"cloud": ("retenu", [])}, paper_meta())
+    assert oppos_of(untested) == [f"Oppo{number}" for number in range(1, 11)]
+    assert untested[0] == UntestedMatchup("cloud", "Oppo1", 1, 30, 0, 0)
+
+
+@pytest.mark.parametrize(
+    "games, bo3, tested",
+    [
+        ((0, 29), (0, 9), False),
+        ((0, 30), (0, 9), True),
+        ((0, 29), (0, 10), True),
+        ((0, 40), (0, 12), True),
+    ],
+)
+def test_seuils_exacts(games, bo3, tested):
+    matchups = [matchup("Oppo1", games, bo3, paper=30)]
+    untested = untested_matchups({"cloud": ("envisage", matchups)}, paper_meta())
+    assert ("Oppo1" not in oppos_of(untested)) is tested
+
+
+def test_compteurs_du_matchup_partiellement_joue():
+    matchups = [matchup("Oppo3", (10, 17), (3, 6), paper=26)]
+    untested = untested_matchups({"cloud": ("retenu", matchups)}, paper_meta())
+    assert UntestedMatchup("cloud", "Oppo3", 3, 26, 6, 17) in untested
+
+
+@pytest.mark.parametrize("status", ["ecarte", "", "Retenu"])
+def test_deck_ni_retenu_ni_envisage_ignore(status):
+    assert untested_matchups({"cloud": (status, [])}, paper_meta()) == []
+
+
+def test_ordre_decks_puis_rang_et_egalite_par_nom():
+    paper = {"b": 10, "A": 10, "c": 20}
+    untested = untested_matchups({"terra": ("envisage", []), "cloud": ("retenu", [])}, paper)
+    assert [(row.deck, row.oppo, row.rank) for row in untested] == [
+        ("terra", "c", 1), ("terra", "A", 2), ("terra", "b", 3),
+        ("cloud", "c", 1), ("cloud", "A", 2), ("cloud", "b", 3),
+    ]
+
+
+def test_sans_meta_papier():
+    assert untested_matchups({"cloud": ("retenu", [])}, {}) == []
