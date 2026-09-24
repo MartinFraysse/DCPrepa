@@ -27,7 +27,7 @@ data/
     │   │   ├── tymna-thrasios.yaml
     │   │   └── _alias.yaml           appellations acceptées des decks
     │   ├── inbox.yaml                saisies à importer                 📥
-    │   ├── games.csv                 parties jouées, 1 ligne par game   📊
+    │   ├── games.csv                 games jouées, 1 ligne par game   📊
     │   ├── meta/                     instantanés du méta (MTGTop8)
     │   │   └── 2027-01-15.csv
     │   └── stats/                    rapports générés                   📈
@@ -45,7 +45,7 @@ Chaque donnée est rangée au niveau où elle a du sens :
 |---|---|---|
 | decks adverses et leurs appellations (`oppos.yaml`) | **commun** | Ragavan reste Ragavan d'un tournoi à l'autre : on ne ressaisit pas les noms |
 | mes decks et leurs versions (`decks/`) | par tournoi | les decks envisagés changent selon le tournoi et la banlist |
-| parties jouées (`games.csv`) | par tournoi | on prépare un tournoi précis ; les stats restent séparées |
+| games jouées (`games.csv`) | par tournoi | on prépare un tournoi précis ; les stats restent séparées |
 | méta (`meta/`) | par tournoi | le méta change d'un tournoi à l'autre (date, région, banlist) |
 | rapports (`stats/`) | par tournoi | ils décrivent la préparation d'un tournoi |
 
@@ -161,12 +161,12 @@ C'est le nom de référence qui est écrit dans `games.csv`, pour qu'un même de
 Les sessions saisies loin de l'ordinateur, un bloc par session, en attente d'import.
 Son fonctionnement complet est décrit dans la page [Import de l'inbox](import-inbox.md).
 
-### `games.csv` : les parties jouées
+### `games.csv` : les games jouées
 
 Une ligne par **game** ; toutes les games d'un même BO partagent un `match_id`.
 
 ```
-date,match_id,partie,source,deck,version,oppo,position,resultat,note/ressenti
+date,match_id,game,source,deck,version,oppo,position,resultat,note/ressenti
 15/01/2027,15/01/2027-01,1,paper,terra-5c,v2,Ragavan,OTP,W,Matchup jouable
 15/01/2027,15/01/2027-01,2,paper,terra-5c,v2,Ragavan,OTD,W,Matchup jouable
 15/01/2027,15/01/2027-02,1,mtgo,terra-5c,v2,Tymna/Thrasios,OTD,L,
@@ -176,7 +176,7 @@ date,match_id,partie,source,deck,version,oppo,position,resultat,note/ressenti
 |---|---|
 | `date` | jour de la session, JJ/MM/AAAA |
 | `match_id` | identifiant du BO : `JJ/MM/AAAA-NN`, numéroté dans l'ordre de saisie |
-| `partie` | numéro de la game dans le BO (1, 2, 3) |
+| `game` | numéro de la game dans le BO (1, 2, 3) |
 | `source` | `paper`, `mtgo` ou `cockatrice` |
 | `deck`, `version` | mon deck (nom de sa fiche) et la version jouée |
 | `oppo` | nom de référence du deck adverse, ou `deck@version` en self-play |
@@ -241,7 +241,7 @@ Les données passent par deux étapes : on range d'abord ce qui est saisi, puis 
 **Étape 1 : ranger les données** (commande `import`)
 
 ```
- inbox.yaml          ──import──>   games.csv     les parties saisies
+ inbox.yaml          ──import──>   games.csv     les games saisies
  MTGTop8 (site web)  ──import──>   meta/*.csv    le méta du moment
 ```
 

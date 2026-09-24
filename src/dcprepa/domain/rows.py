@@ -46,5 +46,5 @@ def build_rows(block: dict, bos: list[list[list[str]]], oppo: str, used_ids: set
         match_id = next_match_id(common["date"], used_ids)
         used_ids.add(match_id)
         for number, (position, result) in enumerate(games, start=1):
-            rows.append({**common, "match_id": match_id, "partie": str(number), "position": position, "resultat": result})
+            rows.append({**common, "match_id": match_id, "game": str(number), "position": position, "resultat": result})
     return rows

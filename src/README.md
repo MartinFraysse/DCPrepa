@@ -1,6 +1,6 @@
 # src
 
-Logiciel DCPrepa : importe les parties saisies dans l'inbox vers `games.csv` et génère les rapports de stats d'un tournoi (CLI d'abord, interface graphique plus tard).
+Logiciel DCPrepa : importe les games saisies dans l'inbox vers `games.csv` et génère les rapports de stats d'un tournoi (CLI d'abord, interface graphique plus tard).
 
 ## Stack
 
@@ -33,6 +33,7 @@ python -m venv .venv
 pip install -r src/requirements-dev.txt   # dépendances d'exécution + pytest
 # lancer un module sur un tournoi (depuis src/) ; sans argument : liste des modules
 python -m dcprepa import relicfest-2026
+python -m dcprepa stats relicfest-2026    # écrit stats/<deck>.md pour chaque fiche deck
 # tester (depuis src/)
 python -m pytest
 # linter / formater
@@ -49,7 +50,7 @@ python -m pytest
   la future GUI appellera directement les services.
 - Découpage en couches : `interfaces` → `services` → `domain` et `storage`. Une couche n'importe que celles du dessous.
 - `domain/` et `services/` ne font jamais de `print`, `input` ni `sys.exit` : ils renvoient des données ou lèvent une erreur avec un message clair.
-- Code en anglais : noms de fichiers, modules, fonctions, variables, constantes. Les clés des fichiers de `data/` (`parties`, `resultat`…) restent telles quelles ; les messages affichés à l'utilisateur sont en français.
+- Code en anglais : noms de fichiers, modules, fonctions, variables, constantes. Les clés des fichiers de `data/` (`games`, `resultat`…) restent telles quelles ; les messages affichés à l'utilisateur sont en français.
 - Chaque dossier de code contient un `__init__.py` (vide) pour être importable.
 - Un dossier n'est créé qu'avec son premier fichier ; les tests reproduisent l'arborescence de `dcprepa/`.
 

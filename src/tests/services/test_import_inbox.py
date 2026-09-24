@@ -16,7 +16,7 @@ BLOCK_1 = (
     "deck: terra-midrange\n"
     "version: v1\n"
     "oppo: raga\n"
-    "parties: OTP W, OTD W / OTD L\n"
+    "games: OTP W, OTD W / OTD L\n"
     "note/ressenti: Matchup jouable\n"
 )
 BLOCK_2 = (
@@ -25,7 +25,7 @@ BLOCK_2 = (
     "deck: terra-midrange\n"
     "version: v2\n"
     "oppo: Atraxa\n"
-    "parties: OTD L, OTP W, OTD W\n"
+    "games: OTD L, OTP W, OTD W\n"
 )
 EXPECTED_ROWS = (
     "02/10/2026,02/10/2026-01,1,paper,terra-midrange,v1,Ragavan,OTP,W,Matchup jouable\n"
@@ -103,7 +103,7 @@ def test_toutes_les_erreurs_de_tous_les_blocs(setup):
     report = import_inbox(tournament, oppos)
     assert report.errors == [
         "bloc 1 : source inconnue (paper, mtgo ou cockatrice) : arena",
-        "bloc 2 : parties : BO 1 : game 3 : en trop, BO déjà terminé (2-0)",
+        "bloc 2 : games : BO 1 : game 3 : en trop, BO déjà terminé (2-0)",
     ]
     assert snapshot(tournament) == before
 

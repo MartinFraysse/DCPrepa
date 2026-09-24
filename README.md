@@ -14,21 +14,24 @@ Suivie de préparation de gros tournois DC, entrainement analyse méta winrate e
 │   ├── oppos.yaml         # noms de référence des decks adverses et leurs variantes (communs à tous les tournois)
 │   ├── templates/
 │   │   └── tournament/    # modèle de dossier de tournoi, à copier sous tournaments/<slug>/ (voir son README)
-│   └── tournaments/       # un dossier par tournoi préparé (decks, parties, méta, rapports)
-│       ├── test_tournoi/        # tournoi fictif pour tester l'import (mêmes fichiers que ci-dessous)
+│   └── tournaments/       # un dossier par tournoi préparé (decks, games, méta, rapports)
+│       ├── test_tournoi/        # tournoi fictif pour tester l'import et les stats (mêmes fichiers que ci-dessous)
 │       └── relicfest-2026/
 │           ├── decks/           # un fichier YAML par deck (liste, versions) + _alias.yaml (appellations acceptées)
 │           ├── meta/            # instantanés du méta importés de MTGTop8 (un CSV par import)
 │           ├── stats/           # rapports de stats générés (Markdown, ne pas modifier à la main)
-│           ├── games.csv        # parties de préparation, une ligne par partie
+│           ├── games.csv        # games de préparation, une ligne par game
 │           ├── inbox.yaml       # saisie rapide depuis le téléphone, à importer dans games.csv
 │           └── tournament.yaml  # fiche du tournoi (date, lieu, banlist)
 ├── docs/
 │   ├── 03-architecture/   # comprendre comment le projet est construit
 │   │   ├── index.md       # présentation du chapitre et liste des pages
 │   │   ├── donnees.md     # organisation de data/ : fichiers, formats, conventions
-│   │   └── import-inbox.md  # import de l'inbox : étapes, contrôles, code
-│   ├── .claude_avancement_import_inbox.md  # schémas de l'avancement de l'import de l'inbox (codé / à faire), privé
+│   │   ├── import-inbox.md  # import de l'inbox : étapes, contrôles, code
+│   │   └── stats.md       # rapports de stats : règles de calcul, sections du rapport, méta, code
+│   ├── .claude_feuille_de_route.md  # branches faites et à faire pour finaliser le projet, privé
+│   ├── .claude_plan_modele.md      # modèle de plan d'action d'une branche, privé
+│   ├── .claude_plan_stats_deck.md  # plan d'action de la branche feat/stats-deck (étapes, fait / à faire), privé
 │   ├── .claude_doc.md     # notes de Claude, tenues en temps réel (hors PDF et hors ~/work)
 │   └── README.md          # règles de la documentation
 ├── src/

@@ -1,0 +1,16 @@
+# Deck fictif pour tester les stats (games générées).
+
+name: Sythis Enchantress
+commandant: Sythis, Harvest's Hand
+statut: envisage
+versions:
+    -   version: v1
+        liste: |
+                1 Sythis, Harvest's Hand
+                99 Forest
+    -   version: v2
+        in:
+            - Swords to Plowshares
+        out:
+            - Forest
+        notes: Plus d'interaction.

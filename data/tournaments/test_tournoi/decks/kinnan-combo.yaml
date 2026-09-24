@@ -1,0 +1,10 @@
+# Deck fictif pour tester les stats (games générées) : peu de games, beaucoup de ⚠️.
+
+name: Kinnan Combo
+commandant: Kinnan, Bonder Prodigy
+statut: ecarte
+versions:
+    -   version: v1
+        liste: |
+                1 Kinnan, Bonder Prodigy
+                99 Island

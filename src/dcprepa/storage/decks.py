@@ -29,6 +29,32 @@ def load_decks(tournament_dir: Path) -> tuple[dict[str, list[str]], list[str]]:
     return decks, errors
 
 
+SHEET_FIELDS = ("name", "commandant", "statut")
+
+
+def load_deck_sheets(tournament_dir: Path) -> tuple[dict[str, dict], list[str]]:
+    """Lit les fiches deck complètes d'un tournoi, pour les rapports de stats.
+
+    Versions et erreurs viennent de load_decks (mêmes règles que l'import) ; s'y ajoutent
+    les champs name, commandant et statut, en texte ("" si absent ou vide).
+
+    Renvoie (sheets, errors), ex. ({"terra-midrange": {"name": "Terra Midrange", "commandant": "Terra, Magical Adept",
+    "statut": "envisage", "versions": ["v1", "v2"]}}, []). Versions de la plus ancienne à la plus récente.
+    """
+    decks, errors = load_decks(tournament_dir)
+
+    sheets = {}
+    for deck, versions in decks.items():
+        content = yaml.safe_load((tournament_dir / "decks" / f"{deck}.yaml").read_text(encoding="utf-8"))
+        sheet = {}
+        for field in SHEET_FIELDS:
+            value = content.get(field)
+            sheet[field] = str(value).strip() if value is not None else ""
+        sheet["versions"] = versions
+        sheets[deck] = sheet
+    return sheets, errors
+
+
 ALIAS_FILE = "_alias.yaml"
 
 
