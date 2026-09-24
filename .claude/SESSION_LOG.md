@@ -5,7 +5,7 @@
 > Entrées les plus récentes en haut, une idée par puce.
 
 ## 🔜 Prochaines étapes
-- `feat/stats-synthese` : premier essai de `stats` par l'utilisateur, commit de l'étape 6, puis étape 7 (essai RelicFest, README des stats, doc `stats.md`, PR).
+- `feat/stats-synthese` : relancer `stats` sur RelicFest, commiter (nom réservé, README des stats, doc), puis PR vers `main`.
 - Premier vrai import de l'inbox (`python -m dcprepa import relicfest-2026`).
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist) ; remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
 - Après `feat/stats-synthese` : vraie CLI, puis GUI.
@@ -36,7 +36,13 @@
 - Étape 5 codée : `src/dcprepa/domain/synthese_report.py` (`render_synthese`), modèle `synthese.md`, 5 tests ; suite : 498 OK ; rendu sur `test_tournoi` vérifié.
 - Étape 5 commitée et poussée par l'utilisateur (`9622878`).
 - Étape 6 codée : `services/stats.py` écrit `synthese.md` ; `storage/tournament.py` (nom du tournoi) ; avertissement statut vide / inconnu ; bilan `__main__.py` ; suite : 508 OK.
-- Point ouvert : une fiche `decks/synthese.yaml` écraserait `synthese.md`.
+- Étape 6 essayée par l'utilisateur et commitée (`304017f`).
+- Étape 7 : conventions ajoutées aux `stats/README.md` (modèle, test_tournoi, relicfest-2026) ; restent : `stats` sur RelicFest, doc `stats.md` (sur demande), PR.
+- Fiches au nom réservé (`synthese`, `README`, sans tenir compte des majuscules) : erreur bloquante dans `services/stats.py`, 3 tests ; suite : 511 OK.
+- Doc : Claude avait modifié `docs/03-architecture/stats.md` et `index.md` directement ; l'utilisateur a refusé → restaurés (`git restore`).
+- Décision utilisateur : un brouillon de page va dans un fichier privé `docs/.claude_brouillon_<page>.md`, nouveautés repérées ; la doc officielle ne change qu'après validation.
+- Brouillon créé : `docs/.claude_brouillon_stats.md` (🟩 nouveau, 🟨 modifié avec ancienne version repliée) ; README : organisation de `docs/` mise à jour.
+- Brouillon validé → publié dans `docs/03-architecture/stats.md` et `index.md` (texte identique, repères retirés) ; brouillon supprimé ; README à jour.
 - Décisions utilisateur : winrate attendu calculé avec le méta papier ET général, par game ET par BO3, sur les seuls oppos joués du top 20 (poids ramenés à 100 %) ;
   matchups non testés : top 10 papier, decks `envisage` / `retenu`, seuils 10 BO3 / 30 games.
 - Plan créé à partir du modèle : `docs/.claude_plan_stats_synthese.md` (7 étapes ; pas de nouvelle commande, `stats` écrit aussi `synthese.md`).
