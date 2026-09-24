@@ -18,12 +18,12 @@ src/
 │   ├── domain/      # règles métier pures : aucun fichier lu, rien d'affiché
 │   ├── storage/     # seul endroit qui lit / écrit dans data/ (YAML, CSV)
 │   ├── services/    # cas d'usage : enchaîne domain + storage, renvoie un rapport
-│   └── interfaces/  # CLI (puis GUI) : seule couche qui affiche
+│   └── interfaces/  # GUI (à venir) : seule couche qui affiche
 └── tests/           # même arborescence que dcprepa/
     └── fixtures/    # pages web enregistrées (MTGTop8) : tests sans réseau
 ```
 
-Point d'entrée : `dcprepa/__main__.py` (lancement minimal, en attendant la vraie CLI dans `interfaces/cli/`).
+Point d'entrée : `dcprepa/__main__.py` (lancement minimal, gardé pour dépanner ; pas de CLI complète prévue, la GUI sera la seule interface).
 
 ## Commandes
 
