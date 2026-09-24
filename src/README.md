@@ -32,10 +32,16 @@ Point d'entrée : `dcprepa/__main__.py` (lancement minimal, gardé pour dépanne
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 pip install -r src/requirements-dev.txt   # dépendances d'exécution + pytest
-# lancer un module sur un tournoi (depuis src/) ; sans argument : liste des modules
+# lancer un module (depuis src/) ; liste des modules : python -m dcprepa --help ; options : python -m dcprepa <module> --help
 python -m dcprepa import relicfest-2026
 python -m dcprepa meta relicfest-2026     # méta MTGTop8 (général + papier) → meta/AAAA-MM-JJ/, complète data/oppos.yaml
-python -m dcprepa stats relicfest-2026    # écrit stats/<deck>.md pour chaque fiche deck
+python -m dcprepa stats relicfest-2026    # écrit stats/<deck>.md pour chaque fiche deck + stats/synthese.md
+# saisie sans ouvrir de fichier (tout ou rien, mêmes contrôles que l'import)
+python -m dcprepa tournament-create "RelicFest 2026" --date 31/10/2026      # aussi : tournament-edit
+python -m dcprepa deck-create relicfest-2026 "Kinnan Combo" --liste kinnan.txt  # aussi : deck-version, deck-status, deck-edit, deck-alias
+python -m dcprepa game-add relicfest-2026 --source paper --deck Terra --version v1 --oppo Ragavan --games "OTP W, OTD L, OTP W"
+python -m dcprepa game-edit relicfest-2026 02/10/2026-01 2 --resultat W   # aussi : bo-edit, game-delete, bo-delete
+python -m dcprepa oppo-add Ragavn --variant-of Ragavan
 # tester (depuis src/)
 python -m pytest
 # linter / formater

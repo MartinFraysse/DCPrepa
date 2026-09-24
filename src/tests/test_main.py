@@ -1,3 +1,4 @@
+import shutil
 from pathlib import Path
 
 import pytest
@@ -96,3 +97,88 @@ def test_meta_bilan(monkeypatch, tmp_path, capsys, report, output, code):
     monkeypatch.setattr(main_module, "import_meta", lambda tournament_dir, oppos_path: report)
     assert run_meta(tmp_path) == code
     assert capsys.readouterr().out == output
+
+
+@pytest.fixture
+def data(tmp_path, monkeypatch):
+    """Un faux data/ (modèle de tournoi réel + oppos.yaml minimal) : les modules de saisie n'écrivent que là."""
+    data_dir = tmp_path / "data"
+    shutil.copytree(Path(__file__).resolve().parents[2] / "data" / "templates", data_dir / "templates")
+    write(data_dir / "oppos.yaml", "Ragavan:\n    - raga\n")
+    monkeypatch.setattr(main_module, "DATA_DIR", data_dir)
+    monkeypatch.setattr(main_module, "OPPOS_PATH", data_dir / "oppos.yaml")
+    return data_dir
+
+
+def run(capsys, *argv):
+    code = main_module.main(list(argv))
+    return code, capsys.readouterr().out
+
+
+def test_aide_liste_tous_les_modules(capsys):
+    with pytest.raises(SystemExit) as exit_info:
+        main_module.main(["--help"])
+    assert exit_info.value.code == 0
+    out = capsys.readouterr().out
+    assert all(name in out for name in MODULES)
+
+
+def test_module_inconnu_ou_argument_manquant(capsys):
+    for argv in (["inconnu"], ["game-add", "x"], []):
+        with pytest.raises(SystemExit) as exit_info:
+            main_module.main(argv)
+        assert exit_info.value.code == 2
+
+
+def test_tournoi_introuvable(data, capsys):
+    assert run(capsys, "stats", "absent") == (2, f"Tournoi introuvable : {data / 'tournaments' / 'absent'}\n")
+
+
+def test_parcours_complet(data, capsys, tmp_path):
+    """Créer un tournoi et un deck, saisir, corriger, supprimer : chaque module affiche son bilan."""
+    assert run(capsys, "tournament-create", "Été Duel #3", "--date", "1/9/2026") == (
+        0, "✅ Tournoi créé : data/tournaments/ete-duel-3/ (slug déduit du nom).\n"
+    )
+    assert run(capsys, "tournament-edit", "ete-duel-3", "--banlist", "01/09/2026")[1] == "✅ tournament.yaml modifié : banlist.\n"
+
+    liste = tmp_path / "kinnan.txt"
+    liste.write_text("1 Kinnan, Bonder Prodigy\n99 Island\n", encoding="utf-8")
+    assert run(capsys, "deck-create", "ete-duel-3", "Kinnan Combo", "--liste", str(liste)) == (0, "✅ Deck créé : decks/kinnan-combo.yaml (v1).\n")
+    assert run(capsys, "deck-alias", "ete-duel-3", "kinnan-combo", "Kinnan")[1] == "✅ Appellation ajoutée : Kinnan → kinnan-combo.\n"
+    assert run(capsys, "deck-version", "ete-duel-3", "Kinnan", "--in", "Force of Will", "--in", "Daze", "--out", "Island")[1] == (
+        "✅ Version v2 ajoutée à decks/kinnan-combo.yaml.\n"
+    )
+    assert run(capsys, "deck-status", "ete-duel-3", "kinnan", "retenu")[1] == "✅ decks/kinnan-combo.yaml : statut retenu.\n"
+
+    code, out = run(capsys, "game-add", "ete-duel-3", "--date", "02/10/2026", "--source", "paper", "--deck", "Kinnan",
+                    "--version", "v2", "--oppo", "raga", "--games", "OTP W, OTD L, OTP W / OTD L")
+    assert (code, out) == (0, "✅ 2 BO, 4 game(s) ajoutés : 02/10/2026-01, 02/10/2026-02.\n")
+    assert run(capsys, "game-edit", "ete-duel-3", "02/10/2026-01", "3", "--resultat", "L")[1] == "✅ 02/10/2026-01 game 3 corrigée.\n"
+    assert run(capsys, "bo-edit", "ete-duel-3", "02/10/2026-02", "--date", "03/10/2026")[1] == "✅ BO corrigé : 03/10/2026-01 (1 game(s)).\n"
+    assert run(capsys, "bo-delete", "ete-duel-3", "03/10/2026-01")[1] == "✅ BO 03/10/2026-01 supprimé.\n"
+    assert run(capsys, "game-delete", "ete-duel-3", "02/10/2026-01", "1")[1] == (
+        "✅ 02/10/2026-01 game 1 supprimée (2 game(s) restante(s) dans le BO).\n"
+    )
+    games = (data / "tournaments" / "ete-duel-3" / "games.csv").read_text(encoding="utf-8").splitlines()
+    assert [line.split(",")[1:3] + line.split(",")[7:9] for line in games[1:]] == [
+        ["02/10/2026-01", "1", "OTD", "L"], ["02/10/2026-01", "2", "OTP", "L"],
+    ]
+
+    assert run(capsys, "stats", "ete-duel-3")[0] == 0
+
+
+def test_erreurs_et_avertissements(data, capsys):
+    main_module.main(["tournament-create", "Test"])
+    main_module.main(["deck-create", "test", "Terra"])
+    capsys.readouterr()
+    assert run(capsys, "deck-create", "test", "terra") == (
+        1, "❌ Rien n'a été modifié. Erreurs à corriger :\n  - appellation déjà prise : terra → terra\n"
+    )
+    code, out = run(capsys, "game-add", "test", "--source", "mtgo", "--deck", "terra", "--version", "v1", "--oppo", "Ragavn", "--games", "OTP W")
+    assert code == 0 and out.startswith("✅ 1 BO, 1 game(s) ajoutés")
+    assert "⚠️  Avertissements :\n  - oppo inconnu : Ragavn" in out
+    assert run(capsys, "oppo-add", "Ragavn", "--variant-of", "raga")[1] == "✅ Variante ajoutée : Ragavn → Ragavan.\n"
+    assert run(capsys, "tournament-create", "test")[1] == (
+        f"❌ Tournoi non créé. Erreurs à corriger :\n  - dossier déjà existant : {data / 'tournaments' / 'test'}\n"
+    )
+    assert run(capsys, "deck-create", "test", "Kinnan", "--liste", "/absent.txt")[0] == 1

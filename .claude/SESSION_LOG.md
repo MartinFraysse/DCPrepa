@@ -5,9 +5,8 @@
 > Entrées les plus récentes en haut, une idée par puce.
 
 ## 🔜 Prochaines étapes
-- `feat/saisie` : confirmer les choix des decks et commiter (étape 5), puis étape 6 (exposer les services dans `__main__.py` avec `argparse`).
+- `feat/saisie` : commiter l'étape 6 (modules), puis étape 7 (essai sur copie de RelicFest, README de `data/`, brouillon de doc, PR).
 - `data/tournaments/test_tournoi/decks/_alias.yaml` : bloc `test-deck` à retirer (bloque import et corrections sur test_tournoi), en attente de l'accord de l'utilisateur.
-- Corriger l'en-tête de `__main__.py` (« en attendant la vraie CLI ») au premier commit de code.
 - Régénérer les rapports de RelicFest (`python -m dcprepa stats relicfest-2026`) : `synthese.md` encore à l'ancien modèle.
 - Premier vrai import de l'inbox (`python -m dcprepa import relicfest-2026`) ; `meta` sur RelicFest avant `stats`.
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist) ; remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
@@ -41,7 +40,10 @@
 - Tournoi commité par l'utilisateur (`b663733`).
 - Decks codés : `services/decks.py` (`create_deck`, `add_version`, `set_status`, `edit_deck`, `add_deck_alias`), contrôles dans `domain/saisie.py`,
   écriture dans `storage/decks.py` ; `append_list_item` générique (oppos refactoré dessus) ; suite : 652 OK.
-- Choix de Claude à confirmer : fichier déduit du nom, version suivante automatique, liste de v1 facultative (avertissement si ≠ 100).
+- Choix validés par l'utilisateur : fichier déduit du nom, version suivante automatique, liste de v1 facultative (avertissement si ≠ 100), deck désigné par toute appellation.
+- Decks commités par l'utilisateur (`7007a1f`).
+- Étape 6 : `__main__.py` en `argparse`, modules de saisie en anglais (décision utilisateur ; `bo-edit` / `bo-delete` plutôt que match) ;
+  `src/README.md` (commandes) à jour ; 5 tests ; suite : 657 OK.
 
 ### AAAA-MM-JJ — titre
 - ce qui a été fait
