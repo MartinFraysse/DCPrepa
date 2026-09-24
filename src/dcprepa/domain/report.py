@@ -1,0 +1,123 @@
+from datetime import date
+
+from dcprepa.domain.stats import DeckStats, MatchupStats
+from dcprepa.domain.validation import DATE_FORMAT
+from dcprepa.domain.winrate import NO_DATA, Winrate, format_percent
+
+SOURCE_LABELS = {"paper": "Paper", "cockatrice": "Cockatrice", "mtgo": "MTGO"}
+MATCHUPS_SORT_META = "Triés par poids dans le méta"
+MATCHUPS_SORT_NO_META = "Triés par nombre de parties (pas encore de méta)"
+
+
+def render_deck_report(deck: str, sheet: dict, stats: DeckStats, generated: date, meta_file: str | None = None) -> str:
+    """Texte Markdown de stats/<deck>.md, dans la structure de data/templates/tournament/stats/_modele-deck.md.
+
+    deck : nom du fichier de la fiche ; sheet : fiche de load_deck_sheets (name, commandant, statut, versions) ;
+    meta_file : fichier méta utilisé par compute_deck_stats (ex. « 2026-10-01.csv »), None sans méta.
+    Avec méta : l'en-tête le cite, matchups triés par poids, colonne « Poids méta » remplie.
+    Sans méta : « meta/—.csv », matchups triés par parties. « Winrate attendu au tournoi » reste à « — ».
+    """
+    versions = sheet.get("versions") or []
+    meta_path = f"meta/{meta_file or NO_DATA + '.csv'}"
+    lines = [
+        f"# {sheet.get('name') or deck}",
+        "",
+        f"> Généré le {generated.strftime(DATE_FORMAT)} à partir de `games.csv`, `decks/{deck}.yaml` et `{meta_path}`."
+        " Ne pas modifier à la main.",
+        "> Conventions : voir `README.md`.",
+        "",
+        f"- **Commandant :** {sheet.get('commandant') or NO_DATA}",
+        f"- **Statut :** {sheet.get('statut') or NO_DATA}",
+        f"- **Dernière version :** {versions[-1] if versions else NO_DATA}",
+        "",
+        "## Général",
+        "",
+        *_table(
+            ["", "Winrate"],
+            [
+                ["Par partie", stats.overall.games],
+                ["Par match (BO3)", stats.overall.bo3],
+                ["Winrate attendu au tournoi", NO_DATA],
+            ],
+        ),
+        "",
+        "## Versions",
+        "",
+        "Winrate de chaque version non affiché : seulement son écart aux autres versions.",
+        "",
+        *_table(
+            ["Version", "Parties", "Écart (parties)", "Matchs BO3", "Écart BO3"],
+            [
+                [v.version, _count(v.record.games), _gap(v.gap_games), _count(v.record.bo3), _gap(v.gap_bo3)]
+                for v in stats.versions
+            ],
+        ),
+        "",
+        "## Position",
+        "",
+        "Par partie seulement : la position change d'une game à l'autre dans un BO3.",
+        "",
+        *_table(["OTP", "OTD"], [[stats.positions["OTP"], stats.positions["OTD"]]]),
+        "",
+        "## Source",
+        "",
+        *_table(
+            ["Source", "Winrate (parties)", "Winrate BO3 (matchs)"],
+            [[SOURCE_LABELS.get(source, source), rec.games, rec.bo3] for source, rec in stats.sources.items()],
+        ),
+        "",
+        "## Matchups",
+        "",
+        f"{MATCHUPS_SORT_META if meta_file else MATCHUPS_SORT_NO_META}, self-play exclu. OTP / OTD affichés seulement à partir de 10 parties contre l'oppo.",
+        "",
+        *_table(
+            ["Oppo", "Poids méta", "Winrate (parties)", "Winrate BO3 (matchs)", "OTP", "OTD"],
+            [[m.oppo, _weight(m.weight), *_matchup_cells(m)] for m in stats.matchups],
+        ),
+        "",
+        "## Self-play",
+        "",
+        "Parties contre ses propres decks (oppo = `deck@version`), hors winrate général.",
+        "",
+        *_table(
+            ["Oppo", "Winrate (parties)", "Winrate BO3 (matchs)", "OTP", "OTD"],
+            [[m.oppo, *_matchup_cells(m)] for m in stats.self_play],
+        ),
+    ]
+    return "\n".join(lines) + "\n"
+
+
+def _table(header: list[str], rows: list[list]) -> list[str]:
+    """Tableau Markdown ; sans ligne de données, une ligne de « — »."""
+    rows = rows or [[NO_DATA] * len(header)]
+    return [
+        _row(header),
+        "|" + "---|" * len(header),
+        *(_row(row) for row in rows),
+    ]
+
+
+def _row(cells: list) -> str:
+    """Ligne de tableau ; une cellule vide donne « | | » comme dans le modèle."""
+    return "|" + "".join(f" {cell} |" if str(cell) else " |" for cell in cells)
+
+
+def _matchup_cells(matchup: MatchupStats) -> list:
+    return [matchup.record.games, matchup.record.bo3, matchup.otp or NO_DATA, matchup.otd or NO_DATA]
+
+
+def _count(winrate: Winrate) -> str:
+    return str(winrate.total) if winrate.total else NO_DATA
+
+
+def _weight(weight: float | None) -> str:
+    """Poids dans le méta : « 12.5 % » ; « — » sans méta ou oppo absent du méta."""
+    return NO_DATA if weight is None else f"{format_percent(weight)} %"
+
+
+def _gap(gap: float | None) -> str:
+    """Écart en points : « +3.2 », « -30 », « 0 » ; « — » si incalculable."""
+    if gap is None:
+        return NO_DATA
+    text = format_percent(gap)
+    return f"+{text}" if gap > 0 and text != "0" else text

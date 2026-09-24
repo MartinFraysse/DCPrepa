@@ -143,3 +143,22 @@ def test_matchups_tri_et_otp_otd_des_10_parties():
 def test_egalite_de_parties_triee_par_nom():
     games = match("a", "WW", oppo="kess") + match("b", "WW", oppo="Atraxa")
     assert [m.oppo for m in compute_deck_stats(games, "terra", ["v1"]).matchups] == ["Atraxa", "kess"]
+
+
+def test_matchups_tries_par_poids_du_meta():
+    games = (
+        match("a", "WWW", oppo="Kess") + match("b", "WW", oppo="Ragavan")
+        + match("c", "L", oppo="Atraxa") + match("d", "WLW", oppo="Tymna")
+    )
+    weights = {"Ragavan": 20.0, "Atraxa": 12.5, "Absent": 30.0}
+    matchups = compute_deck_stats(games, "terra", ["v1"], weights).matchups
+    # méta d'abord (poids ↓), puis les oppos hors méta (parties ↓, puis nom)
+    assert [(m.oppo, m.weight) for m in matchups] == [
+        ("Ragavan", 20.0), ("Atraxa", 12.5), ("Kess", None), ("Tymna", None)
+    ]
+
+
+def test_self_play_sans_poids():
+    games = match("a", "WW", oppo="terra@v1")
+    stats = compute_deck_stats(games, "terra", ["v1"], {"terra@v1": 10.0})
+    assert stats.self_play[0].weight is None

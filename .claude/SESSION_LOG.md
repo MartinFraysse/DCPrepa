@@ -7,7 +7,7 @@
 ## 🔜 Prochaines étapes
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist).
 - Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- Stats d'un deck (branche `feat/stats-deck`) : relire l'étape 4 (`domain/stats.py`), puis étape 5 du plan (`docs/.claude_plan_stats_deck.md`) : rapport Markdown (`domain/report.py`).
+- Stats d'un deck (branche `feat/stats-deck`) : relire l'étape 5 (`domain/report.py`), puis étape 6 du plan (`docs/.claude_plan_stats_deck.md`) : service `generate_stats()` + `storage/stats.py`.
 - Import de l'inbox utilisable (`python -m dcprepa import relicfest-2026`) : premier vrai import à faire.
 - Ensuite : import méta MTGTop8 (`feat/import-meta`), puis `synthese.md` (`feat/stats-synthese`) ; plus tard vraie CLI, GUI.
 
@@ -36,6 +36,18 @@
 - Écarts de version parties et BO3 via `version_gaps` (versions sans donnée hors moyenne) ; version jouée absente de la fiche ajoutée à la fin.
 - Matchups triés par parties décroissantes puis nom ; OTP / OTD à `None` sous 10 parties ; self-play : mêmes calculs, à part.
 - 15 tests (`test_stats.py`, dont l'exemple des conventions) ; suite : 325 OK ; essai sur test_tournoi vérifié à la main (10/17 parties, 3/5 BO3, écart v1 +30 / BO3 +66.7).
+- Décision utilisateur : ⚠️ gardés tels quels dans les rapports (convention inchangée).
+- Étapes 3 et 4 commitées et poussées par l'utilisateur.
+- Étape 5 codée : `src/dcprepa/domain/report.py` → `render_deck_report(deck, sheet, stats, generated)` ; structure du modèle, date `JJ/MM/AAAA`, écart `+3.2` / `-30` / `0`, compteur 0 → `—`, tableau vide → ligne de `—`.
+- Sans méta : phrase des matchups « Triés par nombre de parties (pas encore de méta) » au lieu de « Triés par poids dans le méta » (seul écart au modèle) ; « Poids méta » et « Winrate attendu » à `—`.
+- 11 tests (`test_report.py`, dont deck vide = `_modele-deck.md` avec en-tête rempli) ; suite : 336 OK ; rapport de test_tournoi relu.
+- Demande utilisateur : détecter la présence d'un méta pour trier les matchups par poids ; ajouté au plan en étape 5b.
+- Créé `src/dcprepa/storage/meta.py` : `load_latest_meta(tournament_dir)` → (fichier, poids par oppo, erreurs) ; fichier le plus récent d'après le nom `AAAA-MM-JJ.csv`, autres fichiers ignorés ; pas de méta = pas d'erreur.
+- Décision : méta invalide (en-tête, colonnes, oppo vide ou en double, decks non entier, poids non numérique ou négatif) = erreur bloquante, rien ne sera écrit.
+- `compute_deck_stats(..., weights)` : `MatchupStats.weight` ; tri par poids ↓, oppos hors méta à la fin (parties ↓, puis nom) ; self-play sans poids.
+- `render_deck_report(..., meta_file)` : en-tête `meta/<fichier>`, phrase « Triés par poids dans le méta », colonne « Poids méta » (`12.5 %`) ; sans méta, comportement précédent.
+- Correspondance oppo méta ↔ games.csv au nom exact (les deux sont normalisés via `data/oppos.yaml`).
+- 21 tests ajoutés (`test_meta.py` 17, `test_stats.py` 2, `test_report.py` 2) ; suite : 357 OK.
 
 ### 2026-09-23 — Stats d'un deck : plan d'action
 - Branche `feat/stats-deck` créée par l'utilisateur ; périmètre : `stats/<deck>.md` seulement (synthèse et méta reportés à d'autres branches).

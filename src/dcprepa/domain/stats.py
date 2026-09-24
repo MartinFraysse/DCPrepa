@@ -29,12 +29,16 @@ class VersionStats:
 
 @dataclass(frozen=True)
 class MatchupStats:
-    """Un oppo : parties et BO3 ; OTP / OTD seulement à partir de 10 parties contre lui (sinon None)."""
+    """Un oppo : parties et BO3 ; OTP / OTD seulement à partir de 10 parties contre lui (sinon None).
+
+    weight : son poids dans le méta, en % (None sans méta ou si l'oppo n'y figure pas).
+    """
 
     oppo: str
     record: Record
     otp: Winrate | None
     otd: Winrate | None
+    weight: float | None = None
 
 
 @dataclass(frozen=True)
@@ -49,12 +53,15 @@ class DeckStats:
     self_play: list[MatchupStats]
 
 
-def compute_deck_stats(games: list[dict[str, str]], deck: str, versions: list[str]) -> DeckStats:
+def compute_deck_stats(
+    games: list[dict[str, str]], deck: str, versions: list[str], weights: dict[str, float] | None = None
+) -> DeckStats:
     """Calcule les stats d'un deck à partir des lignes de games.csv (read_games).
 
     games : toutes les games du fichier, celles des autres decks sont ignorées ;
     versions : versions de la fiche, de la plus ancienne à la plus récente. Une version jouée
-    mais absente de la fiche est ajoutée à la fin (le service le signale).
+    mais absente de la fiche est ajoutée à la fin (le service le signale) ;
+    weights : poids du méta par oppo (load_latest_meta), None ou vide sans méta.
     """
     own = [game for game in games if game["deck"] == deck]
     self_play = [game for game in own if SELF_PLAY_MARK in game["oppo"]]
@@ -65,8 +72,8 @@ def compute_deck_stats(games: list[dict[str, str]], deck: str, versions: list[st
         versions=_versions(played, versions),
         positions=_positions(played),
         sources=_sources(played),
-        matchups=_matchups(played),
-        self_play=_matchups(self_play),
+        matchups=_matchups(played, weights or {}),
+        self_play=_matchups(self_play, {}),
     )
 
 
@@ -126,8 +133,12 @@ def _sources(games: list[dict[str, str]]) -> dict[str, Record]:
     return {source: record([game for game in games if game["source"] == source]) for source in (*SOURCES, *extra)}
 
 
-def _matchups(games: list[dict[str, str]]) -> list[MatchupStats]:
-    """Un MatchupStats par oppo, triés par nombre de parties (décroissant) puis par nom."""
+def _matchups(games: list[dict[str, str]], weights: dict[str, float]) -> list[MatchupStats]:
+    """Un MatchupStats par oppo.
+
+    Tri : par poids dans le méta (décroissant), les oppos absents du méta à la fin ;
+    à égalité, et toujours sans méta, par nombre de parties (décroissant) puis par nom.
+    """
     by_oppo = {}
     for game in games:
         by_oppo.setdefault(game["oppo"], []).append(game)
@@ -135,5 +146,10 @@ def _matchups(games: list[dict[str, str]]) -> list[MatchupStats]:
     matchups = []
     for oppo, oppo_games in by_oppo.items():
         positions = _positions(oppo_games) if len(oppo_games) >= MIN_RELIABLE else {}
-        matchups.append(MatchupStats(oppo, record(oppo_games), positions.get("OTP"), positions.get("OTD")))
-    return sorted(matchups, key=lambda matchup: (-matchup.record.games.total, matchup.oppo.lower()))
+        matchups.append(
+            MatchupStats(oppo, record(oppo_games), positions.get("OTP"), positions.get("OTD"), weights.get(oppo))
+        )
+    return sorted(
+        matchups,
+        key=lambda m: (m.weight is None, -(m.weight or 0), -m.record.games.total, m.oppo.lower()),
+    )
