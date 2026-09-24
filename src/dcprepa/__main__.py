@@ -1,6 +1,7 @@
 """Lancement minimal en ligne de commande, en attendant la vraie CLI (interfaces/cli/).
 
-Usage, depuis src/ :  python -m dcprepa <module> <tournoi>      ex. python -m dcprepa import relicfest-2026
+Usage, depuis src/ :  python -m dcprepa <module> <tournoi>
+    ex. python -m dcprepa import relicfest-2026   puis   python -m dcprepa stats relicfest-2026
 Chaque module correspond à un service (services/) ; en ajouter un = une entrée de plus dans MODULES.
 """
 
@@ -8,6 +9,7 @@ import sys
 from pathlib import Path
 
 from dcprepa.services.import_inbox import import_inbox
+from dcprepa.services.stats import generate_stats
 
 DATA_DIR = Path(__file__).resolve().parents[2] / "data"
 
@@ -33,8 +35,32 @@ def run_import(tournament_dir: Path) -> int:
     return 0 if report.ok else 1
 
 
+def run_stats(tournament_dir: Path) -> int:
+    """Module « stats » : génère stats/<deck>.md pour chaque fiche deck du tournoi et affiche le bilan."""
+    report = generate_stats(tournament_dir)
+
+    if not report.ok:
+        print("❌ Stats annulées, aucun rapport écrit. Erreurs à corriger :")
+        for message in report.errors:
+            print(f"  - {message}")
+    else:
+        print(f"✅ {len(report.decks)} rapport(s) écrit(s) à partir de {report.games} game(s) : {', '.join(report.decks) or 'aucun deck'}.")
+        if report.meta:
+            print(f"   Méta : meta/{report.meta} (matchups triés par poids).")
+        else:
+            print("   Pas de méta : matchups triés par nombre de parties.")
+
+    if report.warnings:
+        print("⚠️  Avertissements :")
+        for message in report.warnings:
+            print(f"  - {message}")
+
+    return 0 if report.ok else 1
+
+
 MODULES = {
     "import": (run_import, "importe inbox.yaml dans games.csv (tout ou rien)"),
+    "stats": (run_stats, "génère stats/<deck>.md pour chaque fiche deck (tout ou rien)"),
 }
 
 

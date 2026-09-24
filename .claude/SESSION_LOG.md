@@ -7,7 +7,7 @@
 ## 🔜 Prochaines étapes
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist).
 - Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- Stats d'un deck (branche `feat/stats-deck`) : relire l'étape 6 (`services/stats.py`), puis étape 7 du plan (`docs/.claude_plan_stats_deck.md`) : commande `stats` dans `__main__.py`.
+- Stats d'un deck (branche `feat/stats-deck`) : relire l'étape 7, puis étape 8 du plan (`docs/.claude_plan_stats_deck.md`) : premier vrai lancement (test_tournoi, RelicFest), README de `stats/`, PR vers `main`.
 - Import de l'inbox utilisable (`python -m dcprepa import relicfest-2026`) : premier vrai import à faire.
 - Ensuite : import méta MTGTop8 (`feat/import-meta`), puis `synthese.md` (`feat/stats-synthese`) ; plus tard vraie CLI, GUI.
 
@@ -53,6 +53,11 @@
 - `src/dcprepa/services/stats.py::generate_stats(tournament_dir, generated=None)` → `StatsReport(decks, games, meta, errors, warnings)` ; tout ou rien : erreur games.csv / fiche / méta → rien écrit.
 - Avertissements : deck de games.csv sans fiche (pas de rapport), version jouée absente de la fiche (ajoutée au tableau Versions).
 - 12 tests (`tests/storage/test_stats.py` 4, `tests/services/test_stats.py` 8, dont test_tournoi copié) ; suite : 369 OK.
+- Étape 6 commitée et poussée par l'utilisateur.
+- Étape 7 codée : `run_stats` + `MODULES["stats"]` dans `src/dcprepa/__main__.py` ; bilan ✅ (rapports, games, méta ou non), ❌ erreurs, ⚠️ avertissements ; code de sortie 0 / 1.
+- 4 tests (`src/tests/test_main.py`, sur copie de test_tournoi) ; suite : 373 OK ; `python -m dcprepa` liste bien le module `stats`.
+- Pas encore lancé sur les vrais dossiers de `data/` (écrit des fichiers : étape 8).
+- `src/README.md` : commande `stats` ajoutée dans « Commandes ».
 
 ### 2026-09-23 — Stats d'un deck : plan d'action
 - Branche `feat/stats-deck` créée par l'utilisateur ; périmètre : `stats/<deck>.md` seulement (synthèse et méta reportés à d'autres branches).

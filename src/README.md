@@ -33,6 +33,7 @@ python -m venv .venv
 pip install -r src/requirements-dev.txt   # dépendances d'exécution + pytest
 # lancer un module sur un tournoi (depuis src/) ; sans argument : liste des modules
 python -m dcprepa import relicfest-2026
+python -m dcprepa stats relicfest-2026    # écrit stats/<deck>.md pour chaque fiche deck
 # tester (depuis src/)
 python -m pytest
 # linter / formater
