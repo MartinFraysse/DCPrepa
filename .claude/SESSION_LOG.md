@@ -5,7 +5,7 @@
 > Entrées les plus récentes en haut, une idée par puce.
 
 ## 🔜 Prochaines étapes
-- `feat/stats-synthese` : relire et commiter l'étape 5 (`synthese.md`), puis étape 6 (service : écrire `synthese.md`, nom du tournoi, avertissement statut inconnu).
+- `feat/stats-synthese` : premier essai de `stats` par l'utilisateur, commit de l'étape 6, puis étape 7 (essai RelicFest, README des stats, doc `stats.md`, PR).
 - Premier vrai import de l'inbox (`python -m dcprepa import relicfest-2026`).
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist) ; remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
 - Après `feat/stats-synthese` : vraie CLI, puis GUI.
@@ -34,6 +34,9 @@
 - `docs/03-architecture/stats.md` décrit encore l'ancienne section Général : signalé, à mettre à jour à l'étape 7.
 - Étape 4 commitée et poussée par l'utilisateur (`fa83d22`), rapports de `test_tournoi` régénérés avec `stats`.
 - Étape 5 codée : `src/dcprepa/domain/synthese_report.py` (`render_synthese`), modèle `synthese.md`, 5 tests ; suite : 498 OK ; rendu sur `test_tournoi` vérifié.
+- Étape 5 commitée et poussée par l'utilisateur (`9622878`).
+- Étape 6 codée : `services/stats.py` écrit `synthese.md` ; `storage/tournament.py` (nom du tournoi) ; avertissement statut vide / inconnu ; bilan `__main__.py` ; suite : 508 OK.
+- Point ouvert : une fiche `decks/synthese.yaml` écraserait `synthese.md`.
 - Décisions utilisateur : winrate attendu calculé avec le méta papier ET général, par game ET par BO3, sur les seuls oppos joués du top 20 (poids ramenés à 100 %) ;
   matchups non testés : top 10 papier, decks `envisage` / `retenu`, seuils 10 BO3 / 30 games.
 - Plan créé à partir du modèle : `docs/.claude_plan_stats_synthese.md` (7 étapes ; pas de nouvelle commande, `stats` écrit aussi `synthese.md`).

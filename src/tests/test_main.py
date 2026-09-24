@@ -24,7 +24,7 @@ def write(path, text):
 def tournament(tmp_path):
     """Un mini-tournoi : une fiche deck (terra), 3 games, meta/ sans fichier daté."""
     tournament = tmp_path / "test"
-    write(tournament / "decks" / "terra.yaml", "name: Terra\nversions:\n    - version: v1\n")
+    write(tournament / "decks" / "terra.yaml", "name: Terra\nstatut: retenu\nversions:\n    - version: v1\n")
     write(tournament / "games.csv", HEADER_CSV + GAMES)
     write(tournament / "meta" / "README.md", "# meta\n")
     return tournament
@@ -37,10 +37,11 @@ def test_module_stats_declare():
 def test_stats_bilan(tournament, capsys):
     assert run_stats(tournament) == 0
     assert capsys.readouterr().out == (
-        "✅ 1 rapport(s) écrit(s) à partir de 3 game(s) : terra.\n"
+        "✅ 1 rapport(s) + synthèse écrits à partir de 3 game(s) : terra.\n"
         "   Pas de méta : matchups triés par nombre de games.\n"
     )
     assert (tournament / "stats" / "terra.md").is_file()
+    assert (tournament / "stats" / "synthese.md").is_file()
 
 
 def test_stats_avec_meta_et_avertissement(tournament, capsys):
@@ -50,7 +51,7 @@ def test_stats_avec_meta_et_avertissement(tournament, capsys):
         file.write("01/11/2026,01/11/2026-03,1,mtgo,atraxa,v1,Kess,OTP,W,\n")
     assert run_stats(tournament) == 0
     assert capsys.readouterr().out == (
-        "✅ 1 rapport(s) écrit(s) à partir de 4 game(s) : terra.\n"
+        "✅ 1 rapport(s) + synthèse écrits à partir de 4 game(s) : terra.\n"
         "   Méta : meta/2026-09-24/ (matchups triés par poids papier).\n"
         "⚠️  Avertissements :\n"
         "  - games.csv : deck sans fiche : atraxa (1 game(s)) → pas de rapport\n"

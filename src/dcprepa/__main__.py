@@ -38,7 +38,7 @@ def run_import(tournament_dir: Path) -> int:
 
 
 def run_stats(tournament_dir: Path) -> int:
-    """Module « stats » : génère stats/<deck>.md pour chaque fiche deck du tournoi et affiche le bilan."""
+    """Module « stats » : génère stats/<deck>.md pour chaque fiche deck du tournoi, stats/synthese.md, et affiche le bilan."""
     report = generate_stats(tournament_dir)
 
     if not report.ok:
@@ -46,7 +46,10 @@ def run_stats(tournament_dir: Path) -> int:
         for message in report.errors:
             print(f"  - {message}")
     else:
-        print(f"✅ {len(report.decks)} rapport(s) écrit(s) à partir de {report.games} game(s) : {', '.join(report.decks) or 'aucun deck'}.")
+        print(
+            f"✅ {len(report.decks)} rapport(s) + synthèse écrits à partir de {report.games} game(s) :"
+            f" {', '.join(report.decks) or 'aucun deck'}."
+        )
         if report.meta:
             print(f"   Méta : meta/{report.meta}/ (matchups triés par poids papier).")
         else:
@@ -88,7 +91,7 @@ def run_meta(tournament_dir: Path) -> int:
 MODULES = {
     "import": (run_import, "importe inbox.yaml dans games.csv (tout ou rien)"),
     "meta": (run_meta, "importe le méta MTGTop8 (général + papier, 2 mois, top 20) dans meta/AAAA-MM-JJ/"),
-    "stats": (run_stats, "génère stats/<deck>.md pour chaque fiche deck (tout ou rien)"),
+    "stats": (run_stats, "génère stats/<deck>.md pour chaque fiche deck + stats/synthese.md (tout ou rien)"),
 }
 
 
