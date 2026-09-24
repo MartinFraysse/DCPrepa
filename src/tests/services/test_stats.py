@@ -44,12 +44,11 @@ def test_un_rapport_par_fiche(tournament):
 
     terra = (tournament / "stats" / "terra.md").read_text(encoding="utf-8")
     assert terra.startswith("# Terra Midrange\n\n> Généré le 24/09/2026 à partir de `games.csv`, `decks/terra.yaml` et `meta/—`.")
-    assert "| Par game | ⚠️ 66.7 % (2/3) |" in terra
-    assert "| Par BO3 | ⚠️ 100 % (1/1) |" in terra
+    assert "| Winrate | ⚠️ 66.7 % (2/3) | ⚠️ 100 % (1/1) |" in terra
 
     tymna = (tournament / "stats" / "tymna.md").read_text(encoding="utf-8")
     assert tymna.startswith("# Tymna Thrasios\n")
-    assert "| Par game | — |" in tymna
+    assert "| Winrate | — | — |" in tymna
     assert not (tournament / "stats" / "_modele.md").exists()
 
 

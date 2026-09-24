@@ -71,10 +71,12 @@ def test_sections_remplies(sheet):
     )
     text = render_deck_report("terra", sheet, compute_deck_stats(games, "terra", sheet["versions"]), GENERATED)
 
-    assert section(text, "Général")[2:] == [
-        "| Par game | ⚠️ 66.7 % (4/6) |",
-        "| Par BO3 | ⚠️ 100 % (2/2) |",
-        "| Winrate attendu au tournoi | — |",
+    assert section(text, "Général") == [
+        "| | Par game | Par BO3 |",
+        "|---|---|---|",
+        "| Winrate | ⚠️ 66.7 % (4/6) | ⚠️ 100 % (2/2) |",
+        "| Winrate attendu (méta papier) | — | — |",
+        "| Winrate attendu (méta général) | — | — |",
     ]
     assert section(text, "Versions")[3:] == [
         "| v1 | 5 | ⚠️ 80 % (4/5) | +80 | 2 | ⚠️ 100 % (2/2) | — |",
@@ -105,6 +107,10 @@ def test_avec_meta(sheet):
     stats = compute_deck_stats(games, "terra", sheet["versions"], metas)
     text = render_deck_report("terra", sheet, stats, GENERATED, "2026-09-24")
     assert "`decks/terra.yaml` et `meta/2026-09-24/`." in text
+    assert section(text, "Général")[3:] == [
+        "| Winrate attendu (méta papier) | ⚠️ 100 % (12.5 % du méta) | ⚠️ 100 % (12.5 % du méta) |",
+        "| Winrate attendu (méta général) | ⚠️ 71.9 % (14.3 % du méta) | ⚠️ 100 % (10.3 % du méta) |",
+    ]
     matchups = section(text, "Matchups")
     assert matchups[0].startswith(f"{MATCHUPS_SORT_META}, self-play exclu.")
     assert matchups[2] == "| Oppo | Poids papier | Poids général | Winrate (games) | Meilleure version (games) | Winrate BO3 | Meilleure version BO3 | OTP | OTD |"

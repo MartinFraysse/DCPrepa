@@ -5,7 +5,7 @@
 > Entrées les plus récentes en haut, une idée par puce.
 
 ## 🔜 Prochaines étapes
-- `feat/stats-synthese` : relire et commiter l'étape 3 (matchups non testés), puis étape 4 (section Général du rapport de deck).
+- `feat/stats-synthese` : relire et commiter l'étape 4 (section Général), puis étape 5 (`synthese.md`).
 - Premier vrai import de l'inbox (`python -m dcprepa import relicfest-2026`).
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist) ; remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
 - Après `feat/stats-synthese` : vraie CLI, puis GUI.
@@ -29,6 +29,9 @@
 - Feuille de route : `feat/stats-synthese` 🔄.
 - Étape 2 commitée et poussée par l'utilisateur (`e691515`).
 - Étape 3 codée : `untested_matchups` + `UntestedMatchup` dans `domain/synthese.py`, 11 tests ; suite : 493 OK ; statut vide ou mal écrit → deck ignoré, avec un avertissement dans le bilan de `stats` (décision utilisateur, étape 6).
+- Étape 3 commitée et poussée par l'utilisateur (`3f5f21c`).
+- Étape 4 codée : section Général du rapport de deck (`domain/report.py`, `_modele-deck.md`), tests adaptés ; suite : 493 OK ; essai sur une copie de `test_tournoi` OK.
+- `docs/03-architecture/stats.md` décrit encore l'ancienne section Général : signalé, à mettre à jour à l'étape 7.
 - Décisions utilisateur : winrate attendu calculé avec le méta papier ET général, par game ET par BO3, sur les seuls oppos joués du top 20 (poids ramenés à 100 %) ;
   matchups non testés : top 10 papier, decks `envisage` / `retenu`, seuils 10 BO3 / 30 games.
 - Plan créé à partir du modèle : `docs/.claude_plan_stats_synthese.md` (7 étapes ; pas de nouvelle commande, `stats` écrit aussi `synthese.md`).
