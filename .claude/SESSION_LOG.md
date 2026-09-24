@@ -7,7 +7,7 @@
 ## 🔜 Prochaines étapes
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist).
 - Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- Stats d'un deck (branche `feat/stats-deck`) : relire l'étape 3 (`domain/winrate.py`), puis étape 4 du plan (`docs/.claude_plan_stats_deck.md`) : calculs du deck (`domain/stats.py`).
+- Stats d'un deck (branche `feat/stats-deck`) : relire l'étape 4 (`domain/stats.py`), puis étape 5 du plan (`docs/.claude_plan_stats_deck.md`) : rapport Markdown (`domain/report.py`).
 - Import de l'inbox utilisable (`python -m dcprepa import relicfest-2026`) : premier vrai import à faire.
 - Ensuite : import méta MTGTop8 (`feat/import-meta`), puis `synthese.md` (`feat/stats-synthese`) ; plus tard vraie CLI, GUI.
 
@@ -30,7 +30,12 @@
 - Conventions des 3 `stats/README.md` (template, RelicFest, test_tournoi) : format au dixième, définition des deux winrates avec exemple, écart `+3.2` par type, ⚠️ BO3 en matchs.
 - 27 tests dans `src/tests/domain/test_winrate.py` ; suite complète : 310 OK (venv `.venv/` à la racine).
 - Correction : le venv est bien à la racine, `src/README.md` est juste ; le point « venv dans `src/.venv` » était faux, retiré.
-- Plan (`docs/.claude_plan_stats_deck.md`) pas mis à jour : il parle encore d'arrondi à l'entier et de `55 %` seul.
+- Plan mis à jour à la demande : étape 3 ✅ (nouveau format), étape 4 🔄 avec les colonnes BO3.
+- Étape 4 codée : `src/dcprepa/domain/stats.py` → `compute_deck_stats(games, deck, versions)` renvoie `DeckStats` (overall, versions, positions, sources, matchups, self_play).
+- `Record(games, bo3)` porte les deux winrates partout ; `bo3_matches` = games regroupées par `match_id`, 2 games ou plus ; gagné = 2 victoires.
+- Écarts de version parties et BO3 via `version_gaps` (versions sans donnée hors moyenne) ; version jouée absente de la fiche ajoutée à la fin.
+- Matchups triés par parties décroissantes puis nom ; OTP / OTD à `None` sous 10 parties ; self-play : mêmes calculs, à part.
+- 15 tests (`test_stats.py`, dont l'exemple des conventions) ; suite : 325 OK ; essai sur test_tournoi vérifié à la main (10/17 parties, 3/5 BO3, écart v1 +30 / BO3 +66.7).
 
 ### 2026-09-23 — Stats d'un deck : plan d'action
 - Branche `feat/stats-deck` créée par l'utilisateur ; périmètre : `stats/<deck>.md` seulement (synthèse et méta reportés à d'autres branches).
