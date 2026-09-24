@@ -5,7 +5,7 @@
 > Entrées les plus récentes en haut, une idée par puce.
 
 ## 🔜 Prochaines étapes
-- `feat/saisie` : commiter `add_oppo` (étape 3), puis étape 4 (`create_tournament`, `edit_tournament`).
+- `feat/saisie` : commiter le tournoi (étape 4), puis étape 5 (decks : `create_deck`, `add_version`, `set_status`, `edit_deck`, `add_deck_alias`).
 - `data/tournaments/test_tournoi/decks/_alias.yaml` : bloc `test-deck` à retirer (bloque import et corrections sur test_tournoi), en attente de l'accord de l'utilisateur.
 - Corriger l'en-tête de `__main__.py` (« en attendant la vraie CLI ») au premier commit de code.
 - Régénérer les rapports de RelicFest (`python -m dcprepa stats relicfest-2026`) : `synthese.md` encore à l'ancien modèle.
@@ -35,6 +35,9 @@
 - Constat : `data/tournaments/test_tournoi/decks/_alias.yaml` référence `test-deck` (inexistant, depuis #3) → import et corrections refusés sur test_tournoi ; signalé.
 - Corrections commitées par l'utilisateur (`6552503`) ; test L → W ajouté après sa relecture du plan (ligne de tests non cochée : oubli de Claude).
 - `add_oppo` codé : `services/oppos.py`, `domain/oppos.py::check_new_oppo`, `storage/oppos.py::insert_variant` (variante sous sa référence, commentaires gardés) ; 21 tests ; suite : 572 OK.
+- `add_oppo` commité par l'utilisateur (`330d4dc`).
+- Tournoi codé : `services/tournament.py` (`create_tournament`, `edit_tournament`), `domain/saisie.py` (`slugify`, `check_tournament_fields`),
+  `storage/tournament.py` (`create_tournament_dir` via `<slug>.tmp`, `update_tournament_file`), `storage/yaml_text.py` (`set_fields`, commentaires gardés) ; suite : 611 OK.
 
 ### AAAA-MM-JJ — titre
 - ce qui a été fait

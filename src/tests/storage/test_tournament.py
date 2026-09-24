@@ -1,6 +1,6 @@
 import pytest
 
-from dcprepa.storage.tournament import load_tournament_name
+from dcprepa.storage.tournament import create_tournament_dir, load_tournament_name
 
 
 @pytest.fixture
@@ -27,3 +27,27 @@ def test_yaml_illisible(tournament):
     assert load_tournament_name(tournament) == (
         "relicfest-2026", ["tournament.yaml : YAML illisible → nom du dossier utilisé (relicfest-2026)"]
     )
+
+
+def test_creation_remplace_un_tmp_abandonne(tmp_path):
+    template = tmp_path / "modele"
+    (template / "stats").mkdir(parents=True)
+    (template / "tournament.yaml").write_text("name:\nslug:\n", encoding="utf-8")
+    (template / "README.md").write_text("à retirer\n", encoding="utf-8")
+    leftover = tmp_path / "tournaments" / "x.tmp"
+    leftover.mkdir(parents=True)
+    (leftover / "vieux.txt").write_text("", encoding="utf-8")
+
+    assert create_tournament_dir(template, tmp_path / "tournaments" / "x", {"name": "X", "slug": "x"}) == []
+    created = tmp_path / "tournaments" / "x"
+    assert sorted(path.name for path in created.iterdir()) == ["stats", "tournament.yaml"]
+    assert not leftover.exists()
+
+
+def test_creation_modele_inattendu(tmp_path):
+    template = tmp_path / "modele"
+    template.mkdir()
+    (template / "tournament.yaml").write_text("- liste\n", encoding="utf-8")
+    errors = create_tournament_dir(template, tmp_path / "x", {"name": "X"})
+    assert errors == ["modèle tournament.yaml inattendu : impossible d'y écrire name"]
+    assert not (tmp_path / "x").exists()
