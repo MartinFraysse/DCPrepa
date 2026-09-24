@@ -1,405 +1,419 @@
 date,match_id,game,source,deck,version,oppo,position,resultat,note/ressenti
-01/10/2026,01/10/2026-01,1,cockatrice,winota-aggro,v2,Asmo,OTP,W,
-01/10/2026,01/10/2026-02,1,cockatrice,winota-aggro,v2,Asmo,OTP,L,
-01/10/2026,01/10/2026-02,2,cockatrice,winota-aggro,v2,Asmo,OTP,W,
-01/10/2026,01/10/2026-02,3,cockatrice,winota-aggro,v2,Asmo,OTD,W,
-01/10/2026,01/10/2026-03,1,cockatrice,winota-aggro,v2,Asmo,OTD,L,
-01/10/2026,01/10/2026-03,2,cockatrice,winota-aggro,v2,Asmo,OTP,L,
-01/10/2026,01/10/2026-04,1,cockatrice,winota-aggro,v2,Asmo,OTD,L,
-01/10/2026,01/10/2026-04,2,cockatrice,winota-aggro,v2,Asmo,OTP,W,
-01/10/2026,01/10/2026-04,3,cockatrice,winota-aggro,v2,Asmo,OTD,L,
-01/10/2026,01/10/2026-05,1,cockatrice,sythis-enchant,v2,Ragavan,OTD,L,Matchup jouable.
-01/10/2026,01/10/2026-05,2,cockatrice,sythis-enchant,v2,Ragavan,OTP,L,Matchup jouable.
-01/10/2026,01/10/2026-06,1,cockatrice,sythis-enchant,v2,Ragavan,OTD,W,Matchup jouable.
-03/10/2026,03/10/2026-01,1,mtgo,winota-aggro,v2,Rograkh/Silas,OTD,L,
-03/10/2026,03/10/2026-01,2,mtgo,winota-aggro,v2,Rograkh/Silas,OTP,L,
-03/10/2026,03/10/2026-02,1,mtgo,winota-aggro,v2,Rograkh/Silas,OTP,L,
-03/10/2026,03/10/2026-02,2,mtgo,winota-aggro,v2,Rograkh/Silas,OTP,W,
-03/10/2026,03/10/2026-02,3,mtgo,winota-aggro,v2,Rograkh/Silas,OTD,W,
-03/10/2026,03/10/2026-03,1,mtgo,winota-aggro,v2,Rograkh/Silas,OTD,L,
-03/10/2026,03/10/2026-04,1,mtgo,test-deck,v2,Magda,OTD,W,
-03/10/2026,03/10/2026-04,2,mtgo,test-deck,v2,Magda,OTD,L,
-03/10/2026,03/10/2026-04,3,mtgo,test-deck,v2,Magda,OTP,W,
-03/10/2026,03/10/2026-05,1,mtgo,test-deck,v2,Magda,OTP,W,
-03/10/2026,03/10/2026-05,2,mtgo,test-deck,v2,Magda,OTD,L,
-03/10/2026,03/10/2026-05,3,mtgo,test-deck,v2,Magda,OTP,W,
-03/10/2026,03/10/2026-06,1,mtgo,test-deck,v2,Magda,OTP,L,
-03/10/2026,03/10/2026-06,2,mtgo,test-deck,v2,Magda,OTP,W,
-03/10/2026,03/10/2026-06,3,mtgo,test-deck,v2,Magda,OTD,W,
-03/10/2026,03/10/2026-07,1,mtgo,test-deck,v2,Magda,OTP,W,
-03/10/2026,03/10/2026-07,2,mtgo,test-deck,v2,Magda,OTD,L,
-03/10/2026,03/10/2026-07,3,mtgo,test-deck,v2,Magda,OTP,L,
-04/10/2026,04/10/2026-01,1,cockatrice,winota-aggro,v1,Asmo,OTP,W,Adversaire très rapide.
-04/10/2026,04/10/2026-01,2,cockatrice,winota-aggro,v1,Asmo,OTD,L,Adversaire très rapide.
-04/10/2026,04/10/2026-01,3,cockatrice,winota-aggro,v1,Asmo,OTP,L,Adversaire très rapide.
-04/10/2026,04/10/2026-02,1,cockatrice,winota-aggro,v1,Asmo,OTP,W,Adversaire très rapide.
-04/10/2026,04/10/2026-02,2,cockatrice,winota-aggro,v1,Asmo,OTD,L,Adversaire très rapide.
-04/10/2026,04/10/2026-02,3,cockatrice,winota-aggro,v1,Asmo,OTP,W,Adversaire très rapide.
-04/10/2026,04/10/2026-03,1,cockatrice,winota-aggro,v1,Ertai,OTD,W,Mulligans difficiles.
-04/10/2026,04/10/2026-04,1,cockatrice,winota-aggro,v1,Ertai,OTD,W,Mulligans difficiles.
-04/10/2026,04/10/2026-04,2,cockatrice,winota-aggro,v1,Ertai,OTD,L,Mulligans difficiles.
-04/10/2026,04/10/2026-04,3,cockatrice,winota-aggro,v1,Ertai,OTP,L,Mulligans difficiles.
-04/10/2026,04/10/2026-05,1,cockatrice,winota-aggro,v1,Ertai,OTP,W,Mulligans difficiles.
-04/10/2026,04/10/2026-05,2,cockatrice,winota-aggro,v1,Ertai,OTD,W,Mulligans difficiles.
-04/10/2026,04/10/2026-06,1,cockatrice,winota-aggro,v1,Ertai,OTD,L,Mulligans difficiles.
-04/10/2026,04/10/2026-06,2,cockatrice,winota-aggro,v1,Ertai,OTP,L,Mulligans difficiles.
-04/10/2026,04/10/2026-07,1,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTD,L,
-05/10/2026,05/10/2026-01,1,cockatrice,winota-aggro,v2,Ertai,OTD,L,Mulligans difficiles.
-05/10/2026,05/10/2026-02,1,cockatrice,winota-aggro,v2,Ertai,OTP,W,Mulligans difficiles.
-05/10/2026,05/10/2026-02,2,cockatrice,winota-aggro,v2,Ertai,OTD,L,Mulligans difficiles.
-05/10/2026,05/10/2026-02,3,cockatrice,winota-aggro,v2,Ertai,OTP,W,Mulligans difficiles.
-05/10/2026,05/10/2026-03,1,paper,sythis-enchant,v2,Asmo,OTD,L,Matchup jouable.
-05/10/2026,05/10/2026-03,2,paper,sythis-enchant,v2,Asmo,OTP,W,Matchup jouable.
-05/10/2026,05/10/2026-03,3,paper,sythis-enchant,v2,Asmo,OTD,L,Matchup jouable.
-05/10/2026,05/10/2026-04,1,paper,sythis-enchant,v2,Asmo,OTD,L,Matchup jouable.
-05/10/2026,05/10/2026-04,2,paper,sythis-enchant,v2,Asmo,OTP,L,Matchup jouable.
-07/10/2026,07/10/2026-01,1,cockatrice,winota-aggro,v1,Magda,OTP,L,Matchup jouable.
-07/10/2026,07/10/2026-01,2,cockatrice,winota-aggro,v1,Magda,OTP,W,Matchup jouable.
-07/10/2026,07/10/2026-01,3,cockatrice,winota-aggro,v1,Magda,OTD,L,Matchup jouable.
-07/10/2026,07/10/2026-02,1,cockatrice,winota-aggro,v1,Magda,OTD,W,Matchup jouable.
-07/10/2026,07/10/2026-02,2,cockatrice,winota-aggro,v1,Magda,OTD,W,Matchup jouable.
-07/10/2026,07/10/2026-03,1,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTD,L,
-07/10/2026,07/10/2026-04,1,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTP,W,
-07/10/2026,07/10/2026-04,2,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTD,W,
-07/10/2026,07/10/2026-05,1,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTD,W,
-07/10/2026,07/10/2026-05,2,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTD,L,
-07/10/2026,07/10/2026-05,3,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTP,L,
-07/10/2026,07/10/2026-06,1,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTP,L,
-07/10/2026,07/10/2026-06,2,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTP,W,
-07/10/2026,07/10/2026-06,3,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTD,W,
-08/10/2026,08/10/2026-01,1,cockatrice,winota-aggro,v1,Ragavan,OTD,L,Bonne session.
-08/10/2026,08/10/2026-01,2,cockatrice,winota-aggro,v1,Ragavan,OTP,L,Bonne session.
-09/10/2026,09/10/2026-01,1,cockatrice,winota-aggro,v1,Asmo,OTD,L,
-09/10/2026,09/10/2026-02,1,cockatrice,winota-aggro,v1,Asmo,OTP,W,
-09/10/2026,09/10/2026-02,2,cockatrice,winota-aggro,v1,Asmo,OTD,L,
-09/10/2026,09/10/2026-02,3,cockatrice,winota-aggro,v1,Asmo,OTP,L,
-09/10/2026,09/10/2026-03,1,cockatrice,winota-aggro,v1,Asmo,OTD,W,
-09/10/2026,09/10/2026-03,2,cockatrice,winota-aggro,v1,Asmo,OTD,W,
-09/10/2026,09/10/2026-04,1,cockatrice,winota-aggro,v1,Asmo,OTP,L,
-09/10/2026,09/10/2026-05,1,mtgo,sythis-enchant,v1,Aminatou,OTD,W,
-09/10/2026,09/10/2026-05,2,mtgo,sythis-enchant,v1,Aminatou,OTD,L,
-09/10/2026,09/10/2026-05,3,mtgo,sythis-enchant,v1,Aminatou,OTP,W,
-09/10/2026,09/10/2026-06,1,mtgo,sythis-enchant,v1,Aminatou,OTP,L,
-09/10/2026,09/10/2026-06,2,mtgo,sythis-enchant,v1,Aminatou,OTP,L,
-09/10/2026,09/10/2026-07,1,mtgo,sythis-enchant,v2,Asmo,OTD,L,
-09/10/2026,09/10/2026-07,2,mtgo,sythis-enchant,v2,Asmo,OTP,L,
-10/10/2026,10/10/2026-01,1,mtgo,winota-aggro,v2,Aminatou,OTD,W,
-10/10/2026,10/10/2026-01,2,mtgo,winota-aggro,v2,Aminatou,OTD,L,
-10/10/2026,10/10/2026-01,3,mtgo,winota-aggro,v2,Aminatou,OTP,W,
-10/10/2026,10/10/2026-02,1,paper,sythis-enchant,v2,Kinnan,OTD,L,
-10/10/2026,10/10/2026-02,2,paper,sythis-enchant,v2,Kinnan,OTP,L,
-10/10/2026,10/10/2026-03,1,paper,sythis-enchant,v2,Kinnan,OTP,L,
-10/10/2026,10/10/2026-03,2,paper,sythis-enchant,v2,Kinnan,OTP,W,
-10/10/2026,10/10/2026-03,3,paper,sythis-enchant,v2,Kinnan,OTD,L,
-11/10/2026,11/10/2026-01,1,cockatrice,test-deck,v1,Tevesh Szat,OTP,L,
-11/10/2026,11/10/2026-01,2,cockatrice,test-deck,v1,Tevesh Szat,OTP,L,
-11/10/2026,11/10/2026-02,1,cockatrice,test-deck,v1,Tevesh Szat,OTD,L,
-11/10/2026,11/10/2026-02,2,cockatrice,test-deck,v1,Tevesh Szat,OTP,W,
-11/10/2026,11/10/2026-02,3,cockatrice,test-deck,v1,Tevesh Szat,OTD,L,
-12/10/2026,12/10/2026-01,1,cockatrice,winota-aggro,v2,Aminatou,OTD,W,Adversaire très rapide.
-12/10/2026,12/10/2026-01,2,cockatrice,winota-aggro,v2,Aminatou,OTD,W,Adversaire très rapide.
-12/10/2026,12/10/2026-02,1,cockatrice,winota-aggro,v2,Aminatou,OTD,W,Adversaire très rapide.
-12/10/2026,12/10/2026-02,2,cockatrice,winota-aggro,v2,Aminatou,OTD,W,Adversaire très rapide.
-12/10/2026,12/10/2026-03,1,mtgo,sythis-enchant,v2,Minsc & Boo,OTD,L,Bonne session.
-12/10/2026,12/10/2026-04,1,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTD,L,Matchup jouable.
-12/10/2026,12/10/2026-04,2,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTP,W,Matchup jouable.
-12/10/2026,12/10/2026-04,3,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTD,L,Matchup jouable.
-12/10/2026,12/10/2026-05,1,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTP,L,Matchup jouable.
-12/10/2026,12/10/2026-05,2,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTP,L,Matchup jouable.
-13/10/2026,13/10/2026-01,1,paper,winota-aggro,v2,Rograkh/Silas,OTD,L,
-13/10/2026,13/10/2026-02,1,paper,winota-aggro,v2,Rograkh/Silas,OTP,W,Adversaire très rapide.
-13/10/2026,13/10/2026-03,1,paper,winota-aggro,v2,Rograkh/Silas,OTD,L,Adversaire très rapide.
-13/10/2026,13/10/2026-03,2,paper,winota-aggro,v2,Rograkh/Silas,OTP,W,Adversaire très rapide.
-13/10/2026,13/10/2026-03,3,paper,winota-aggro,v2,Rograkh/Silas,OTD,L,Adversaire très rapide.
-14/10/2026,14/10/2026-01,1,mtgo,winota-aggro,v1,Rograkh/Silas,OTD,L,
-14/10/2026,14/10/2026-01,2,mtgo,winota-aggro,v1,Rograkh/Silas,OTP,L,
-14/10/2026,14/10/2026-02,1,mtgo,winota-aggro,v1,Rograkh/Silas,OTP,L,
-14/10/2026,14/10/2026-02,2,mtgo,winota-aggro,v1,Rograkh/Silas,OTP,L,
-14/10/2026,14/10/2026-03,1,mtgo,winota-aggro,v1,Rograkh/Silas,OTD,L,
-14/10/2026,14/10/2026-04,1,paper,winota-aggro,v2,Kess,OTP,W,
-14/10/2026,14/10/2026-04,2,paper,winota-aggro,v2,Kess,OTD,L,
-14/10/2026,14/10/2026-04,3,paper,winota-aggro,v2,Kess,OTP,W,
-14/10/2026,14/10/2026-05,1,mtgo,winota-aggro,v2,Rograkh/Silas,OTD,W,Adversaire très rapide.
-14/10/2026,14/10/2026-05,2,mtgo,winota-aggro,v2,Rograkh/Silas,OTD,W,Adversaire très rapide.
-14/10/2026,14/10/2026-06,1,mtgo,winota-aggro,v2,Rograkh/Silas,OTP,W,Adversaire très rapide.
-14/10/2026,14/10/2026-06,2,mtgo,winota-aggro,v2,Rograkh/Silas,OTD,W,Adversaire très rapide.
-14/10/2026,14/10/2026-07,1,mtgo,winota-aggro,v2,Rograkh/Silas,OTP,W,Adversaire très rapide.
-14/10/2026,14/10/2026-07,2,mtgo,winota-aggro,v2,Rograkh/Silas,OTD,L,Adversaire très rapide.
-14/10/2026,14/10/2026-07,3,mtgo,winota-aggro,v2,Rograkh/Silas,OTP,L,Adversaire très rapide.
-14/10/2026,14/10/2026-08,1,cockatrice,sythis-enchant,v2,Minsc & Boo,OTP,L,Bonne session.
-14/10/2026,14/10/2026-08,2,cockatrice,sythis-enchant,v2,Minsc & Boo,OTP,L,Bonne session.
-14/10/2026,14/10/2026-09,1,cockatrice,sythis-enchant,v2,Minsc & Boo,OTD,W,Bonne session.
-14/10/2026,14/10/2026-09,2,cockatrice,sythis-enchant,v2,Minsc & Boo,OTD,L,Bonne session.
-14/10/2026,14/10/2026-09,3,cockatrice,sythis-enchant,v2,Minsc & Boo,OTP,W,Bonne session.
-14/10/2026,14/10/2026-10,1,cockatrice,sythis-enchant,v2,Minsc & Boo,OTD,W,Bonne session.
-14/10/2026,14/10/2026-10,2,cockatrice,sythis-enchant,v2,Minsc & Boo,OTD,L,Bonne session.
-14/10/2026,14/10/2026-10,3,cockatrice,sythis-enchant,v2,Minsc & Boo,OTP,W,Bonne session.
-14/10/2026,14/10/2026-11,1,cockatrice,sythis-enchant,v2,Minsc & Boo,OTD,W,Bonne session.
-14/10/2026,14/10/2026-11,2,cockatrice,sythis-enchant,v2,Minsc & Boo,OTD,L,Bonne session.
-14/10/2026,14/10/2026-11,3,cockatrice,sythis-enchant,v2,Minsc & Boo,OTP,L,Bonne session.
-14/10/2026,14/10/2026-12,1,cockatrice,test-deck,v2,Tevesh Szat,OTD,W,Bonne session.
-14/10/2026,14/10/2026-12,2,cockatrice,test-deck,v2,Tevesh Szat,OTD,L,Bonne session.
-14/10/2026,14/10/2026-12,3,cockatrice,test-deck,v2,Tevesh Szat,OTP,W,Bonne session.
-14/10/2026,14/10/2026-13,1,cockatrice,test-deck,v2,Tevesh Szat,OTD,L,Bonne session.
-14/10/2026,14/10/2026-14,1,cockatrice,test-deck,v2,Tevesh Szat,OTP,W,Bonne session.
-14/10/2026,14/10/2026-14,2,cockatrice,test-deck,v2,Tevesh Szat,OTD,L,Bonne session.
-14/10/2026,14/10/2026-14,3,cockatrice,test-deck,v2,Tevesh Szat,OTP,L,Bonne session.
-15/10/2026,15/10/2026-01,1,mtgo,winota-aggro,v1,Ragavan,OTP,W,Bonne session.
-15/10/2026,15/10/2026-01,2,mtgo,winota-aggro,v1,Ragavan,OTD,L,Bonne session.
-15/10/2026,15/10/2026-01,3,mtgo,winota-aggro,v1,Ragavan,OTP,W,Bonne session.
-15/10/2026,15/10/2026-02,1,mtgo,winota-aggro,v1,Ragavan,OTD,W,Bonne session.
-15/10/2026,15/10/2026-02,2,mtgo,winota-aggro,v1,Ragavan,OTD,L,Bonne session.
-15/10/2026,15/10/2026-02,3,mtgo,winota-aggro,v1,Ragavan,OTP,L,Bonne session.
-15/10/2026,15/10/2026-03,1,mtgo,winota-aggro,v1,Ragavan,OTD,L,Bonne session.
-15/10/2026,15/10/2026-03,2,mtgo,winota-aggro,v1,Ragavan,OTP,L,Bonne session.
-15/10/2026,15/10/2026-04,1,cockatrice,sythis-enchant,v2,Asmo,OTD,W,
-15/10/2026,15/10/2026-04,2,cockatrice,sythis-enchant,v2,Asmo,OTD,L,
-15/10/2026,15/10/2026-04,3,cockatrice,sythis-enchant,v2,Asmo,OTP,L,
-15/10/2026,15/10/2026-05,1,cockatrice,sythis-enchant,v2,Asmo,OTP,L,
-15/10/2026,15/10/2026-05,2,cockatrice,sythis-enchant,v2,Asmo,OTP,L,
-15/10/2026,15/10/2026-06,1,cockatrice,sythis-enchant,v2,Asmo,OTD,L,
-15/10/2026,15/10/2026-06,2,cockatrice,sythis-enchant,v2,Asmo,OTP,W,
-15/10/2026,15/10/2026-06,3,cockatrice,sythis-enchant,v2,Asmo,OTD,L,
-15/10/2026,15/10/2026-07,1,mtgo,test-deck,v1,Magda,OTD,L,
-15/10/2026,15/10/2026-07,2,mtgo,test-deck,v1,Magda,OTP,L,
-15/10/2026,15/10/2026-08,1,mtgo,test-deck,v1,Magda,OTD,W,
-15/10/2026,15/10/2026-09,1,mtgo,test-deck,v1,Magda,OTP,W,
-15/10/2026,15/10/2026-09,2,mtgo,test-deck,v1,Magda,OTD,L,
-15/10/2026,15/10/2026-09,3,mtgo,test-deck,v1,Magda,OTP,L,
-15/10/2026,15/10/2026-10,1,cockatrice,test-deck,v2,Kess,OTD,L,
-15/10/2026,15/10/2026-11,1,cockatrice,test-deck,v2,Kess,OTP,L,
-15/10/2026,15/10/2026-11,2,cockatrice,test-deck,v2,Kess,OTP,W,
-15/10/2026,15/10/2026-11,3,cockatrice,test-deck,v2,Kess,OTD,W,
-16/10/2026,16/10/2026-01,1,cockatrice,winota-aggro,v2,Kess,OTP,W,
-16/10/2026,16/10/2026-01,2,cockatrice,winota-aggro,v2,Kess,OTD,W,
-16/10/2026,16/10/2026-02,1,cockatrice,winota-aggro,v2,Kess,OTP,W,
-16/10/2026,16/10/2026-02,2,cockatrice,winota-aggro,v2,Kess,OTD,W,
-16/10/2026,16/10/2026-03,1,cockatrice,winota-aggro,v2,Kess,OTP,W,
-16/10/2026,16/10/2026-03,2,cockatrice,winota-aggro,v2,Kess,OTD,W,
-16/10/2026,16/10/2026-04,1,cockatrice,winota-aggro,v2,Kess,OTD,W,
-16/10/2026,16/10/2026-04,2,cockatrice,winota-aggro,v2,Kess,OTD,W,
-16/10/2026,16/10/2026-05,1,cockatrice,sythis-enchant,v1,Tymna/Thrasios,OTD,L,
-16/10/2026,16/10/2026-05,2,cockatrice,sythis-enchant,v1,Tymna/Thrasios,OTP,W,
-16/10/2026,16/10/2026-05,3,cockatrice,sythis-enchant,v1,Tymna/Thrasios,OTD,L,
-16/10/2026,16/10/2026-06,1,cockatrice,sythis-enchant,v1,Tymna/Thrasios,OTD,W,
-16/10/2026,16/10/2026-06,2,cockatrice,sythis-enchant,v1,Tymna/Thrasios,OTD,L,
-16/10/2026,16/10/2026-06,3,cockatrice,sythis-enchant,v1,Tymna/Thrasios,OTP,W,
-16/10/2026,16/10/2026-07,1,cockatrice,sythis-enchant,v1,Tymna/Thrasios,OTD,L,
-16/10/2026,16/10/2026-07,2,cockatrice,sythis-enchant,v1,Tymna/Thrasios,OTP,L,
-16/10/2026,16/10/2026-08,1,cockatrice,sythis-enchant,v1,Tymna/Thrasios,OTP,L,
-16/10/2026,16/10/2026-09,1,paper,sythis-enchant,v1,Minsc & Boo,OTP,L,Matchup jouable.
-16/10/2026,16/10/2026-10,1,paper,sythis-enchant,v1,Minsc & Boo,OTD,L,Matchup jouable.
-16/10/2026,16/10/2026-11,1,paper,sythis-enchant,v1,Minsc & Boo,OTD,W,Matchup jouable.
-16/10/2026,16/10/2026-11,2,paper,sythis-enchant,v1,Minsc & Boo,OTD,L,Matchup jouable.
-16/10/2026,16/10/2026-11,3,paper,sythis-enchant,v1,Minsc & Boo,OTP,L,Matchup jouable.
-16/10/2026,16/10/2026-12,1,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTD,L,
-16/10/2026,16/10/2026-13,1,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTP,W,
-16/10/2026,16/10/2026-14,1,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTD,L,
-16/10/2026,16/10/2026-14,2,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTP,L,
-17/10/2026,17/10/2026-01,1,paper,winota-aggro,v1,Rograkh/Silas,OTD,W,
-17/10/2026,17/10/2026-02,1,paper,winota-aggro,v1,Rograkh/Silas,OTD,L,
-17/10/2026,17/10/2026-02,2,paper,winota-aggro,v1,Rograkh/Silas,OTP,L,
-17/10/2026,17/10/2026-03,1,paper,winota-aggro,v1,Rograkh/Silas,OTP,W,
-17/10/2026,17/10/2026-03,2,paper,winota-aggro,v1,Rograkh/Silas,OTD,L,
-17/10/2026,17/10/2026-03,3,paper,winota-aggro,v1,Rograkh/Silas,OTP,L,
-17/10/2026,17/10/2026-04,1,mtgo,sythis-enchant,v1,Ragavan,OTP,L,
-18/10/2026,18/10/2026-01,1,mtgo,winota-aggro,v2,Ertai,OTD,W,Adversaire très rapide.
-18/10/2026,18/10/2026-01,2,mtgo,winota-aggro,v2,Ertai,OTD,W,Adversaire très rapide.
-18/10/2026,18/10/2026-02,1,mtgo,winota-aggro,v2,Ertai,OTP,W,Adversaire très rapide.
-18/10/2026,18/10/2026-02,2,mtgo,winota-aggro,v2,Ertai,OTD,W,Adversaire très rapide.
-18/10/2026,18/10/2026-03,1,paper,sythis-enchant,v2,Aminatou,OTD,L,Bonne session.
-18/10/2026,18/10/2026-03,2,paper,sythis-enchant,v2,Aminatou,OTP,W,Bonne session.
-18/10/2026,18/10/2026-03,3,paper,sythis-enchant,v2,Aminatou,OTD,L,Bonne session.
-18/10/2026,18/10/2026-04,1,cockatrice,sythis-enchant,v2,Asmo,OTP,L,
-18/10/2026,18/10/2026-04,2,cockatrice,sythis-enchant,v2,Asmo,OTP,W,
-18/10/2026,18/10/2026-04,3,cockatrice,sythis-enchant,v2,Asmo,OTD,L,
-18/10/2026,18/10/2026-05,1,cockatrice,sythis-enchant,v2,Asmo,OTD,L,
-18/10/2026,18/10/2026-06,1,cockatrice,sythis-enchant,v2,Asmo,OTP,L,
-18/10/2026,18/10/2026-06,2,cockatrice,sythis-enchant,v2,Asmo,OTP,W,
-18/10/2026,18/10/2026-06,3,cockatrice,sythis-enchant,v2,Asmo,OTD,L,
-18/10/2026,18/10/2026-07,1,mtgo,kinnan-combo,v1,Ertai,OTD,W,Adversaire très rapide.
-18/10/2026,18/10/2026-07,2,mtgo,kinnan-combo,v1,Ertai,OTD,W,Adversaire très rapide.
-18/10/2026,18/10/2026-08,1,mtgo,kinnan-combo,v1,Ertai,OTD,L,Adversaire très rapide.
-19/10/2026,19/10/2026-01,1,cockatrice,sythis-enchant,v1,Asmo,OTD,L,Adversaire très rapide.
-19/10/2026,19/10/2026-01,2,cockatrice,sythis-enchant,v1,Asmo,OTP,L,Adversaire très rapide.
-19/10/2026,19/10/2026-02,1,cockatrice,sythis-enchant,v1,Asmo,OTD,L,Adversaire très rapide.
-19/10/2026,19/10/2026-03,1,cockatrice,sythis-enchant,v1,Asmo,OTP,W,Adversaire très rapide.
-19/10/2026,19/10/2026-04,1,mtgo,sythis-enchant,v1,Minsc & Boo,OTP,L,
-19/10/2026,19/10/2026-04,2,mtgo,sythis-enchant,v1,Minsc & Boo,OTP,W,
-19/10/2026,19/10/2026-04,3,mtgo,sythis-enchant,v1,Minsc & Boo,OTD,L,
-19/10/2026,19/10/2026-05,1,mtgo,sythis-enchant,v1,Minsc & Boo,OTP,L,
-20/10/2026,20/10/2026-01,1,mtgo,winota-aggro,v1,Kess,OTD,W,Matchup jouable.
-20/10/2026,20/10/2026-01,2,mtgo,winota-aggro,v1,Kess,OTD,W,Matchup jouable.
-20/10/2026,20/10/2026-02,1,mtgo,winota-aggro,v1,Kess,OTD,L,Matchup jouable.
-20/10/2026,20/10/2026-02,2,mtgo,winota-aggro,v1,Kess,OTP,W,Matchup jouable.
-20/10/2026,20/10/2026-02,3,mtgo,winota-aggro,v1,Kess,OTD,W,Matchup jouable.
-20/10/2026,20/10/2026-03,1,mtgo,winota-aggro,v1,Kess,OTP,L,Matchup jouable.
-21/10/2026,21/10/2026-01,1,cockatrice,winota-aggro,v1,Kess,OTD,L,Bonne session.
-21/10/2026,21/10/2026-02,1,mtgo,winota-aggro,v2,Kess,OTP,L,Bonne session.
-21/10/2026,21/10/2026-02,2,mtgo,winota-aggro,v2,Kess,OTP,W,Bonne session.
-21/10/2026,21/10/2026-02,3,mtgo,winota-aggro,v2,Kess,OTD,W,Bonne session.
-21/10/2026,21/10/2026-03,1,mtgo,winota-aggro,v2,Kess,OTD,W,Bonne session.
-21/10/2026,21/10/2026-03,2,mtgo,winota-aggro,v2,Kess,OTD,W,Bonne session.
-21/10/2026,21/10/2026-04,1,mtgo,winota-aggro,v2,Kess,OTD,W,Bonne session.
-21/10/2026,21/10/2026-04,2,mtgo,winota-aggro,v2,Kess,OTD,W,Bonne session.
-21/10/2026,21/10/2026-05,1,mtgo,winota-aggro,v2,Kess,OTD,W,Bonne session.
-21/10/2026,21/10/2026-05,2,mtgo,winota-aggro,v2,Kess,OTD,W,Bonne session.
-21/10/2026,21/10/2026-06,1,mtgo,sythis-enchant,v1,Asmo,OTP,L,
-21/10/2026,21/10/2026-06,2,mtgo,sythis-enchant,v1,Asmo,OTP,W,
-21/10/2026,21/10/2026-06,3,mtgo,sythis-enchant,v1,Asmo,OTD,L,
-21/10/2026,21/10/2026-07,1,mtgo,sythis-enchant,v1,Asmo,OTD,L,
-21/10/2026,21/10/2026-07,2,mtgo,sythis-enchant,v1,Asmo,OTP,L,
-21/10/2026,21/10/2026-08,1,mtgo,sythis-enchant,v1,Asmo,OTD,L,
-21/10/2026,21/10/2026-08,2,mtgo,sythis-enchant,v1,Asmo,OTP,L,
-22/10/2026,22/10/2026-01,1,mtgo,winota-aggro,v1,Asmo,OTD,L,Bonne session.
-22/10/2026,22/10/2026-01,2,mtgo,winota-aggro,v1,Asmo,OTP,W,Bonne session.
-22/10/2026,22/10/2026-01,3,mtgo,winota-aggro,v1,Asmo,OTD,L,Bonne session.
-22/10/2026,22/10/2026-02,1,mtgo,winota-aggro,v1,Asmo,OTP,L,Bonne session.
-22/10/2026,22/10/2026-02,2,mtgo,winota-aggro,v1,Asmo,OTP,L,Bonne session.
-22/10/2026,22/10/2026-03,1,cockatrice,sythis-enchant,v1,Asmo,OTP,L,Mulligans difficiles.
-22/10/2026,22/10/2026-03,2,cockatrice,sythis-enchant,v1,Asmo,OTP,W,Mulligans difficiles.
-22/10/2026,22/10/2026-03,3,cockatrice,sythis-enchant,v1,Asmo,OTD,L,Mulligans difficiles.
-22/10/2026,22/10/2026-04,1,mtgo,sythis-enchant,v2,Kinnan,OTD,W,
-22/10/2026,22/10/2026-05,1,mtgo,sythis-enchant,v2,Kinnan,OTP,W,
-22/10/2026,22/10/2026-05,2,mtgo,sythis-enchant,v2,Kinnan,OTD,L,
-22/10/2026,22/10/2026-05,3,mtgo,sythis-enchant,v2,Kinnan,OTP,W,
-23/10/2026,23/10/2026-04,1,paper,sythis-enchant,v1,Kess,OTP,W,
-23/10/2026,23/10/2026-05,1,paper,sythis-enchant,v1,Kess,OTP,L,
-23/10/2026,23/10/2026-05,2,paper,sythis-enchant,v1,Kess,OTP,L,
-23/10/2026,23/10/2026-06,1,paper,sythis-enchant,v1,Kess,OTP,W,
-23/10/2026,23/10/2026-06,2,paper,sythis-enchant,v1,Kess,OTD,W,
-23/10/2026,23/10/2026-07,1,mtgo,sythis-enchant,v1,Aminatou,OTP,W,Mulligans difficiles.
-23/10/2026,23/10/2026-08,1,mtgo,sythis-enchant,v1,Aminatou,OTP,W,Mulligans difficiles.
-23/10/2026,23/10/2026-09,1,mtgo,sythis-enchant,v1,Aminatou,OTP,L,Mulligans difficiles.
-23/10/2026,23/10/2026-10,1,paper,sythis-enchant,v2,Kinnan,OTD,L,Matchup jouable.
-23/10/2026,23/10/2026-10,2,paper,sythis-enchant,v2,Kinnan,OTP,L,Matchup jouable.
-24/10/2026,24/10/2026-01,1,mtgo,winota-aggro,v2,Rograkh/Silas,OTD,W,Adversaire très rapide.
-24/10/2026,24/10/2026-01,2,mtgo,winota-aggro,v2,Rograkh/Silas,OTD,W,Adversaire très rapide.
-24/10/2026,24/10/2026-02,1,mtgo,winota-aggro,v2,Rograkh/Silas,OTD,W,Adversaire très rapide.
-24/10/2026,24/10/2026-02,2,mtgo,winota-aggro,v2,Rograkh/Silas,OTD,W,Adversaire très rapide.
-24/10/2026,24/10/2026-03,1,mtgo,winota-aggro,v2,Asmo,OTP,W,Bonne session.
-24/10/2026,24/10/2026-03,2,mtgo,winota-aggro,v2,Asmo,OTD,L,Bonne session.
-24/10/2026,24/10/2026-03,3,mtgo,winota-aggro,v2,Asmo,OTP,W,Bonne session.
-24/10/2026,24/10/2026-04,1,mtgo,winota-aggro,v2,Asmo,OTP,W,Bonne session.
-24/10/2026,24/10/2026-04,2,mtgo,winota-aggro,v2,Asmo,OTD,W,Bonne session.
-24/10/2026,24/10/2026-05,1,mtgo,winota-aggro,v2,Asmo,OTP,W,Bonne session.
-24/10/2026,24/10/2026-05,2,mtgo,winota-aggro,v2,Asmo,OTD,W,Bonne session.
-24/10/2026,24/10/2026-06,1,cockatrice,winota-aggro,v1,winota-aggro@v2,OTP,W,Bonne session.
-24/10/2026,24/10/2026-06,2,cockatrice,winota-aggro,v1,winota-aggro@v2,OTD,W,Bonne session.
-25/10/2026,25/10/2026-01,1,mtgo,winota-aggro,v1,Aminatou,OTP,W,Mulligans difficiles.
-25/10/2026,25/10/2026-01,2,mtgo,winota-aggro,v1,Aminatou,OTD,W,Mulligans difficiles.
-25/10/2026,25/10/2026-02,1,mtgo,winota-aggro,v1,Aminatou,OTP,L,Mulligans difficiles.
-25/10/2026,25/10/2026-02,2,mtgo,winota-aggro,v1,Aminatou,OTP,W,Mulligans difficiles.
-25/10/2026,25/10/2026-02,3,mtgo,winota-aggro,v1,Aminatou,OTD,W,Mulligans difficiles.
-25/10/2026,25/10/2026-03,1,mtgo,winota-aggro,v1,Aminatou,OTD,L,Mulligans difficiles.
-25/10/2026,25/10/2026-03,2,mtgo,winota-aggro,v1,Aminatou,OTP,W,Mulligans difficiles.
-25/10/2026,25/10/2026-03,3,mtgo,winota-aggro,v1,Aminatou,OTD,L,Mulligans difficiles.
-25/10/2026,25/10/2026-04,1,mtgo,sythis-enchant,v1,Tymna/Thrasios,OTD,W,Bonne session.
-25/10/2026,25/10/2026-04,2,mtgo,sythis-enchant,v1,Tymna/Thrasios,OTD,L,Bonne session.
-25/10/2026,25/10/2026-04,3,mtgo,sythis-enchant,v1,Tymna/Thrasios,OTP,L,Bonne session.
-26/10/2026,26/10/2026-01,1,paper,winota-aggro,v2,Magda,OTP,L,
-26/10/2026,26/10/2026-01,2,paper,winota-aggro,v2,Magda,OTP,W,
-26/10/2026,26/10/2026-01,3,paper,winota-aggro,v2,Magda,OTD,W,
-26/10/2026,26/10/2026-02,1,paper,winota-aggro,v2,Magda,OTD,L,
-26/10/2026,26/10/2026-02,2,paper,winota-aggro,v2,Magda,OTP,L,
-26/10/2026,26/10/2026-03,1,paper,winota-aggro,v2,Magda,OTP,W,
-26/10/2026,26/10/2026-04,1,paper,winota-aggro,v2,Aminatou,OTP,W,
-26/10/2026,26/10/2026-04,2,paper,winota-aggro,v2,Aminatou,OTD,W,
-26/10/2026,26/10/2026-05,1,mtgo,sythis-enchant,v2,Aminatou,OTP,L,Matchup jouable.
-26/10/2026,26/10/2026-06,1,mtgo,sythis-enchant,v2,Aminatou,OTD,W,Matchup jouable.
-26/10/2026,26/10/2026-06,2,mtgo,sythis-enchant,v2,Aminatou,OTD,W,Matchup jouable.
-26/10/2026,26/10/2026-07,1,mtgo,sythis-enchant,v2,Aminatou,OTD,W,Matchup jouable.
-26/10/2026,26/10/2026-07,2,mtgo,sythis-enchant,v2,Aminatou,OTD,L,Matchup jouable.
-26/10/2026,26/10/2026-07,3,mtgo,sythis-enchant,v2,Aminatou,OTP,W,Matchup jouable.
-26/10/2026,26/10/2026-08,1,mtgo,sythis-enchant,v2,Aminatou,OTP,W,Matchup jouable.
-26/10/2026,26/10/2026-08,2,mtgo,sythis-enchant,v2,Aminatou,OTD,L,Matchup jouable.
-26/10/2026,26/10/2026-08,3,mtgo,sythis-enchant,v2,Aminatou,OTP,W,Matchup jouable.
-26/10/2026,26/10/2026-09,1,mtgo,sythis-enchant,v2,Asmo,OTD,L,
-26/10/2026,26/10/2026-10,1,mtgo,sythis-enchant,v2,Asmo,OTD,L,
-26/10/2026,26/10/2026-11,1,cockatrice,kinnan-combo,v1,Kess,OTD,L,Matchup jouable.
-26/10/2026,26/10/2026-11,2,cockatrice,kinnan-combo,v1,Kess,OTP,L,Matchup jouable.
-26/10/2026,26/10/2026-12,1,cockatrice,kinnan-combo,v1,Kess,OTP,L,Matchup jouable.
-26/10/2026,26/10/2026-13,1,cockatrice,kinnan-combo,v1,Kess,OTP,L,Matchup jouable.
-26/10/2026,26/10/2026-13,2,cockatrice,kinnan-combo,v1,Kess,OTP,W,Matchup jouable.
-26/10/2026,26/10/2026-13,3,cockatrice,kinnan-combo,v1,Kess,OTD,L,Matchup jouable.
-27/10/2026,27/10/2026-01,1,cockatrice,winota-aggro,v1,Aminatou,OTP,W,
-27/10/2026,27/10/2026-01,2,cockatrice,winota-aggro,v1,Aminatou,OTD,W,
-27/10/2026,27/10/2026-02,1,cockatrice,winota-aggro,v1,Aminatou,OTD,W,
-27/10/2026,27/10/2026-02,2,cockatrice,winota-aggro,v1,Aminatou,OTD,W,
-27/10/2026,27/10/2026-03,1,cockatrice,winota-aggro,v1,Aminatou,OTD,L,
-27/10/2026,27/10/2026-04,1,cockatrice,winota-aggro,v1,Kess,OTD,W,Adversaire très rapide.
-27/10/2026,27/10/2026-04,2,cockatrice,winota-aggro,v1,Kess,OTD,L,Adversaire très rapide.
-27/10/2026,27/10/2026-04,3,cockatrice,winota-aggro,v1,Kess,OTP,W,Adversaire très rapide.
-27/10/2026,27/10/2026-05,1,cockatrice,winota-aggro,v1,Kess,OTD,L,Adversaire très rapide.
-27/10/2026,27/10/2026-05,2,cockatrice,winota-aggro,v1,Kess,OTP,W,Adversaire très rapide.
-27/10/2026,27/10/2026-05,3,cockatrice,winota-aggro,v1,Kess,OTD,L,Adversaire très rapide.
-27/10/2026,27/10/2026-06,1,cockatrice,winota-aggro,v1,Kess,OTP,W,Adversaire très rapide.
-27/10/2026,27/10/2026-06,2,cockatrice,winota-aggro,v1,Kess,OTD,L,Adversaire très rapide.
-27/10/2026,27/10/2026-06,3,cockatrice,winota-aggro,v1,Kess,OTP,L,Adversaire très rapide.
-27/10/2026,27/10/2026-07,1,cockatrice,winota-aggro,v1,Kess,OTD,L,Adversaire très rapide.
-27/10/2026,27/10/2026-07,2,cockatrice,winota-aggro,v1,Kess,OTP,W,Adversaire très rapide.
-27/10/2026,27/10/2026-07,3,cockatrice,winota-aggro,v1,Kess,OTD,L,Adversaire très rapide.
-27/10/2026,27/10/2026-08,1,paper,winota-aggro,v1,Aminatou,OTD,L,Adversaire très rapide.
-27/10/2026,27/10/2026-09,1,paper,winota-aggro,v1,Aminatou,OTD,W,Adversaire très rapide.
-27/10/2026,27/10/2026-09,2,paper,winota-aggro,v1,Aminatou,OTD,W,Adversaire très rapide.
-27/10/2026,27/10/2026-10,1,paper,winota-aggro,v1,Aminatou,OTD,W,Adversaire très rapide.
-27/10/2026,27/10/2026-10,2,paper,winota-aggro,v1,Aminatou,OTD,L,Adversaire très rapide.
-27/10/2026,27/10/2026-10,3,paper,winota-aggro,v1,Aminatou,OTP,L,Adversaire très rapide.
-27/10/2026,27/10/2026-11,1,mtgo,sythis-enchant,v1,Ragavan,OTP,W,Mulligans difficiles.
-27/10/2026,27/10/2026-11,2,mtgo,sythis-enchant,v1,Ragavan,OTD,L,Mulligans difficiles.
-27/10/2026,27/10/2026-11,3,mtgo,sythis-enchant,v1,Ragavan,OTP,L,Mulligans difficiles.
-27/10/2026,27/10/2026-12,1,mtgo,sythis-enchant,v1,Ragavan,OTP,L,Mulligans difficiles.
-27/10/2026,27/10/2026-12,2,mtgo,sythis-enchant,v1,Ragavan,OTP,W,Mulligans difficiles.
-27/10/2026,27/10/2026-12,3,mtgo,sythis-enchant,v1,Ragavan,OTD,W,Mulligans difficiles.
-27/10/2026,27/10/2026-13,1,mtgo,sythis-enchant,v1,Ragavan,OTP,W,Mulligans difficiles.
-27/10/2026,27/10/2026-13,2,mtgo,sythis-enchant,v1,Ragavan,OTD,L,Mulligans difficiles.
-27/10/2026,27/10/2026-13,3,mtgo,sythis-enchant,v1,Ragavan,OTP,L,Mulligans difficiles.
-27/10/2026,27/10/2026-14,1,mtgo,sythis-enchant,v1,Ragavan,OTP,L,Mulligans difficiles.
-27/10/2026,27/10/2026-14,2,mtgo,sythis-enchant,v1,Ragavan,OTP,L,Mulligans difficiles.
-27/10/2026,27/10/2026-15,1,mtgo,kinnan-combo,v1,Kess,OTP,W,
-28/10/2026,28/10/2026-01,1,cockatrice,sythis-enchant,v1,Kess,OTP,L,
-29/10/2026,29/10/2026-01,1,paper,winota-aggro,v1,Minsc & Boo,OTP,W,Adversaire très rapide.
-29/10/2026,29/10/2026-01,2,paper,winota-aggro,v1,Minsc & Boo,OTD,L,Adversaire très rapide.
-29/10/2026,29/10/2026-01,3,paper,winota-aggro,v1,Minsc & Boo,OTP,W,Adversaire très rapide.
-29/10/2026,29/10/2026-02,1,paper,winota-aggro,v1,Minsc & Boo,OTP,L,Adversaire très rapide.
-29/10/2026,29/10/2026-02,2,paper,winota-aggro,v1,Minsc & Boo,OTP,L,Adversaire très rapide.
-29/10/2026,29/10/2026-03,1,paper,winota-aggro,v1,Minsc & Boo,OTP,W,Adversaire très rapide.
-29/10/2026,29/10/2026-04,1,paper,winota-aggro,v1,Minsc & Boo,OTD,L,Adversaire très rapide.
-29/10/2026,29/10/2026-04,2,paper,winota-aggro,v1,Minsc & Boo,OTP,W,Adversaire très rapide.
-29/10/2026,29/10/2026-04,3,paper,winota-aggro,v1,Minsc & Boo,OTD,L,Adversaire très rapide.
-29/10/2026,29/10/2026-05,1,cockatrice,winota-aggro,v1,Rograkh/Silas,OTP,L,Bonne session.
-29/10/2026,29/10/2026-05,2,cockatrice,winota-aggro,v1,Rograkh/Silas,OTP,L,Bonne session.
-29/10/2026,29/10/2026-06,1,cockatrice,winota-aggro,v1,Rograkh/Silas,OTP,L,Bonne session.
-29/10/2026,29/10/2026-06,2,cockatrice,winota-aggro,v1,Rograkh/Silas,OTP,W,Bonne session.
-29/10/2026,29/10/2026-06,3,cockatrice,winota-aggro,v1,Rograkh/Silas,OTD,W,Bonne session.
-29/10/2026,29/10/2026-07,1,cockatrice,winota-aggro,v1,Rograkh/Silas,OTD,L,Bonne session.
-29/10/2026,29/10/2026-08,1,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTP,W,Adversaire très rapide.
-29/10/2026,29/10/2026-09,1,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTD,L,Adversaire très rapide.
-29/10/2026,29/10/2026-10,1,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTD,W,Adversaire très rapide.
-29/10/2026,29/10/2026-10,2,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTD,L,Adversaire très rapide.
-29/10/2026,29/10/2026-10,3,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTP,L,Adversaire très rapide.
-29/10/2026,29/10/2026-11,1,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTP,L,Adversaire très rapide.
-29/10/2026,29/10/2026-11,2,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTP,W,Adversaire très rapide.
-29/10/2026,29/10/2026-11,3,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTD,L,Adversaire très rapide.
-30/10/2026,30/10/2026-01,1,mtgo,winota-aggro,v2,Asmo,OTD,W,Mulligans difficiles.
-30/10/2026,30/10/2026-01,2,mtgo,winota-aggro,v2,Asmo,OTD,L,Mulligans difficiles.
-30/10/2026,30/10/2026-01,3,mtgo,winota-aggro,v2,Asmo,OTP,L,Mulligans difficiles.
-30/10/2026,30/10/2026-02,1,mtgo,winota-aggro,v2,Asmo,OTD,L,Mulligans difficiles.
-30/10/2026,30/10/2026-02,2,mtgo,winota-aggro,v2,Asmo,OTP,W,Mulligans difficiles.
-30/10/2026,30/10/2026-02,3,mtgo,winota-aggro,v2,Asmo,OTD,W,Mulligans difficiles.
-30/10/2026,30/10/2026-03,1,mtgo,winota-aggro,v2,Asmo,OTP,W,Mulligans difficiles.
-30/10/2026,30/10/2026-03,2,mtgo,winota-aggro,v2,Asmo,OTD,W,Mulligans difficiles.
-30/10/2026,30/10/2026-04,1,mtgo,winota-aggro,v2,Asmo,OTD,L,Mulligans difficiles.
-30/10/2026,30/10/2026-04,2,mtgo,winota-aggro,v2,Asmo,OTP,L,Mulligans difficiles.
-30/10/2026,30/10/2026-05,1,mtgo,kinnan-combo,v1,Ragavan,OTD,L,Matchup jouable.
-30/10/2026,30/10/2026-05,2,mtgo,kinnan-combo,v1,Ragavan,OTP,L,Matchup jouable.
-30/10/2026,30/10/2026-06,1,mtgo,kinnan-combo,v1,Ragavan,OTD,L,Matchup jouable.
-30/10/2026,30/10/2026-06,2,mtgo,kinnan-combo,v1,Ragavan,OTP,L,Matchup jouable.
-30/10/2026,30/10/2026-07,1,mtgo,kinnan-combo,v1,Ragavan,OTD,L,Matchup jouable.
-30/10/2026,30/10/2026-08,1,paper,test-deck,v1,Ragavan,OTD,W,Bonne session.
-30/10/2026,30/10/2026-08,2,paper,test-deck,v1,Ragavan,OTD,W,Bonne session.
-30/10/2026,30/10/2026-09,1,paper,test-deck,v1,Ragavan,OTD,W,Bonne session.
-30/10/2026,30/10/2026-09,2,paper,test-deck,v1,Ragavan,OTD,W,Bonne session.
-30/10/2026,30/10/2026-10,1,paper,test-deck,v1,Ragavan,OTP,L,Bonne session.
-30/10/2026,30/10/2026-10,2,paper,test-deck,v1,Ragavan,OTP,W,Bonne session.
-30/10/2026,30/10/2026-10,3,paper,test-deck,v1,Ragavan,OTD,L,Bonne session.
+01/09/2026,01/09/2026-01,1,paper,winota-aggro,v2,Partner BR,OTD,W,Adversaire très rapide.
+01/09/2026,01/09/2026-01,2,paper,winota-aggro,v2,Partner BR,OTD,W,Adversaire très rapide.
+01/09/2026,01/09/2026-02,1,mtgo,winota-aggro,v2,Aragorn,OTP,W,
+01/09/2026,01/09/2026-03,1,mtgo,winota-aggro,v2,Aragorn,OTD,L,
+01/09/2026,01/09/2026-03,2,mtgo,winota-aggro,v2,Aragorn,OTP,L,
+01/09/2026,01/09/2026-04,1,mtgo,winota-aggro,v2,Aragorn,OTP,W,
+01/09/2026,01/09/2026-04,2,mtgo,winota-aggro,v2,Aragorn,OTD,L,
+01/09/2026,01/09/2026-04,3,mtgo,winota-aggro,v2,Aragorn,OTP,W,
+01/09/2026,01/09/2026-05,1,mtgo,kinnan-combo,v1,Brigid,OTD,W,
+01/09/2026,01/09/2026-05,2,mtgo,kinnan-combo,v1,Brigid,OTD,W,
+01/09/2026,01/09/2026-06,1,mtgo,kinnan-combo,v1,Brigid,OTP,W,
+01/09/2026,01/09/2026-07,1,mtgo,kinnan-combo,v1,Brigid,OTP,W,
+01/09/2026,01/09/2026-07,2,mtgo,kinnan-combo,v1,Brigid,OTD,W,
+03/09/2026,03/09/2026-01,1,paper,winota-aggro,v2,Aang,OTP,W,
+03/09/2026,03/09/2026-01,2,paper,winota-aggro,v2,Aang,OTD,L,
+03/09/2026,03/09/2026-01,3,paper,winota-aggro,v2,Aang,OTP,W,
+03/09/2026,03/09/2026-02,1,paper,winota-aggro,v2,Aang,OTD,L,
+03/09/2026,03/09/2026-02,2,paper,winota-aggro,v2,Aang,OTP,W,
+03/09/2026,03/09/2026-02,3,paper,winota-aggro,v2,Aang,OTD,L,
+03/09/2026,03/09/2026-03,1,paper,winota-aggro,v2,Aang,OTP,W,
+03/09/2026,03/09/2026-03,2,paper,winota-aggro,v2,Aang,OTD,L,
+03/09/2026,03/09/2026-03,3,paper,winota-aggro,v2,Aang,OTP,W,
+03/09/2026,03/09/2026-04,1,paper,winota-aggro,v2,Aang,OTD,L,
+03/09/2026,03/09/2026-04,2,paper,winota-aggro,v2,Aang,OTP,L,
+03/09/2026,03/09/2026-05,1,paper,sythis-enchant,v2,Tifa Lockhart,OTD,W,Bonne session.
+03/09/2026,03/09/2026-05,2,paper,sythis-enchant,v2,Tifa Lockhart,OTD,W,Bonne session.
+03/09/2026,03/09/2026-06,1,paper,sythis-enchant,v2,Tifa Lockhart,OTD,L,Bonne session.
+03/09/2026,03/09/2026-07,1,cockatrice,sythis-enchant,v2,Emry,OTP,W,
+03/09/2026,03/09/2026-07,2,cockatrice,sythis-enchant,v2,Emry,OTD,L,
+03/09/2026,03/09/2026-07,3,cockatrice,sythis-enchant,v2,Emry,OTP,W,
+03/09/2026,03/09/2026-08,1,cockatrice,sythis-enchant,v2,Emry,OTP,W,
+03/09/2026,03/09/2026-08,2,cockatrice,sythis-enchant,v2,Emry,OTD,L,
+03/09/2026,03/09/2026-08,3,cockatrice,sythis-enchant,v2,Emry,OTP,L,
+03/09/2026,03/09/2026-09,1,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTD,L,Adversaire très rapide.
+03/09/2026,03/09/2026-09,2,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTP,W,Adversaire très rapide.
+03/09/2026,03/09/2026-09,3,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTD,W,Adversaire très rapide.
+04/09/2026,04/09/2026-01,1,cockatrice,winota-aggro,v1,Light-Paws,OTD,L,Adversaire très rapide.
+04/09/2026,04/09/2026-01,2,cockatrice,winota-aggro,v1,Light-Paws,OTP,W,Adversaire très rapide.
+04/09/2026,04/09/2026-01,3,cockatrice,winota-aggro,v1,Light-Paws,OTD,W,Adversaire très rapide.
+04/09/2026,04/09/2026-02,1,paper,winota-aggro,v2,Partner BR,OTD,W,Mulligans difficiles.
+04/09/2026,04/09/2026-03,1,paper,winota-aggro,v2,Partner BR,OTP,W,Mulligans difficiles.
+04/09/2026,04/09/2026-03,2,paper,winota-aggro,v2,Partner BR,OTD,L,Mulligans difficiles.
+04/09/2026,04/09/2026-03,3,paper,winota-aggro,v2,Partner BR,OTP,W,Mulligans difficiles.
+04/09/2026,04/09/2026-04,1,mtgo,winota-aggro,v2,Phelia,OTD,L,Adversaire très rapide.
+04/09/2026,04/09/2026-04,2,mtgo,winota-aggro,v2,Phelia,OTP,L,Adversaire très rapide.
+04/09/2026,04/09/2026-05,1,mtgo,winota-aggro,v2,Aang,OTP,L,
+04/09/2026,04/09/2026-06,1,mtgo,winota-aggro,v2,Aang,OTP,L,
+04/09/2026,04/09/2026-06,2,mtgo,winota-aggro,v2,Aang,OTP,L,
+04/09/2026,04/09/2026-07,1,cockatrice,winota-aggro,v2,Terra,OTP,L,
+04/09/2026,04/09/2026-07,2,cockatrice,winota-aggro,v2,Terra,OTP,W,
+04/09/2026,04/09/2026-07,3,cockatrice,winota-aggro,v2,Terra,OTD,W,
+04/09/2026,04/09/2026-08,1,mtgo,sythis-enchant,v1,Partner WUR,OTD,W,Bonne session.
+04/09/2026,04/09/2026-09,1,mtgo,sythis-enchant,v1,Aminatou,OTP,W,Mulligans difficiles.
+04/09/2026,04/09/2026-09,2,mtgo,sythis-enchant,v1,Aminatou,OTD,L,Mulligans difficiles.
+04/09/2026,04/09/2026-09,3,mtgo,sythis-enchant,v1,Aminatou,OTP,L,Mulligans difficiles.
+04/09/2026,04/09/2026-10,1,mtgo,sythis-enchant,v1,Brigid,OTD,L,Matchup jouable.
+04/09/2026,04/09/2026-10,2,mtgo,sythis-enchant,v1,Brigid,OTP,L,Matchup jouable.
+05/09/2026,05/09/2026-01,1,mtgo,winota-aggro,v2,Aragorn,OTP,L,Bonne session.
+05/09/2026,05/09/2026-01,2,mtgo,winota-aggro,v2,Aragorn,OTP,L,Bonne session.
+05/09/2026,05/09/2026-02,1,mtgo,winota-aggro,v2,Aragorn,OTD,W,Bonne session.
+05/09/2026,05/09/2026-02,2,mtgo,winota-aggro,v2,Aragorn,OTD,L,Bonne session.
+05/09/2026,05/09/2026-02,3,mtgo,winota-aggro,v2,Aragorn,OTP,W,Bonne session.
+05/09/2026,05/09/2026-03,1,mtgo,winota-aggro,v2,Aragorn,OTD,L,Bonne session.
+05/09/2026,05/09/2026-04,1,mtgo,sythis-enchant,v2,Aragorn,OTP,W,Adversaire très rapide.
+05/09/2026,05/09/2026-04,2,mtgo,sythis-enchant,v2,Aragorn,OTD,W,Adversaire très rapide.
+05/09/2026,05/09/2026-05,1,mtgo,sythis-enchant,v2,Aragorn,OTP,W,Adversaire très rapide.
+05/09/2026,05/09/2026-05,2,mtgo,sythis-enchant,v2,Aragorn,OTD,L,Adversaire très rapide.
+05/09/2026,05/09/2026-05,3,mtgo,sythis-enchant,v2,Aragorn,OTP,L,Adversaire très rapide.
+06/09/2026,06/09/2026-01,1,paper,winota-aggro,v1,Quintorius,OTD,L,Bonne session.
+06/09/2026,06/09/2026-01,2,paper,winota-aggro,v1,Quintorius,OTP,W,Bonne session.
+06/09/2026,06/09/2026-01,3,paper,winota-aggro,v1,Quintorius,OTD,L,Bonne session.
+06/09/2026,06/09/2026-02,1,paper,winota-aggro,v1,Quintorius,OTP,L,Bonne session.
+06/09/2026,06/09/2026-02,2,paper,winota-aggro,v1,Quintorius,OTP,W,Bonne session.
+06/09/2026,06/09/2026-02,3,paper,winota-aggro,v1,Quintorius,OTD,W,Bonne session.
+06/09/2026,06/09/2026-03,1,paper,winota-aggro,v1,Phelia,OTD,L,Bonne session.
+06/09/2026,06/09/2026-03,2,paper,winota-aggro,v1,Phelia,OTP,L,Bonne session.
+06/09/2026,06/09/2026-04,1,paper,winota-aggro,v1,Phelia,OTP,L,Bonne session.
+06/09/2026,06/09/2026-04,2,paper,winota-aggro,v1,Phelia,OTP,L,Bonne session.
+06/09/2026,06/09/2026-05,1,paper,winota-aggro,v1,Phelia,OTD,L,Bonne session.
+06/09/2026,06/09/2026-05,2,paper,winota-aggro,v1,Phelia,OTP,L,Bonne session.
+06/09/2026,06/09/2026-06,1,paper,winota-aggro,v1,Phelia,OTD,L,Bonne session.
+06/09/2026,06/09/2026-06,2,paper,winota-aggro,v1,Phelia,OTP,L,Bonne session.
+06/09/2026,06/09/2026-07,1,cockatrice,sythis-enchant,v1,Tifa Lockhart,OTD,L,
+06/09/2026,06/09/2026-08,1,cockatrice,sythis-enchant,v1,Tifa Lockhart,OTP,L,
+06/09/2026,06/09/2026-08,2,cockatrice,sythis-enchant,v1,Tifa Lockhart,OTP,L,
+06/09/2026,06/09/2026-09,1,cockatrice,sythis-enchant,v1,Tifa Lockhart,OTD,L,
+06/09/2026,06/09/2026-09,2,cockatrice,sythis-enchant,v1,Tifa Lockhart,OTP,W,
+06/09/2026,06/09/2026-09,3,cockatrice,sythis-enchant,v1,Tifa Lockhart,OTD,L,
+06/09/2026,06/09/2026-10,1,cockatrice,sythis-enchant,v1,Tifa Lockhart,OTP,L,
+06/09/2026,06/09/2026-10,2,cockatrice,sythis-enchant,v1,Tifa Lockhart,OTP,L,
+06/09/2026,06/09/2026-11,1,mtgo,sythis-enchant,v1,Nick Fury,OTD,L,Matchup jouable.
+06/09/2026,06/09/2026-11,2,mtgo,sythis-enchant,v1,Nick Fury,OTP,W,Matchup jouable.
+06/09/2026,06/09/2026-11,3,mtgo,sythis-enchant,v1,Nick Fury,OTD,W,Matchup jouable.
+06/09/2026,06/09/2026-12,1,mtgo,sythis-enchant,v1,Nick Fury,OTD,L,Matchup jouable.
+06/09/2026,06/09/2026-12,2,mtgo,sythis-enchant,v1,Nick Fury,OTP,L,Matchup jouable.
+06/09/2026,06/09/2026-13,1,mtgo,sythis-enchant,v1,Nick Fury,OTD,L,Matchup jouable.
+06/09/2026,06/09/2026-13,2,mtgo,sythis-enchant,v1,Nick Fury,OTP,L,Matchup jouable.
+06/09/2026,06/09/2026-14,1,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTD,W,Bonne session.
+06/09/2026,06/09/2026-14,2,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTD,W,Bonne session.
+06/09/2026,06/09/2026-15,1,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTD,W,Bonne session.
+06/09/2026,06/09/2026-16,1,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTD,W,Bonne session.
+06/09/2026,06/09/2026-16,2,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTD,L,Bonne session.
+06/09/2026,06/09/2026-16,3,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTP,L,Bonne session.
+06/09/2026,06/09/2026-17,1,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTP,L,Bonne session.
+07/09/2026,07/09/2026-01,1,paper,winota-aggro,v1,Phelia,OTD,W,Bonne session.
+07/09/2026,07/09/2026-01,2,paper,winota-aggro,v1,Phelia,OTD,L,Bonne session.
+07/09/2026,07/09/2026-01,3,paper,winota-aggro,v1,Phelia,OTP,W,Bonne session.
+07/09/2026,07/09/2026-02,1,paper,winota-aggro,v1,Phelia,OTD,W,Bonne session.
+07/09/2026,07/09/2026-02,2,paper,winota-aggro,v1,Phelia,OTD,W,Bonne session.
+07/09/2026,07/09/2026-03,1,paper,winota-aggro,v1,Phelia,OTP,W,Bonne session.
+07/09/2026,07/09/2026-03,2,paper,winota-aggro,v1,Phelia,OTD,L,Bonne session.
+07/09/2026,07/09/2026-03,3,paper,winota-aggro,v1,Phelia,OTP,L,Bonne session.
+07/09/2026,07/09/2026-04,1,paper,winota-aggro,v1,Phelia,OTP,W,Bonne session.
+07/09/2026,07/09/2026-04,2,paper,winota-aggro,v1,Phelia,OTD,W,Bonne session.
+08/09/2026,08/09/2026-01,1,mtgo,winota-aggro,v1,Glarb,OTP,W,Mulligans difficiles.
+08/09/2026,08/09/2026-01,2,mtgo,winota-aggro,v1,Glarb,OTD,L,Mulligans difficiles.
+08/09/2026,08/09/2026-01,3,mtgo,winota-aggro,v1,Glarb,OTP,L,Mulligans difficiles.
+08/09/2026,08/09/2026-02,1,mtgo,winota-aggro,v1,Glarb,OTD,W,Mulligans difficiles.
+08/09/2026,08/09/2026-03,1,mtgo,winota-aggro,v1,Glarb,OTP,L,Mulligans difficiles.
+08/09/2026,08/09/2026-04,1,paper,winota-aggro,v1,Terra,OTD,W,Adversaire très rapide.
+08/09/2026,08/09/2026-04,2,paper,winota-aggro,v1,Terra,OTD,L,Adversaire très rapide.
+08/09/2026,08/09/2026-04,3,paper,winota-aggro,v1,Terra,OTP,L,Adversaire très rapide.
+08/09/2026,08/09/2026-05,1,paper,winota-aggro,v1,Terra,OTD,L,Adversaire très rapide.
+08/09/2026,08/09/2026-05,2,paper,winota-aggro,v1,Terra,OTP,L,Adversaire très rapide.
+08/09/2026,08/09/2026-06,1,cockatrice,winota-aggro,v1,Terra,OTP,L,
+08/09/2026,08/09/2026-06,2,cockatrice,winota-aggro,v1,Terra,OTP,L,
+08/09/2026,08/09/2026-07,1,cockatrice,winota-aggro,v1,Terra,OTD,L,
+08/09/2026,08/09/2026-07,2,cockatrice,winota-aggro,v1,Terra,OTP,L,
+08/09/2026,08/09/2026-08,1,cockatrice,winota-aggro,v1,Terra,OTD,W,
+08/09/2026,08/09/2026-09,1,cockatrice,winota-aggro,v1,Terra,OTP,W,
+08/09/2026,08/09/2026-10,1,mtgo,winota-aggro,v2,Cloud,OTP,W,
+08/09/2026,08/09/2026-10,2,mtgo,winota-aggro,v2,Cloud,OTD,W,
+08/09/2026,08/09/2026-11,1,paper,sythis-enchant,v1,Phelia,OTP,L,Adversaire très rapide.
+08/09/2026,08/09/2026-11,2,paper,sythis-enchant,v1,Phelia,OTP,L,Adversaire très rapide.
+08/09/2026,08/09/2026-12,1,paper,sythis-enchant,v1,Phelia,OTP,L,Adversaire très rapide.
+08/09/2026,08/09/2026-12,2,paper,sythis-enchant,v1,Phelia,OTP,W,Adversaire très rapide.
+08/09/2026,08/09/2026-12,3,paper,sythis-enchant,v1,Phelia,OTD,L,Adversaire très rapide.
+08/09/2026,08/09/2026-13,1,paper,sythis-enchant,v1,Phelia,OTP,L,Adversaire très rapide.
+08/09/2026,08/09/2026-14,1,cockatrice,sythis-enchant,v2,Aragorn,OTP,L,
+08/09/2026,08/09/2026-14,2,cockatrice,sythis-enchant,v2,Aragorn,OTP,W,
+08/09/2026,08/09/2026-14,3,cockatrice,sythis-enchant,v2,Aragorn,OTD,L,
+08/09/2026,08/09/2026-15,1,cockatrice,sythis-enchant,v2,Aragorn,OTD,L,
+08/09/2026,08/09/2026-16,1,mtgo,sythis-enchant,v2,Terra,OTP,W,
+08/09/2026,08/09/2026-17,1,mtgo,sythis-enchant,v2,Terra,OTD,L,
+08/09/2026,08/09/2026-17,2,mtgo,sythis-enchant,v2,Terra,OTP,W,
+08/09/2026,08/09/2026-17,3,mtgo,sythis-enchant,v2,Terra,OTD,L,
+08/09/2026,08/09/2026-18,1,paper,kinnan-combo,v1,Aminatou,OTD,L,
+08/09/2026,08/09/2026-18,2,paper,kinnan-combo,v1,Aminatou,OTP,W,
+08/09/2026,08/09/2026-18,3,paper,kinnan-combo,v1,Aminatou,OTD,L,
+08/09/2026,08/09/2026-19,1,paper,kinnan-combo,v1,Aminatou,OTD,L,
+08/09/2026,08/09/2026-19,2,paper,kinnan-combo,v1,Aminatou,OTP,L,
+09/09/2026,09/09/2026-01,1,mtgo,winota-aggro,v2,Quintorius,OTD,L,Adversaire très rapide.
+09/09/2026,09/09/2026-02,1,mtgo,winota-aggro,v2,Quintorius,OTD,W,Adversaire très rapide.
+09/09/2026,09/09/2026-02,2,mtgo,winota-aggro,v2,Quintorius,OTD,L,Adversaire très rapide.
+09/09/2026,09/09/2026-02,3,mtgo,winota-aggro,v2,Quintorius,OTP,L,Adversaire très rapide.
+09/09/2026,09/09/2026-03,1,mtgo,sythis-enchant,v1,Tasigur,OTD,W,Bonne session.
+09/09/2026,09/09/2026-03,2,mtgo,sythis-enchant,v1,Tasigur,OTD,L,Bonne session.
+09/09/2026,09/09/2026-03,3,mtgo,sythis-enchant,v1,Tasigur,OTP,L,Bonne session.
+09/09/2026,09/09/2026-04,1,mtgo,sythis-enchant,v1,Tasigur,OTP,W,Bonne session.
+09/09/2026,09/09/2026-04,2,mtgo,sythis-enchant,v1,Tasigur,OTD,L,Bonne session.
+09/09/2026,09/09/2026-04,3,mtgo,sythis-enchant,v1,Tasigur,OTP,L,Bonne session.
+09/09/2026,09/09/2026-05,1,mtgo,sythis-enchant,v1,Tasigur,OTP,L,Bonne session.
+09/09/2026,09/09/2026-05,2,mtgo,sythis-enchant,v1,Tasigur,OTP,W,Bonne session.
+09/09/2026,09/09/2026-05,3,mtgo,sythis-enchant,v1,Tasigur,OTD,L,Bonne session.
+09/09/2026,09/09/2026-06,1,mtgo,sythis-enchant,v1,Tasigur,OTP,L,Bonne session.
+09/09/2026,09/09/2026-06,2,mtgo,sythis-enchant,v1,Tasigur,OTP,W,Bonne session.
+09/09/2026,09/09/2026-06,3,mtgo,sythis-enchant,v1,Tasigur,OTD,L,Bonne session.
+09/09/2026,09/09/2026-07,1,mtgo,sythis-enchant,v1,Aragorn,OTD,L,
+09/09/2026,09/09/2026-07,2,mtgo,sythis-enchant,v1,Aragorn,OTP,L,
+09/09/2026,09/09/2026-08,1,mtgo,sythis-enchant,v1,Aragorn,OTD,L,
+09/09/2026,09/09/2026-08,2,mtgo,sythis-enchant,v1,Aragorn,OTP,W,
+09/09/2026,09/09/2026-08,3,mtgo,sythis-enchant,v1,Aragorn,OTD,L,
+09/09/2026,09/09/2026-09,1,mtgo,sythis-enchant,v1,Aragorn,OTD,L,
+09/09/2026,09/09/2026-10,1,mtgo,sythis-enchant,v1,Aragorn,OTP,L,
+09/09/2026,09/09/2026-10,2,mtgo,sythis-enchant,v1,Aragorn,OTP,L,
+10/09/2026,10/09/2026-01,1,paper,winota-aggro,v1,Cloud,OTD,W,Adversaire très rapide.
+10/09/2026,10/09/2026-02,1,paper,winota-aggro,v1,Cloud,OTP,W,Adversaire très rapide.
+10/09/2026,10/09/2026-02,2,paper,winota-aggro,v1,Cloud,OTD,W,Adversaire très rapide.
+10/09/2026,10/09/2026-03,1,paper,winota-aggro,v1,Cloud,OTP,W,Adversaire très rapide.
+10/09/2026,10/09/2026-03,2,paper,winota-aggro,v1,Cloud,OTD,L,Adversaire très rapide.
+10/09/2026,10/09/2026-03,3,paper,winota-aggro,v1,Cloud,OTP,W,Adversaire très rapide.
+10/09/2026,10/09/2026-04,1,cockatrice,sythis-enchant,v2,Tasigur,OTD,L,
+10/09/2026,10/09/2026-04,2,cockatrice,sythis-enchant,v2,Tasigur,OTP,W,
+10/09/2026,10/09/2026-04,3,cockatrice,sythis-enchant,v2,Tasigur,OTD,L,
+10/09/2026,10/09/2026-05,1,cockatrice,sythis-enchant,v2,Tasigur,OTP,W,
+10/09/2026,10/09/2026-05,2,cockatrice,sythis-enchant,v2,Tasigur,OTD,L,
+10/09/2026,10/09/2026-05,3,cockatrice,sythis-enchant,v2,Tasigur,OTP,W,
+10/09/2026,10/09/2026-06,1,cockatrice,sythis-enchant,v2,Tasigur,OTP,W,
+10/09/2026,10/09/2026-06,2,cockatrice,sythis-enchant,v2,Tasigur,OTD,W,
+10/09/2026,10/09/2026-07,1,cockatrice,sythis-enchant,v2,Tasigur,OTD,L,
+10/09/2026,10/09/2026-07,2,cockatrice,sythis-enchant,v2,Tasigur,OTP,L,
+11/09/2026,11/09/2026-01,1,paper,winota-aggro,v1,Light-Paws,OTD,W,
+11/09/2026,11/09/2026-01,2,paper,winota-aggro,v1,Light-Paws,OTD,L,
+11/09/2026,11/09/2026-01,3,paper,winota-aggro,v1,Light-Paws,OTP,W,
+11/09/2026,11/09/2026-02,1,paper,winota-aggro,v1,Light-Paws,OTD,W,
+11/09/2026,11/09/2026-02,2,paper,winota-aggro,v1,Light-Paws,OTD,W,
+11/09/2026,11/09/2026-03,1,paper,winota-aggro,v1,Light-Paws,OTD,W,
+11/09/2026,11/09/2026-03,2,paper,winota-aggro,v1,Light-Paws,OTD,L,
+11/09/2026,11/09/2026-03,3,paper,winota-aggro,v1,Light-Paws,OTP,L,
+11/09/2026,11/09/2026-04,1,paper,winota-aggro,v1,Light-Paws,OTD,W,
+11/09/2026,11/09/2026-04,2,paper,winota-aggro,v1,Light-Paws,OTD,L,
+11/09/2026,11/09/2026-04,3,paper,winota-aggro,v1,Light-Paws,OTP,W,
+11/09/2026,11/09/2026-05,1,cockatrice,sythis-enchant,v1,Terra,OTP,L,Bonne session.
+11/09/2026,11/09/2026-05,2,cockatrice,sythis-enchant,v1,Terra,OTP,L,Bonne session.
+11/09/2026,11/09/2026-06,1,cockatrice,sythis-enchant,v1,Terra,OTD,L,Bonne session.
+11/09/2026,11/09/2026-06,2,cockatrice,sythis-enchant,v1,Terra,OTP,L,Bonne session.
+11/09/2026,11/09/2026-07,1,cockatrice,sythis-enchant,v1,Terra,OTD,L,Bonne session.
+11/09/2026,11/09/2026-07,2,cockatrice,sythis-enchant,v1,Terra,OTP,W,Bonne session.
+11/09/2026,11/09/2026-07,3,cockatrice,sythis-enchant,v1,Terra,OTD,L,Bonne session.
+11/09/2026,11/09/2026-08,1,cockatrice,sythis-enchant,v1,Terra,OTP,W,Bonne session.
+11/09/2026,11/09/2026-09,1,paper,sythis-enchant,v2,Aang,OTP,L,
+11/09/2026,11/09/2026-09,2,paper,sythis-enchant,v2,Aang,OTP,L,
+12/09/2026,12/09/2026-01,1,cockatrice,winota-aggro,v1,Terra,OTP,L,Bonne session.
+12/09/2026,12/09/2026-01,2,cockatrice,winota-aggro,v1,Terra,OTP,L,Bonne session.
+12/09/2026,12/09/2026-02,1,paper,winota-aggro,v2,Aang,OTD,L,Mulligans difficiles.
+12/09/2026,12/09/2026-02,2,paper,winota-aggro,v2,Aang,OTP,L,Mulligans difficiles.
+12/09/2026,12/09/2026-03,1,paper,winota-aggro,v2,Aang,OTD,W,Mulligans difficiles.
+12/09/2026,12/09/2026-03,2,paper,winota-aggro,v2,Aang,OTD,L,Mulligans difficiles.
+12/09/2026,12/09/2026-03,3,paper,winota-aggro,v2,Aang,OTP,L,Mulligans difficiles.
+12/09/2026,12/09/2026-04,1,paper,sythis-enchant,v1,Phelia,OTD,L,
+12/09/2026,12/09/2026-04,2,paper,sythis-enchant,v1,Phelia,OTP,L,
+12/09/2026,12/09/2026-05,1,paper,sythis-enchant,v1,Phelia,OTP,L,
+12/09/2026,12/09/2026-05,2,paper,sythis-enchant,v1,Phelia,OTP,W,
+12/09/2026,12/09/2026-05,3,paper,sythis-enchant,v1,Phelia,OTD,L,
+12/09/2026,12/09/2026-06,1,paper,sythis-enchant,v1,Phelia,OTP,L,
+12/09/2026,12/09/2026-06,2,paper,sythis-enchant,v1,Phelia,OTP,L,
+12/09/2026,12/09/2026-07,1,paper,sythis-enchant,v1,Phelia,OTD,L,
+12/09/2026,12/09/2026-08,1,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTD,L,
+12/09/2026,12/09/2026-09,1,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTP,W,
+12/09/2026,12/09/2026-10,1,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTD,L,
+12/09/2026,12/09/2026-10,2,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTP,W,
+12/09/2026,12/09/2026-10,3,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTD,L,
+13/09/2026,13/09/2026-01,1,cockatrice,winota-aggro,v1,Aragorn,OTD,W,Mulligans difficiles.
+13/09/2026,13/09/2026-02,1,cockatrice,winota-aggro,v1,Aragorn,OTP,W,Mulligans difficiles.
+13/09/2026,13/09/2026-02,2,cockatrice,winota-aggro,v1,Aragorn,OTD,L,Mulligans difficiles.
+13/09/2026,13/09/2026-02,3,cockatrice,winota-aggro,v1,Aragorn,OTP,W,Mulligans difficiles.
+13/09/2026,13/09/2026-03,1,cockatrice,winota-aggro,v1,Aragorn,OTD,L,Mulligans difficiles.
+13/09/2026,13/09/2026-04,1,cockatrice,winota-aggro,v1,Aragorn,OTP,W,Mulligans difficiles.
+13/09/2026,13/09/2026-04,2,cockatrice,winota-aggro,v1,Aragorn,OTD,L,Mulligans difficiles.
+13/09/2026,13/09/2026-04,3,cockatrice,winota-aggro,v1,Aragorn,OTP,L,Mulligans difficiles.
+13/09/2026,13/09/2026-05,1,paper,sythis-enchant,v2,Partner WUR,OTP,L,
+14/09/2026,14/09/2026-01,1,paper,winota-aggro,v1,Brigid,OTP,L,
+14/09/2026,14/09/2026-01,2,paper,winota-aggro,v1,Brigid,OTP,L,
+14/09/2026,14/09/2026-02,1,paper,winota-aggro,v1,Brigid,OTD,L,
+14/09/2026,14/09/2026-02,2,paper,winota-aggro,v1,Brigid,OTP,L,
+14/09/2026,14/09/2026-03,1,paper,winota-aggro,v1,Brigid,OTP,L,
+14/09/2026,14/09/2026-03,2,paper,winota-aggro,v1,Brigid,OTP,L,
+14/09/2026,14/09/2026-04,1,mtgo,winota-aggro,v1,Aragorn,OTP,L,Matchup jouable.
+14/09/2026,14/09/2026-04,2,mtgo,winota-aggro,v1,Aragorn,OTP,L,Matchup jouable.
+14/09/2026,14/09/2026-05,1,mtgo,winota-aggro,v1,Aragorn,OTD,W,Matchup jouable.
+14/09/2026,14/09/2026-05,2,mtgo,winota-aggro,v1,Aragorn,OTD,L,Matchup jouable.
+14/09/2026,14/09/2026-05,3,mtgo,winota-aggro,v1,Aragorn,OTP,L,Matchup jouable.
+14/09/2026,14/09/2026-06,1,mtgo,winota-aggro,v1,Aragorn,OTP,W,Matchup jouable.
+14/09/2026,14/09/2026-06,2,mtgo,winota-aggro,v1,Aragorn,OTD,W,Matchup jouable.
+14/09/2026,14/09/2026-07,1,mtgo,winota-aggro,v1,Light-Paws,OTD,L,Bonne session.
+14/09/2026,14/09/2026-08,1,mtgo,winota-aggro,v1,Light-Paws,OTD,L,Bonne session.
+14/09/2026,14/09/2026-08,2,mtgo,winota-aggro,v1,Light-Paws,OTP,W,Bonne session.
+14/09/2026,14/09/2026-08,3,mtgo,winota-aggro,v1,Light-Paws,OTD,L,Bonne session.
+14/09/2026,14/09/2026-09,1,mtgo,winota-aggro,v2,Light-Paws,OTP,W,Bonne session.
+14/09/2026,14/09/2026-09,2,mtgo,winota-aggro,v2,Light-Paws,OTD,W,Bonne session.
+14/09/2026,14/09/2026-10,1,mtgo,winota-aggro,v2,Light-Paws,OTD,W,Bonne session.
+14/09/2026,14/09/2026-10,2,mtgo,winota-aggro,v2,Light-Paws,OTD,W,Bonne session.
+14/09/2026,14/09/2026-11,1,mtgo,winota-aggro,v2,Light-Paws,OTD,L,Bonne session.
+14/09/2026,14/09/2026-11,2,mtgo,winota-aggro,v2,Light-Paws,OTP,W,Bonne session.
+14/09/2026,14/09/2026-11,3,mtgo,winota-aggro,v2,Light-Paws,OTD,L,Bonne session.
+14/09/2026,14/09/2026-12,1,mtgo,winota-aggro,v2,Light-Paws,OTD,L,Bonne session.
+14/09/2026,14/09/2026-12,2,mtgo,winota-aggro,v2,Light-Paws,OTP,W,Bonne session.
+14/09/2026,14/09/2026-12,3,mtgo,winota-aggro,v2,Light-Paws,OTD,W,Bonne session.
+14/09/2026,14/09/2026-13,1,mtgo,kinnan-combo,v1,Partner BR,OTP,L,
+14/09/2026,14/09/2026-13,2,mtgo,kinnan-combo,v1,Partner BR,OTP,W,
+14/09/2026,14/09/2026-13,3,mtgo,kinnan-combo,v1,Partner BR,OTD,W,
+14/09/2026,14/09/2026-14,1,mtgo,kinnan-combo,v1,Partner BR,OTD,W,
+14/09/2026,14/09/2026-14,2,mtgo,kinnan-combo,v1,Partner BR,OTD,L,
+14/09/2026,14/09/2026-14,3,mtgo,kinnan-combo,v1,Partner BR,OTP,L,
+14/09/2026,14/09/2026-15,1,mtgo,kinnan-combo,v1,Partner BR,OTD,L,
+14/09/2026,14/09/2026-16,1,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTP,W,
+14/09/2026,14/09/2026-16,2,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTD,L,
+14/09/2026,14/09/2026-16,3,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTP,W,
+14/09/2026,14/09/2026-17,1,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTP,W,
+14/09/2026,14/09/2026-17,2,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTD,L,
+14/09/2026,14/09/2026-17,3,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTP,L,
+14/09/2026,14/09/2026-18,1,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTD,W,
+14/09/2026,14/09/2026-18,2,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTD,L,
+14/09/2026,14/09/2026-18,3,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTP,L,
+14/09/2026,14/09/2026-19,1,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTD,L,
+14/09/2026,14/09/2026-19,2,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTP,W,
+14/09/2026,14/09/2026-19,3,cockatrice,sythis-enchant,v2,winota-aggro@v2,OTD,L,
+15/09/2026,15/09/2026-01,1,paper,winota-aggro,v2,Deadpool,OTP,L,Matchup jouable.
+15/09/2026,15/09/2026-01,2,paper,winota-aggro,v2,Deadpool,OTP,W,Matchup jouable.
+15/09/2026,15/09/2026-01,3,paper,winota-aggro,v2,Deadpool,OTD,W,Matchup jouable.
+15/09/2026,15/09/2026-02,1,paper,winota-aggro,v2,Deadpool,OTP,W,Matchup jouable.
+15/09/2026,15/09/2026-02,2,paper,winota-aggro,v2,Deadpool,OTD,W,Matchup jouable.
+15/09/2026,15/09/2026-03,1,paper,winota-aggro,v2,Deadpool,OTD,L,Matchup jouable.
+15/09/2026,15/09/2026-04,1,mtgo,sythis-enchant,v1,Slimefoot And Squee,OTP,W,Mulligans difficiles.
+15/09/2026,15/09/2026-04,2,mtgo,sythis-enchant,v1,Slimefoot And Squee,OTD,L,Mulligans difficiles.
+15/09/2026,15/09/2026-04,3,mtgo,sythis-enchant,v1,Slimefoot And Squee,OTP,W,Mulligans difficiles.
+15/09/2026,15/09/2026-05,1,mtgo,sythis-enchant,v1,Slimefoot And Squee,OTP,W,Mulligans difficiles.
+15/09/2026,15/09/2026-05,2,mtgo,sythis-enchant,v1,Slimefoot And Squee,OTD,L,Mulligans difficiles.
+15/09/2026,15/09/2026-05,3,mtgo,sythis-enchant,v1,Slimefoot And Squee,OTP,W,Mulligans difficiles.
+15/09/2026,15/09/2026-06,1,mtgo,sythis-enchant,v1,Slimefoot And Squee,OTP,L,Mulligans difficiles.
+15/09/2026,15/09/2026-06,2,mtgo,sythis-enchant,v1,Slimefoot And Squee,OTP,W,Mulligans difficiles.
+15/09/2026,15/09/2026-06,3,mtgo,sythis-enchant,v1,Slimefoot And Squee,OTD,W,Mulligans difficiles.
+15/09/2026,15/09/2026-07,1,mtgo,sythis-enchant,v2,Tifa Lockhart,OTD,W,Bonne session.
+15/09/2026,15/09/2026-07,2,mtgo,sythis-enchant,v2,Tifa Lockhart,OTD,L,Bonne session.
+15/09/2026,15/09/2026-07,3,mtgo,sythis-enchant,v2,Tifa Lockhart,OTP,L,Bonne session.
+15/09/2026,15/09/2026-08,1,mtgo,sythis-enchant,v2,Tifa Lockhart,OTD,L,Bonne session.
+15/09/2026,15/09/2026-08,2,mtgo,sythis-enchant,v2,Tifa Lockhart,OTP,W,Bonne session.
+15/09/2026,15/09/2026-08,3,mtgo,sythis-enchant,v2,Tifa Lockhart,OTD,L,Bonne session.
+15/09/2026,15/09/2026-09,1,mtgo,sythis-enchant,v2,Tifa Lockhart,OTP,L,Bonne session.
+15/09/2026,15/09/2026-10,1,cockatrice,kinnan-combo,v1,Terra,OTD,L,Bonne session.
+15/09/2026,15/09/2026-11,1,cockatrice,kinnan-combo,v1,Terra,OTD,L,Bonne session.
+15/09/2026,15/09/2026-11,2,cockatrice,kinnan-combo,v1,Terra,OTP,L,Bonne session.
+16/09/2026,16/09/2026-01,1,mtgo,winota-aggro,v1,Slimefoot And Squee,OTD,L,Matchup jouable.
+16/09/2026,16/09/2026-02,1,mtgo,winota-aggro,v1,Slimefoot And Squee,OTD,L,Matchup jouable.
+16/09/2026,16/09/2026-03,1,mtgo,winota-aggro,v1,Slimefoot And Squee,OTD,L,Matchup jouable.
+16/09/2026,16/09/2026-03,2,mtgo,winota-aggro,v1,Slimefoot And Squee,OTP,W,Matchup jouable.
+16/09/2026,16/09/2026-03,3,mtgo,winota-aggro,v1,Slimefoot And Squee,OTD,L,Matchup jouable.
+16/09/2026,16/09/2026-04,1,mtgo,winota-aggro,v1,Slimefoot And Squee,OTD,L,Matchup jouable.
+16/09/2026,16/09/2026-05,1,mtgo,winota-aggro,v2,Brigid,OTD,L,
+16/09/2026,16/09/2026-06,1,mtgo,winota-aggro,v2,Brigid,OTP,L,
+16/09/2026,16/09/2026-06,2,mtgo,winota-aggro,v2,Brigid,OTP,W,
+16/09/2026,16/09/2026-06,3,mtgo,winota-aggro,v2,Brigid,OTD,L,
+16/09/2026,16/09/2026-07,1,mtgo,winota-aggro,v2,Brigid,OTD,L,
+16/09/2026,16/09/2026-07,2,mtgo,winota-aggro,v2,Brigid,OTP,W,
+16/09/2026,16/09/2026-07,3,mtgo,winota-aggro,v2,Brigid,OTD,L,
+16/09/2026,16/09/2026-08,1,mtgo,winota-aggro,v2,Brigid,OTP,W,
+16/09/2026,16/09/2026-08,2,mtgo,winota-aggro,v2,Brigid,OTD,L,
+16/09/2026,16/09/2026-08,3,mtgo,winota-aggro,v2,Brigid,OTP,L,
+17/09/2026,17/09/2026-01,1,mtgo,winota-aggro,v2,Partner WUR,OTP,L,
+17/09/2026,17/09/2026-01,2,mtgo,winota-aggro,v2,Partner WUR,OTP,L,
+17/09/2026,17/09/2026-02,1,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTP,W,Mulligans difficiles.
+17/09/2026,17/09/2026-02,2,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTD,W,Mulligans difficiles.
+17/09/2026,17/09/2026-03,1,cockatrice,winota-aggro,v2,sythis-enchant@v2,OTD,L,Mulligans difficiles.
+18/09/2026,18/09/2026-01,1,mtgo,winota-aggro,v2,Terra,OTP,L,
+18/09/2026,18/09/2026-01,2,mtgo,winota-aggro,v2,Terra,OTP,W,
+18/09/2026,18/09/2026-01,3,mtgo,winota-aggro,v2,Terra,OTD,L,
+18/09/2026,18/09/2026-02,1,mtgo,winota-aggro,v2,Terra,OTD,L,
+18/09/2026,18/09/2026-02,2,mtgo,winota-aggro,v2,Terra,OTP,L,
+18/09/2026,18/09/2026-03,1,mtgo,winota-aggro,v2,Terra,OTD,L,
+18/09/2026,18/09/2026-04,1,mtgo,winota-aggro,v2,Terra,OTD,L,
+18/09/2026,18/09/2026-04,2,mtgo,winota-aggro,v2,Terra,OTP,W,
+18/09/2026,18/09/2026-04,3,mtgo,winota-aggro,v2,Terra,OTD,L,
+18/09/2026,18/09/2026-05,1,mtgo,sythis-enchant,v2,Tifa Lockhart,OTD,L,Adversaire très rapide.
+18/09/2026,18/09/2026-05,2,mtgo,sythis-enchant,v2,Tifa Lockhart,OTP,L,Adversaire très rapide.
+18/09/2026,18/09/2026-06,1,mtgo,sythis-enchant,v2,Tifa Lockhart,OTD,L,Adversaire très rapide.
+18/09/2026,18/09/2026-06,2,mtgo,sythis-enchant,v2,Tifa Lockhart,OTP,W,Adversaire très rapide.
+18/09/2026,18/09/2026-06,3,mtgo,sythis-enchant,v2,Tifa Lockhart,OTD,W,Adversaire très rapide.
+18/09/2026,18/09/2026-07,1,mtgo,sythis-enchant,v2,Tifa Lockhart,OTP,W,Adversaire très rapide.
+19/09/2026,19/09/2026-01,1,mtgo,winota-aggro,v1,Cloud,OTP,L,Mulligans difficiles.
+19/09/2026,19/09/2026-02,1,mtgo,winota-aggro,v1,Cloud,OTD,L,Mulligans difficiles.
+19/09/2026,19/09/2026-03,1,cockatrice,winota-aggro,v1,Aragorn,OTP,W,
+19/09/2026,19/09/2026-03,2,cockatrice,winota-aggro,v1,Aragorn,OTD,L,
+19/09/2026,19/09/2026-03,3,cockatrice,winota-aggro,v1,Aragorn,OTP,L,
+19/09/2026,19/09/2026-04,1,cockatrice,winota-aggro,v1,Aragorn,OTP,W,
+19/09/2026,19/09/2026-04,2,cockatrice,winota-aggro,v1,Aragorn,OTD,W,
+19/09/2026,19/09/2026-05,1,cockatrice,winota-aggro,v1,Aragorn,OTP,L,
+19/09/2026,19/09/2026-05,2,cockatrice,winota-aggro,v1,Aragorn,OTP,L,
+19/09/2026,19/09/2026-06,1,mtgo,winota-aggro,v1,Tifa Lockhart,OTP,L,Bonne session.
+19/09/2026,19/09/2026-06,2,mtgo,winota-aggro,v1,Tifa Lockhart,OTP,W,Bonne session.
+19/09/2026,19/09/2026-06,3,mtgo,winota-aggro,v1,Tifa Lockhart,OTD,W,Bonne session.
+19/09/2026,19/09/2026-07,1,paper,winota-aggro,v1,Cloud,OTP,W,Mulligans difficiles.
+19/09/2026,19/09/2026-07,2,paper,winota-aggro,v1,Cloud,OTD,L,Mulligans difficiles.
+19/09/2026,19/09/2026-07,3,paper,winota-aggro,v1,Cloud,OTP,W,Mulligans difficiles.
+19/09/2026,19/09/2026-08,1,mtgo,winota-aggro,v2,Deadpool,OTD,L,
+19/09/2026,19/09/2026-08,2,mtgo,winota-aggro,v2,Deadpool,OTP,L,
+19/09/2026,19/09/2026-09,1,cockatrice,kinnan-combo,v1,Aragorn,OTD,L,
+19/09/2026,19/09/2026-10,1,cockatrice,kinnan-combo,v1,Aragorn,OTD,L,
+19/09/2026,19/09/2026-10,2,cockatrice,kinnan-combo,v1,Aragorn,OTP,L,
+19/09/2026,19/09/2026-11,1,cockatrice,kinnan-combo,v1,Aragorn,OTP,W,
+19/09/2026,19/09/2026-11,2,cockatrice,kinnan-combo,v1,Aragorn,OTD,L,
+19/09/2026,19/09/2026-11,3,cockatrice,kinnan-combo,v1,Aragorn,OTP,L,
+20/09/2026,20/09/2026-01,1,cockatrice,sythis-enchant,v1,Atraxa,OTP,L,
+20/09/2026,20/09/2026-01,2,cockatrice,sythis-enchant,v1,Atraxa,OTP,L,
+20/09/2026,20/09/2026-02,1,cockatrice,sythis-enchant,v1,Atraxa,OTD,W,
+20/09/2026,20/09/2026-02,2,cockatrice,sythis-enchant,v1,Atraxa,OTD,L,
+20/09/2026,20/09/2026-02,3,cockatrice,sythis-enchant,v1,Atraxa,OTP,W,
+21/09/2026,21/09/2026-01,1,cockatrice,winota-aggro,v2,Emry,OTP,W,Adversaire très rapide.
+21/09/2026,21/09/2026-01,2,cockatrice,winota-aggro,v2,Emry,OTD,L,Adversaire très rapide.
+21/09/2026,21/09/2026-01,3,cockatrice,winota-aggro,v2,Emry,OTP,W,Adversaire très rapide.
+21/09/2026,21/09/2026-02,1,cockatrice,winota-aggro,v2,Emry,OTD,W,Adversaire très rapide.
+21/09/2026,21/09/2026-03,1,mtgo,sythis-enchant,v1,Toph,OTD,L,Adversaire très rapide.
+21/09/2026,21/09/2026-03,2,mtgo,sythis-enchant,v1,Toph,OTP,L,Adversaire très rapide.
+21/09/2026,21/09/2026-04,1,mtgo,sythis-enchant,v1,Toph,OTP,L,Adversaire très rapide.
+21/09/2026,21/09/2026-05,1,paper,sythis-enchant,v2,Phelia,OTD,L,
+21/09/2026,21/09/2026-05,2,paper,sythis-enchant,v2,Phelia,OTP,W,
+21/09/2026,21/09/2026-05,3,paper,sythis-enchant,v2,Phelia,OTD,L,
+21/09/2026,21/09/2026-06,1,paper,sythis-enchant,v2,Phelia,OTD,L,
+21/09/2026,21/09/2026-06,2,paper,sythis-enchant,v2,Phelia,OTP,L,
+21/09/2026,21/09/2026-07,1,paper,sythis-enchant,v2,Phelia,OTD,L,
+21/09/2026,21/09/2026-07,2,paper,sythis-enchant,v2,Phelia,OTP,W,
+21/09/2026,21/09/2026-07,3,paper,sythis-enchant,v2,Phelia,OTD,L,
+22/09/2026,22/09/2026-01,1,cockatrice,winota-aggro,v2,Aragorn,OTD,L,Matchup jouable.
+22/09/2026,22/09/2026-01,2,cockatrice,winota-aggro,v2,Aragorn,OTP,W,Matchup jouable.
+22/09/2026,22/09/2026-01,3,cockatrice,winota-aggro,v2,Aragorn,OTD,L,Matchup jouable.
+22/09/2026,22/09/2026-02,1,cockatrice,winota-aggro,v2,Aragorn,OTP,W,Matchup jouable.
+22/09/2026,22/09/2026-03,1,cockatrice,winota-aggro,v2,Aragorn,OTD,L,Matchup jouable.
+22/09/2026,22/09/2026-03,2,cockatrice,winota-aggro,v2,Aragorn,OTP,L,Matchup jouable.
+22/09/2026,22/09/2026-04,1,cockatrice,winota-aggro,v2,Aragorn,OTD,W,Matchup jouable.
+22/09/2026,22/09/2026-04,2,cockatrice,winota-aggro,v2,Aragorn,OTD,L,Matchup jouable.
+22/09/2026,22/09/2026-04,3,cockatrice,winota-aggro,v2,Aragorn,OTP,L,Matchup jouable.
+22/09/2026,22/09/2026-05,1,mtgo,sythis-enchant,v2,Aang,OTD,W,Bonne session.
+22/09/2026,22/09/2026-06,1,mtgo,sythis-enchant,v2,Aang,OTP,L,Bonne session.
+22/09/2026,22/09/2026-06,2,mtgo,sythis-enchant,v2,Aang,OTP,L,Bonne session.
+23/09/2026,23/09/2026-01,1,mtgo,sythis-enchant,v1,Aragorn,OTP,L,Matchup jouable.
+23/09/2026,23/09/2026-01,2,mtgo,sythis-enchant,v1,Aragorn,OTP,L,Matchup jouable.
+23/09/2026,23/09/2026-02,1,mtgo,sythis-enchant,v1,Aragorn,OTD,L,Matchup jouable.
+23/09/2026,23/09/2026-02,2,mtgo,sythis-enchant,v1,Aragorn,OTP,W,Matchup jouable.
+23/09/2026,23/09/2026-02,3,mtgo,sythis-enchant,v1,Aragorn,OTD,L,Matchup jouable.
+23/09/2026,23/09/2026-03,1,mtgo,sythis-enchant,v1,Aragorn,OTP,L,Matchup jouable.
+23/09/2026,23/09/2026-03,2,mtgo,sythis-enchant,v1,Aragorn,OTP,L,Matchup jouable.
+23/09/2026,23/09/2026-04,1,cockatrice,sythis-enchant,v2,Nick Fury,OTP,W,
+23/09/2026,23/09/2026-05,1,cockatrice,sythis-enchant,v2,Nick Fury,OTP,W,
+23/09/2026,23/09/2026-05,2,cockatrice,sythis-enchant,v2,Nick Fury,OTD,W,
+23/09/2026,23/09/2026-06,1,mtgo,sythis-enchant,v2,Partner BR,OTP,W,
+23/09/2026,23/09/2026-06,2,mtgo,sythis-enchant,v2,Partner BR,OTD,W,
+23/09/2026,23/09/2026-07,1,mtgo,sythis-enchant,v2,Partner BR,OTP,L,
+23/09/2026,23/09/2026-07,2,mtgo,sythis-enchant,v2,Partner BR,OTP,W,
+23/09/2026,23/09/2026-07,3,mtgo,sythis-enchant,v2,Partner BR,OTD,L,

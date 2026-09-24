@@ -7,7 +7,7 @@
 ## 🔜 Prochaines étapes
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist).
 - Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- `feat/import-meta` : étape 8 du plan (`docs/.claude_plan_import_meta.md`) : essai par l'utilisateur, doc, PR.
+- `feat/import-meta` : commit puis PR vers `main` ; branche suivante : `feat/stats-synthese`.
 - Import de l'inbox utilisable (`python -m dcprepa import relicfest-2026`) : premier vrai import à faire.
 - Ensuite : import méta MTGTop8 (`feat/import-meta`), puis `synthese.md` (`feat/stats-synthese`) ; plus tard vraie CLI, GUI.
 
@@ -61,6 +61,13 @@
 - Essai réel (réseau) sur une copie : OK (général 20 oppos / 1447 decks, papier 20 / 1309, 20 oppos ajoutés) ; `data/` non touché.
 - ⚠️ Constat : le méta fictif de test_tournoi est daté 2026-10-25 (futur) → il reste « le plus récent » ; à supprimer pour tester le vrai import.
 - ⚠️ `meta` modifie le vrai `data/oppos.yaml` (commun à tous les tournois), même lancé sur test_tournoi.
+- Test utilisateur : méta fictif 2026-10-25 supprimé, `meta test_tournoi` lancé → `meta/2026-09-24/` + 20 oppos dans `data/oppos.yaml` ; Ragavan, Kess, Tymna/Thrasios retirés par l'utilisateur.
+- À la demande : `test_tournoi/games.csv` régénéré avec les 20 oppos du méta (tirage pondéré par le poids général, graine fixe, script dans le scratchpad) :
+  418 games de septembre 2026 (winota 221, sythis 171, kinnan 26), self-play gardé, plus de lignes test-deck ; `stats` relancé : poids papier / général remplis ; suite : 472 OK.
+- Étape 8 : nouvelle page publiée `docs/03-architecture/import-meta.md` (source MTGTop8, commande, étapes, noms ajoutés à oppos.yaml, historique, code) + index du chapitre ;
+  `stats.md` et `donnees.md` mis à jour (dossier daté, Poids papier / général, commande `meta`) ; README : organisation de `docs/`.
+- Page publiée directement (pas de brouillon) car `stats.md` et `donnees.md` y renvoient déjà ; liens relatifs vérifiés.
+- Reste : commit de tout (données de test comprises), puis PR `feat/import-meta` → `main` (texte préparé).
 
 ### 2026-09-24 — Stats d'un deck : brique winrate (étape 3)
 - Étape 2 validée par l'utilisateur.

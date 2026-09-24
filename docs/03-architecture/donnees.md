@@ -27,9 +27,11 @@ data/
     │   │   ├── tymna-thrasios.yaml
     │   │   └── _alias.yaml           appellations acceptées des decks
     │   ├── inbox.yaml                saisies à importer                 📥
-    │   ├── games.csv                 games jouées, 1 ligne par game   📊
-    │   ├── meta/                     instantanés du méta (MTGTop8)
-    │   │   └── 2027-01-15.csv
+    │   ├── games.csv                 games jouées, 1 ligne par game     📊
+    │   ├── meta/                     instantanés du méta (MTGTop8)      🌍
+    │   │   └── 2027-01-15/           un dossier par import
+    │   │       ├── general.csv
+    │   │       └── paper.csv
     │   └── stats/                    rapports générés                   📈
     │       ├── synthese.md
     │       └── terra-5c.md
@@ -91,7 +93,7 @@ Deux familles de fichiers :
 | Famille | Fichiers | Rempli par |
 |---|---|---|
 | ✍️ **Saisie** | `tournament.yaml`, `decks/`, `oppos.yaml`, `inbox.yaml` | le logiciel ou à la main, au choix |
-| 🧩 **Produits** | `games.csv`, `meta/*.csv`, `stats/*.md` | le logiciel uniquement, jamais modifiés à la main |
+| 🧩 **Produits** | `games.csv`, `meta/*/*.csv`, `stats/*.md` | le logiciel uniquement, jamais modifiés à la main |
 
 Les fichiers produits découlent des fichiers de saisie : les retoucher à la main les désynchroniserait.
 
@@ -189,15 +191,28 @@ et une ligne se suffit à elle-même dans un tableur.
 
 ### `meta/` : le méta du tournoi
 
-Un fichier CSV par import depuis MTGTop8, nommé d'après sa date : `2027-01-15.csv`. Les stats utilisent le plus récent.
+Un dossier par import depuis MTGTop8, nommé d'après sa date ; les imports précédents sont gardés. Les stats utilisent le plus récent.
+
+```
+meta/
+├── 2027-01-01/              import précédent, gardé pour vérifier
+│   ├── general.csv
+│   └── paper.csv
+└── 2027-01-15/              le plus récent : lu par les stats
+    ├── general.csv          méta général des 2 derniers mois (paper + MTGO)
+    └── paper.csv            méta papier des 2 derniers mois
+```
+
+Les deux fichiers ont le même format, les 20 oppos les plus joués de chaque méta :
 
 ```
 oppo,decks,poids
-Ragavan,42,12.5
-Tymna/Thrasios,30,8.9
+Phelia,84,5.81
+Cloud,83,5.74
 ```
 
-`oppo` est ramené au nom de référence de `oppos.yaml`, `decks` compte les listes sur la période, `poids` est la part du méta en %.
+`oppo` est ramené au nom de référence de `oppos.yaml`, `decks` estime les listes sur la période,
+`poids` est la part réelle du méta en % (le top 20 ne fait donc pas 100 %). Voir [Import du méta](import-meta.md).
 
 ### `stats/` : les rapports
 
@@ -224,7 +239,7 @@ Chaque format a été choisi selon **qui** écrit le fichier et **comment** il g
 | Règle | Exemple | Pourquoi |
 |---|---|---|
 | Dates au format **JJ/MM/AAAA**, partout où une date est saisie ou lue | `15/01/2027`, `15/01/2027-01` | un seul format à retenir |
-| Exception : noms de fichiers de `meta/` en **AAAA-MM-JJ** | `2027-01-15.csv` | le `/` est interdit dans un nom de fichier, et cet ordre trie les fichiers par date |
+| Exception : dossiers de `meta/` en **AAAA-MM-JJ** | `2027-01-15/` | le `/` est interdit dans un nom de dossier, et cet ordre trie les imports par date |
 | Identifiants (dossiers, fichiers) en **minuscules**, avec des tirets | `mon-tournoi`, `terra-5c` | pas d'espace ni d'accent : sans risque dans les commandes et les chemins |
 | Versions préfixées par **v** | `v1`, `v2` | sans le `v`, YAML lirait `1.10` comme le nombre `1.1` |
 | Valeurs fixes **sans accent** | `envisage`, `ecarte` | comparées telles quelles par le logiciel |
@@ -238,18 +253,18 @@ Les fins de ligne (Windows ou Linux) de chaque fichier sont conservées par le l
 
 Les données passent par deux étapes : on range d'abord ce qui est saisi, puis on calcule les stats.
 
-**Étape 1 : ranger les données** (commande `import`)
+**Étape 1 : ranger les données** (commandes `import` et `meta`)
 
 ```
  inbox.yaml          ──import──>   games.csv     les games saisies
- MTGTop8 (site web)  ──import──>   meta/*.csv    le méta du moment
+ MTGTop8 (site web)  ──meta────>   meta/<date>/  le méta du moment (+ nouveaux oppos dans oppos.yaml)
 ```
 
 **Étape 2 : calculer les stats** (commande `stats`)
 
 ```
  games.csv    ─┐
- meta/*.csv   ─┤
+ meta/<date>/ ─┤
  decks/       ─┼──stats──>   stats/*.md   les rapports à lire
  oppos.yaml   ─┘
 ```
