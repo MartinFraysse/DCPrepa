@@ -86,3 +86,20 @@ def append_rows(path: Path, rows: list[dict[str, str]]) -> None:
         writer = csv.DictWriter(file, fieldnames=COLUMNS, lineterminator=newline)
         writer.writerows(rows)
     temporary.replace(path)
+
+
+def write_games(path: Path, games: list[dict[str, str]]) -> None:
+    """Réécrit games.csv en entier (en-tête COLUMNS puis une ligne par game), après une correction.
+
+    Les fins de ligne du fichier (LF ou CRLF) sont conservées ; les lignes vides disparaissent.
+    L'écriture passe par un fichier temporaire remplacé d'un coup : games.csv n'est jamais écrit à moitié.
+    """
+    with path.open(encoding="utf-8", newline="") as file:
+        newline = "\r\n" if "\r\n" in file.read() else "\n"
+
+    temporary = path.with_name(path.name + ".tmp")
+    with temporary.open("w", encoding="utf-8", newline="") as file:
+        writer = csv.DictWriter(file, fieldnames=COLUMNS, lineterminator=newline)
+        writer.writeheader()
+        writer.writerows(games)
+    temporary.replace(path)

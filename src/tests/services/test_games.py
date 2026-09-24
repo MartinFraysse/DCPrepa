@@ -1,6 +1,6 @@
 import pytest
 
-from dcprepa.services.games import add_games
+from dcprepa.services.games import add_games, delete_game, delete_match, edit_game, edit_match
 from dcprepa.services.import_inbox import import_inbox
 from dcprepa.storage.games import COLUMNS
 
@@ -102,3 +102,75 @@ def test_references_invalides_rien_n_est_ecrit(setup):
     report = add_games(tournament, BLOCK, oppos)
     assert report.errors == ["oppos.yaml : « raga » renvoie à la fois vers Ragavan et Kess"]
     assert read_raw(tournament / "games.csv") == before
+
+
+BO3 = (
+    "02/10/2026,02/10/2026-02,1,paper,terra-midrange,v1,Ragavan,OTP,W,\"bien, vraiment\"\n"
+    "02/10/2026,02/10/2026-02,2,paper,terra-midrange,v1,Ragavan,OTD,L,\n"
+    "02/10/2026,02/10/2026-02,3,paper,terra-midrange,v1,Ragavan,OTP,W,\n"
+)
+
+
+@pytest.fixture
+def played(setup):
+    """Le mini-tournoi avec un BO3 2-1 (02/10/2026-02) après le BO1 existant."""
+    tournament, oppos = setup
+    write(tournament / "games.csv", HEADER_CSV + EXISTING + BO3)
+    return tournament, oppos
+
+
+def test_edit_game_reecrit_seulement_le_bo(played):
+    tournament, oppos = played
+    report = edit_game(tournament, "02/10/2026-02", "3", {"resultat": "L"}, oppos)
+    assert report.ok
+    assert (report.matches, report.games, report.match_ids) == (1, 3, ["02/10/2026-02"])
+    assert read_raw(tournament / "games.csv") == HEADER_CSV + EXISTING + (
+        "02/10/2026,02/10/2026-02,1,paper,terra-midrange,v1,Ragavan,OTP,W,\"bien, vraiment\"\n"
+        "02/10/2026,02/10/2026-02,2,paper,terra-midrange,v1,Ragavan,OTD,L,\n"
+        "02/10/2026,02/10/2026-02,3,paper,terra-midrange,v1,Ragavan,OTP,L,\n"
+    )
+
+
+def test_edit_match_date(played):
+    tournament, oppos = played
+    report = edit_match(tournament, "02/10/2026-02", {"date": "03/10/2026", "oppo": "raga"}, oppos)
+    assert report.match_ids == ["03/10/2026-01"]
+    content = read_raw(tournament / "games.csv")
+    assert "02/10/2026-02" not in content
+    assert content.count("03/10/2026,03/10/2026-01,") == 3
+
+
+def test_correction_refusee_rien_n_est_ecrit(played):
+    tournament, oppos = played
+    before = read_raw(tournament / "games.csv")
+    assert edit_game(tournament, "02/10/2026-02", "2", {"resultat": "W"}, oppos).errors == [
+        "02/10/2026-02 : game 3 : en trop, BO déjà terminé (2-0)"
+    ]
+    assert edit_match(tournament, "02/10/2026-02", {"version": "v9"}, oppos).errors
+    assert delete_game(tournament, "02/10/2026-09", "1").errors == ["BO inconnu : 02/10/2026-09"]
+    assert read_raw(tournament / "games.csv") == before
+
+
+def test_delete_game_et_delete_match(played):
+    tournament, _ = played
+    report = delete_game(tournament, "02/10/2026-02", "1")
+    assert (report.ok, report.games, report.warnings) == (True, 2, [])
+    assert ",02/10/2026-02,1,paper,terra-midrange,v1,Ragavan,OTD,L," in read_raw(tournament / "games.csv")
+    report = delete_match(tournament, "02/10/2026-02")
+    assert (report.ok, report.matches, report.match_ids) == (True, 0, [])
+    assert read_raw(tournament / "games.csv") == HEADER_CSV + EXISTING
+
+
+def test_fins_de_ligne_crlf_gardees(played):
+    tournament, oppos = played
+    write(tournament / "games.csv", (HEADER_CSV + EXISTING + BO3).replace("\n", "\r\n"))
+    edit_game(tournament, "02/10/2026-02", "3", {"resultat": "L"}, oppos)
+    content = read_raw(tournament / "games.csv")
+    assert content.count("\r\n") == 5 and "\n" not in content.replace("\r\n", "")
+
+
+def test_games_csv_invalide(played):
+    tournament, oppos = played
+    write(tournament / "games.csv", HEADER_CSV + EXISTING.replace(",OTP,", ",OTX,"))
+    report = edit_game(tournament, "02/10/2026-01", "1", {"resultat": "L"}, oppos)
+    assert report.errors == ["games.csv : ligne 2 : position inconnue (OTP ou OTD) : OTX"]

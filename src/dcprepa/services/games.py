@@ -1,11 +1,13 @@
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from dcprepa.domain import edits
 from dcprepa.domain.blocks import prepare_block
+from dcprepa.domain.edits import References
 from dcprepa.domain.names import build_name_index
 from dcprepa.domain.oppos import build_oppo_index
 from dcprepa.storage.decks import load_deck_aliases, load_decks
-from dcprepa.storage.games import append_rows, read_match_ids
+from dcprepa.storage.games import append_rows, read_games, read_match_ids, write_games
 from dcprepa.storage.oppos import load_oppos
 
 
@@ -21,7 +23,10 @@ class GameReferences:
 
 @dataclass
 class GamesReport:
-    """Bilan d'une saisie de games : BO et games écrits, leurs match_id, erreurs (bloquantes) et avertissements."""
+    """Bilan d'une saisie ou d'une correction de games : BO et games écrits, leurs match_id, erreurs (bloquantes) et avertissements.
+
+    Correction : matches = 1 et games = nombre de games du BO après correction (0 et [] si le BO a été supprimé).
+    """
 
     matches: int = 0
     games: int = 0
@@ -79,4 +84,60 @@ def add_games(tournament_dir: Path, block: dict, oppos_path: Path) -> GamesRepor
     report.matches = prepared.matches
     report.games = len(prepared.rows)
     report.match_ids = list(dict.fromkeys(row["match_id"] for row in prepared.rows))
+    return report
+
+
+def edit_game(tournament_dir: Path, match_id: str, number: str, changes: dict[str, str], oppos_path: Path) -> GamesReport:
+    """Corrige une game : position, résultat et / ou note, ex. edit_game(t, "02/10/2026-01", "2", {"resultat": "W"}, oppos).
+
+    Le BO est revérifié comme à l'import ; à la moindre erreur, games.csv n'est pas modifié.
+    """
+    return _correct(tournament_dir, oppos_path, lambda games, refs: edits.edit_game(games, match_id, number, changes, refs))
+
+
+def edit_match(tournament_dir: Path, match_id: str, changes: dict[str, str], oppos_path: Path) -> GamesReport:
+    """Corrige toutes les games d'un BO : date, source, deck, version et / ou oppo, ex. {"oppo": "Kess"}.
+
+    Mêmes contrôles que l'import ; date changée → nouveau match_id (dans report.match_ids).
+    """
+    return _correct(tournament_dir, oppos_path, lambda games, refs: edits.edit_match(games, match_id, changes, refs))
+
+
+def delete_game(tournament_dir: Path, match_id: str, number: str) -> GamesReport:
+    """Supprime une game d'un BO ; les suivantes sont renumérotées, un BO réduit à une game devient un BO1 (avertissement)."""
+    return _correct(tournament_dir, None, lambda games, _: edits.delete_game(games, match_id, number))
+
+
+def delete_match(tournament_dir: Path, match_id: str) -> GamesReport:
+    """Supprime toutes les games d'un BO."""
+    return _correct(tournament_dir, None, lambda games, _: edits.delete_match(games, match_id))
+
+
+def _correct(tournament_dir: Path, oppos_path: Path | None, operation) -> GamesReport:
+    """Lit games.csv (et les références si oppos_path, pour revérifier un BO), applique la correction, réécrit games.csv.
+
+    games.csv invalide, références invalides ou correction refusée : rien n'est écrit.
+    """
+    report = GamesReport()
+    games_path = tournament_dir / "games.csv"
+    games, errors = read_games(games_path)
+    report.errors += errors
+    refs = None
+    if oppos_path is not None and not report.errors:
+        references, errors = load_game_references(tournament_dir, oppos_path)
+        report.errors += errors
+        refs = References(references.decks, references.deck_index, references.oppo_index)
+    if report.errors:
+        return report
+
+    result = operation(games, refs)
+    report.errors += result.errors
+    report.warnings += result.warnings
+    if report.errors:
+        return report
+
+    write_games(games_path, result.games)
+    report.matches = 1 if result.match_id else 0
+    report.games = result.changed
+    report.match_ids = [result.match_id] if result.match_id else []
     return report

@@ -5,7 +5,7 @@
 > Entrées les plus récentes en haut, une idée par puce.
 
 ## 🔜 Prochaines étapes
-- `feat/saisie` : commiter `add_games`, puis `edit_game`, `edit_match`, `delete_game`, `delete_match` (étape 2 du plan).
+- `feat/saisie` : commiter les corrections de games (étape 2), corriger `_alias.yaml` de test_tournoi, puis étape 3 (`add_oppo`).
 - Corriger l'en-tête de `__main__.py` (« en attendant la vraie CLI ») au premier commit de code.
 - Régénérer les rapports de RelicFest (`python -m dcprepa stats relicfest-2026`) : `synthese.md` encore à l'ancien modèle.
 - Premier vrai import de l'inbox (`python -m dcprepa import relicfest-2026`) ; `meta` sur RelicFest avant `stats`.
@@ -29,6 +29,9 @@
 - Constat : un oppo inconnu est un avertissement (pas bloquant) à l'import comme à la saisie ; `add_oppo` sert à éviter les doublons de noms.
 - Refactor validé : `domain/blocks.py::prepare_block` + `services/games.py::load_game_references`, utilisés par `import_inbox` (tests d'import inchangés, verts).
 - `add_games` codé (`services/games.py`, `GamesReport` avec `match_ids`) ; tests `test_games.py` (11), `test_blocks.py` (4) ; suite : 526 OK.
+- Commité par l'utilisateur (`70358e3`).
+- Corrections codées : `domain/edits.py` (BO reconstruit et revérifié par `prepare_block`), services `edit_game`, `edit_match`, `delete_game`, `delete_match`, `storage/games.py::write_games` ; 19 + 6 tests (dont L → W, ajouté après relecture) ; suite : 551 OK.
+- Constat : `data/tournaments/test_tournoi/decks/_alias.yaml` référence `test-deck` (inexistant, depuis #3) → import et corrections refusés sur test_tournoi ; signalé.
 
 ### AAAA-MM-JJ — titre
 - ce qui a été fait
