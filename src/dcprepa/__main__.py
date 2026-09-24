@@ -2,6 +2,7 @@
 
 Usage, depuis src/ :  python -m dcprepa <module> <tournoi>
     ex. python -m dcprepa import relicfest-2026   puis   python -m dcprepa stats relicfest-2026
+        python -m dcprepa meta relicfest-2026      (méta MTGTop8, avant stats)
 Chaque module correspond à un service (services/) ; en ajouter un = une entrée de plus dans MODULES.
 """
 
@@ -9,6 +10,7 @@ import sys
 from pathlib import Path
 
 from dcprepa.services.import_inbox import import_inbox
+from dcprepa.services.import_meta import META_LABELS, import_meta
 from dcprepa.services.stats import generate_stats
 
 DATA_DIR = Path(__file__).resolve().parents[2] / "data"
@@ -46,7 +48,7 @@ def run_stats(tournament_dir: Path) -> int:
     else:
         print(f"✅ {len(report.decks)} rapport(s) écrit(s) à partir de {report.games} game(s) : {', '.join(report.decks) or 'aucun deck'}.")
         if report.meta:
-            print(f"   Méta : meta/{report.meta} (matchups triés par poids).")
+            print(f"   Méta : meta/{report.meta}/ (matchups triés par poids papier).")
         else:
             print("   Pas de méta : matchups triés par nombre de games.")
 
@@ -58,8 +60,34 @@ def run_stats(tournament_dir: Path) -> int:
     return 0 if report.ok else 1
 
 
+def run_meta(tournament_dir: Path) -> int:
+    """Module « meta » : importe le méta MTGTop8 (général et papier) dans meta/AAAA-MM-JJ/ et affiche le bilan."""
+    report = import_meta(tournament_dir, DATA_DIR / "oppos.yaml")
+
+    if not report.ok:
+        print("❌ Import du méta annulé, aucun fichier modifié. Erreurs à corriger :")
+        for message in report.errors:
+            print(f"  - {message}")
+    else:
+        details = ", ".join(
+            f"{META_LABELS[kind].removeprefix('méta ')} {oppos} oppos ({decks} decks)" for kind, (oppos, decks) in report.metas.items()
+        )
+        replaced = " (remplace l'import du jour)" if report.replaced else ""
+        print(f"✅ meta/{report.folder}/ écrit{replaced} : {details}.")
+        if report.added_oppos:
+            print(f"📝 {len(report.added_oppos)} oppo(s) ajouté(s) à data/oppos.yaml : {', '.join(report.added_oppos)}.")
+
+    if report.warnings:
+        print("⚠️  Avertissements :")
+        for message in report.warnings:
+            print(f"  - {message}")
+
+    return 0 if report.ok else 1
+
+
 MODULES = {
     "import": (run_import, "importe inbox.yaml dans games.csv (tout ou rien)"),
+    "meta": (run_meta, "importe le méta MTGTop8 (général + papier, 2 mois, top 20) dans meta/AAAA-MM-JJ/"),
     "stats": (run_stats, "génère stats/<deck>.md pour chaque fiche deck (tout ou rien)"),
 }
 

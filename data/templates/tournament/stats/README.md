@@ -16,6 +16,8 @@ Conventions :
   Ex. BO3 `WLW`, `WW`, `LWL`, `LWL` + BO1 `W W W W` : BO3 = `50 % (2/4)`, games = `66.7 % (10/15)`.
   Une game est toujours W ou L ; seul un BO3 peut être nul (1-1), il compte alors comme un BO3 non gagné.
 - Self-play (oppo = `deck@version`) : exclu du winrate général et des autres stats, affiché à part.
+- Poids papier / Poids général : part de l'oppo dans le méta papier / général des 2 derniers mois (MTGTop8, top 20,
+  dossier `meta/AAAA-MM-JJ/` le plus récent) ; matchups triés par poids papier ; `—` si l'oppo n'est pas dans ce méta.
 - Winrate général : toutes les games réunies, toutes versions confondues.
 - Écart d'une version : son winrate − la moyenne simple des winrates des autres versions, en points (ex. `+3.2`), calculé à part pour les games et pour les BO3.
 - Meilleure version contre un oppo : la version au meilleur winrate contre lui, et son écart au winrate du matchup

@@ -7,14 +7,45 @@
 #
 # Pour ajouter un deck : son nom de référence suivi de « : », puis une ligne « - variante » par façon de l'écrire.
 # Les majuscules et les espaces en trop sont ignorés à la comparaison.
+#
+# Ajouts automatiques : « python -m dcprepa meta <tournoi> » ajoute à la fin de ce fichier les oppos du top 20 MTGTop8
+# qui n'y sont pas encore (nom court en référence, nom complet MTGTop8 en variante), sous un commentaire daté.
+# On peut les renommer (garder l'ancien nom en variante) ou rattacher un « Partner XYZ » à un duo comme variante.
 
-Ragavan:
-    - Ragavan, Nimble Pilferer
-    - raga
-Kess:
-    - Kess, Dissident Mage
-Tymna/Thrasios:
-    - Tymna Thrasios
-    - Thrasios/Tymna
-    - Tymna the Weaver
-    - Thrasios, Triton Hero
+# Ajoutés par l'import du méta du 24/09/2026 (top 20 MTGTop8) : à renommer ou regrouper au besoin.
+Phelia:
+    - Phelia, Exuberant Shepherd
+Cloud:
+    - Cloud, Midgar Mercenary
+Brigid:
+    - Brigid, Clachan's Heart
+Aragorn:
+    - Aragorn, King Of Gondor
+Slimefoot And Squee:
+Partner WUR:
+Terra:
+    - Terra, Magical Adept
+Atraxa:
+    - Atraxa, Grand Unifier
+Tifa Lockhart:
+Partner BR:
+Quintorius:
+    - Quintorius, History Chaser
+Tasigur:
+    - Tasigur, the Golden Fang
+Deadpool:
+    - Deadpool, Trading Card
+Emry:
+    - Emry, Lurker of the Loch
+Aang:
+    - Aang, Swift Savior
+Light-Paws:
+    - Light-Paws, Emperor's Voice
+Aminatou:
+    - Aminatou, the Fateshifter
+Nick Fury:
+    - Nick Fury, Agent of S.H.I.E.L.D.
+Toph:
+    - Toph, Greatest Earthbender
+Glarb:
+    - Glarb, Calamity's Augur

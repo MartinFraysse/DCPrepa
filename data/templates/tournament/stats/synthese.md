@@ -1,6 +1,6 @@
 # Synthèse — <nom du tournoi>
 
-> Généré le — à partir de `games.csv`, `decks/` et `meta/—.csv`. Ne pas modifier à la main.
+> Généré le — à partir de `games.csv`, `decks/` et `meta/—`. Ne pas modifier à la main.
 > Conventions : voir `README.md`.
 
 ## Decks

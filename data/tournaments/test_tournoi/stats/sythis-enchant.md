@@ -1,6 +1,6 @@
 # Sythis Enchantress
 
-> Généré le 24/09/2026 à partir de `games.csv`, `decks/sythis-enchant.yaml` et `meta/2026-10-25.csv`. Ne pas modifier à la main.
+> Généré le 24/09/2026 à partir de `games.csv`, `decks/sythis-enchant.yaml` et `meta/2026-09-24/`. Ne pas modifier à la main.
 > Conventions : voir `README.md`.
 
 - **Commandant :** Sythis, Harvest's Hand
@@ -11,8 +11,8 @@
 
 | | Winrate |
 |---|---|
-| Par game | 34.1 % (42/123) |
-| Par BO3 | 25 % (10/40) |
+| Par game | 34.4 % (53/154) |
+| Par BO3 | 23.6 % (13/55) |
 | Winrate attendu au tournoi | — |
 
 ## Versions
@@ -21,8 +21,8 @@
 
 | Version | Games | Winrate (games) | Écart (games) | BO3 | Winrate BO3 | Écart BO3 |
 |---|---|---|---|---|---|---|
-| v1 | 61 | 32.8 % (20/61) | -2.7 | 19 | 21.1 % (4/19) | -7.5 |
-| v2 | 62 | 35.5 % (22/62) | +2.7 | 21 | 28.6 % (6/21) | +7.5 |
+| v1 | 87 | 26.4 % (23/87) | -18.3 | 32 | 15.6 % (5/32) | -19.2 |
+| v2 | 67 | 44.8 % (30/67) | +18.3 | 23 | 34.8 % (8/23) | +19.2 |
 
 ## Position
 
@@ -30,31 +30,39 @@ Par game seulement : la position change d'une game à l'autre dans un BO3.
 
 | OTP | OTD |
 |---|---|
-| 40.9 % (27/66) | 26.3 % (15/57) |
+| 44.3 % (39/88) | 21.2 % (14/66) |
 
 ## Source
 
 | Source | Winrate (games) | Winrate BO3 |
 |---|---|---|
-| Paper | 28 % (7/25) | ⚠️ 11.1 % (1/9) |
-| Cockatrice | 32.6 % (15/46) | 20 % (3/15) |
-| MTGO | 38.5 % (20/52) | 37.5 % (6/16) |
+| Paper | 21.4 % (6/28) | 10 % (1/10) |
+| Cockatrice | 38.6 % (17/44) | 31.3 % (5/16) |
+| MTGO | 36.6 % (30/82) | 24.1 % (7/29) |
 
 ## Matchups
 
-Triés par poids dans le méta, self-play exclu. OTP / OTD affichés seulement à partir de 10 games contre l'oppo.
+Triés par poids dans le méta papier, self-play exclu. OTP / OTD affichés seulement à partir de 10 games contre l'oppo.
 
 Meilleure version : la version au meilleur winrate contre l'oppo et son écart au winrate du matchup, en points (« — » si une seule version l'a joué).
 
-| Oppo | Poids méta | Winrate (games) | Meilleure version (games) | Winrate BO3 | Meilleure version BO3 | OTP | OTD |
-|---|---|---|---|---|---|---|---|
-| Asmo | 18.3 % | 21.1 % (8/38) | v1 (+0.4) | 0 % (0/13) | ⚠️ v2 (0) | 36.8 % (7/19) | 5.3 % (1/19) |
-| Ragavan | 15.2 % | 33.3 % (5/15) | v1 (0) | ⚠️ 20 % (1/5) | ⚠️ v1 (+5) | 30 % (3/10) | ⚠️ 40 % (2/5) |
-| Kess | 12.2 % | ⚠️ 50 % (3/6) | — | ⚠️ 50 % (1/2) | — | — | — |
-| Minsc & Boo | 10.4 % | 33.3 % (7/21) | v2 (+8.3) | ⚠️ 33.3 % (2/6) | ⚠️ v2 (+16.7) | 30 % (3/10) | 36.4 % (4/11) |
-| Aminatou | 5.2 % | 55 % (11/20) | v2 (+3.3) | ⚠️ 66.7 % (4/6) | ⚠️ v2 (+8.3) | 63.6 % (7/11) | ⚠️ 44.4 % (4/9) |
-| Tymna/Thrasios | 3.9 % | 33.3 % (4/12) | — | ⚠️ 25 % (1/4) | — | ⚠️ 40 % (2/5) | ⚠️ 28.6 % (2/7) |
-| Kinnan | — | 36.4 % (4/11) | — | ⚠️ 25 % (1/4) | — | ⚠️ 50 % (3/6) | ⚠️ 20 % (1/5) |
+| Oppo | Poids papier | Poids général | Winrate (games) | Meilleure version (games) | Winrate BO3 | Meilleure version BO3 | OTP | OTD |
+|---|---|---|---|---|---|---|---|---|
+| Phelia | 5.2 % | 5.8 % | 18.2 % (4/22) | ⚠️ v2 (+6.8) | ⚠️ 0 % (0/8) | ⚠️ v1 (0) | 30.8 % (4/13) | ⚠️ 0 % (0/9) |
+| Aragorn | 5 % | 4.6 % | 25 % (6/24) | ⚠️ v2 (+19.4) | ⚠️ 11.1 % (1/9) | ⚠️ v2 (+22.2) | 35.7 % (5/14) | 10 % (1/10) |
+| Brigid | 4.3 % | 5.1 % | ⚠️ 0 % (0/2) | — | ⚠️ 0 % (0/1) | — | — | — |
+| Slimefoot And Squee | 3.9 % | 3.9 % | ⚠️ 66.7 % (6/9) | — | ⚠️ 100 % (3/3) | — | — | — |
+| Terra | 3.9 % | 3.7 % | 33.3 % (4/12) | ⚠️ v2 (+16.7) | ⚠️ 0 % (0/4) | ⚠️ v1 (0) | ⚠️ 57.1 % (4/7) | ⚠️ 0 % (0/5) |
+| Partner WUR | 3.9 % | 3.7 % | ⚠️ 50 % (1/2) | ⚠️ v1 (+50) | — | — | — | — |
+| Atraxa | 3.7 % | 3.5 % | ⚠️ 40 % (2/5) | — | ⚠️ 50 % (1/2) | — | — | — |
+| Partner BR | 3.6 % | 3.3 % | ⚠️ 60 % (3/5) | — | ⚠️ 50 % (1/2) | — | — | — |
+| Tifa Lockhart | 2.9 % | 3.4 % | 33.3 % (8/24) | v2 (+10.4) | ⚠️ 25 % (2/8) | ⚠️ v2 (+15) | 36.4 % (4/11) | 30.8 % (4/13) |
+| Tasigur | 2.4 % | 2.4 % | 40.9 % (9/22) | v2 (+9.1) | ⚠️ 25 % (2/8) | ⚠️ v2 (+25) | 58.3 % (7/12) | 20 % (2/10) |
+| Emry | 2.3 % | 2.2 % | ⚠️ 50 % (3/6) | — | ⚠️ 50 % (1/2) | — | — | — |
+| Aang | 2.1 % | 2.1 % | ⚠️ 20 % (1/5) | — | ⚠️ 0 % (0/2) | — | — | — |
+| Aminatou | 1.8 % | 1.9 % | ⚠️ 33.3 % (1/3) | — | ⚠️ 0 % (0/1) | — | — | — |
+| Nick Fury | 1.8 % | 1.7 % | 50 % (5/10) | ⚠️ v2 (+50) | ⚠️ 50 % (2/4) | ⚠️ v2 (+50) | ⚠️ 60 % (3/5) | ⚠️ 40 % (2/5) |
+| Toph | 1.6 % | 1.7 % | ⚠️ 0 % (0/3) | — | ⚠️ 0 % (0/1) | — | — | — |
 
 ## Self-play
 
@@ -62,4 +70,4 @@ Games contre ses propres decks (oppo = `deck@version`), hors winrate général.
 
 | Oppo | Winrate (games) | Winrate BO3 | OTP | OTD |
 |---|---|---|---|---|
-| winota-aggro@v2 | 50 % (5/10) | ⚠️ 66.7 % (2/3) | ⚠️ 50 % (2/4) | ⚠️ 50 % (3/6) |
+| winota-aggro@v2 | 41.2 % (7/17) | ⚠️ 20 % (1/5) | ⚠️ 75 % (6/8) | ⚠️ 11.1 % (1/9) |

@@ -150,18 +150,27 @@ def test_matchups_tries_par_poids_du_meta():
         match("a", "WWW", oppo="Kess") + match("b", "WW", oppo="Ragavan")
         + match("c", "L", oppo="Atraxa") + match("d", "WLW", oppo="Tymna")
     )
-    weights = {"Ragavan": 20.0, "Atraxa": 12.5, "Absent": 30.0}
-    matchups = compute_deck_stats(games, "terra", ["v1"], weights).matchups
-    # méta d'abord (poids ↓), puis les oppos hors méta (games ↓, puis nom)
-    assert [(m.oppo, m.weight) for m in matchups] == [
-        ("Ragavan", 20.0), ("Atraxa", 12.5), ("Kess", None), ("Tymna", None)
+    metas = {
+        "paper": {"Ragavan": 20.0, "Atraxa": 12.5, "Absent": 30.0},
+        "general": {"Ragavan": 18.0, "Tymna": 9.0, "Atraxa": 15.0},
+    }
+    matchups = compute_deck_stats(games, "terra", ["v1"], metas).matchups
+    # papier d'abord (poids ↓), puis les absents du papier par poids général, puis les autres (games ↓, puis nom)
+    assert [(m.oppo, m.weight_paper, m.weight_general) for m in matchups] == [
+        ("Ragavan", 20.0, 18.0), ("Atraxa", 12.5, 15.0), ("Tymna", None, 9.0), ("Kess", None, None)
     ]
+
+
+def test_matchups_un_seul_meta():
+    games = match("a", "WW", oppo="Kess") + match("b", "W", oppo="Ragavan")
+    matchups = compute_deck_stats(games, "terra", ["v1"], {"general": {"Ragavan": 5.0}}).matchups
+    assert [(m.oppo, m.weight_paper, m.weight_general) for m in matchups] == [("Ragavan", None, 5.0), ("Kess", None, None)]
 
 
 def test_self_play_sans_poids():
     games = match("a", "WW", oppo="terra@v1")
-    stats = compute_deck_stats(games, "terra", ["v1"], {"terra@v1": 10.0})
-    assert stats.self_play[0].weight is None
+    stats = compute_deck_stats(games, "terra", ["v1"], {"paper": {"terra@v1": 10.0}, "general": {"terra@v1": 10.0}})
+    assert (stats.self_play[0].weight_paper, stats.self_play[0].weight_general) == (None, None)
 
 
 def test_meilleure_version_par_matchup():

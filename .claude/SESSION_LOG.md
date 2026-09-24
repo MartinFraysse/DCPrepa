@@ -7,7 +7,7 @@
 ## 🔜 Prochaines étapes
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist).
 - Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- Stats d'un deck (branche `feat/stats-deck`) : commit de la doc des stats, puis PR vers `main`.
+- `feat/import-meta` : commit puis PR vers `main` ; branche suivante : `feat/stats-synthese`.
 - Import de l'inbox utilisable (`python -m dcprepa import relicfest-2026`) : premier vrai import à faire.
 - Ensuite : import méta MTGTop8 (`feat/import-meta`), puis `synthese.md` (`feat/stats-synthese`) ; plus tard vraie CLI, GUI.
 
@@ -20,6 +20,58 @@
 - décisions prises
 - problèmes ouverts
 -->
+
+### 2026-09-24 — Import du méta : plan d'action
+- Branche `feat/import-meta` créée par l'utilisateur (depuis `main` après la PR #4).
+- Plan créé à la demande à partir du modèle : `docs/.claude_plan_import_meta.md` (8 étapes : décisions, récupérer, lire, construire, écrire, service, commande, essai).
+- Architecture proposée : `storage/mtgtop8.py` (seul accès réseau), `domain/mtgtop8.py` (HTML → decks), `domain/meta.py` (noms, fusion, poids), `storage/meta.py::write_meta`, `services/import_meta.py` ; tests sans réseau (pages enregistrées).
+- Décisions ouvertes : source MTGTop8, dépendances, période, noms inconnus, fichier du jour existant.
+- Feuille de route : import-meta 🔄 ; README : organisation de `docs/` mise à jour.
+- Étape 1, analyse de MTGTop8 (outil browse + curl) : liste chargée en JS, mais fragment `cEDH_decks?f=EDH&show=pop&meta=<id>…` lisible sans navigateur ;
+  total de decks + une ligne par archétype avec sa part en ‰ ; 159 archétypes sur 2 mois, pas de pagination ; partenaires regroupés par couleurs (« Partner WUR ») ;
+  `meta=` inconnu → toute la base (à valider) ; decks par archétype estimés (‰ × total) ; pas de robots.txt ni d'API ; urllib suffit. Détails dans le plan.
+- Décisions utilisateur : période en option (`--periode`, 2 mois par défaut, noms courts validés) ; noms inconnus gardés tels quels + un avertissement récapitulatif ;
+  partenaires « Partner XYZ » rapprochés d'un duo par variante dans `oppos.yaml` ; fichier du jour remplacé.
+- Décisions par défaut (dans le plan) : fusion = ‰ additionnés ; poids = ‰ / 10 ; decks = ‰ × total / 1000 arrondi ; erreur réseau / HTML = rien écrit ; Claude code.
+- Ajouts utilisateur : importer à chaque fois le méta général 2 mois ET papier 2 mois ; un dossier par import `meta/AAAA-MM-JJ/` avec `general.csv` et `paper.csv` ;
+  imports précédents gardés (historique trié par date) ; option `--periode` retirée.
+- Stats à adapter (étape 5b ajoutée au plan) : dossier daté le plus récent, colonnes « Poids papier » et « Poids général », tri par poids papier.
+- Doc publiée (`stats.md`, `donnees.md`) à mettre à jour en fin de branche (nouveau rangement de `meta/`).
+- Étape 1 ✅ ; prochaine : étape 2 (`storage/mtgtop8.py`, seul accès réseau).
+- Étape 2 codée : `src/dcprepa/storage/mtgtop8.py` (`META_IDS`, `meta_url`, `fetch_meta_page` avec `opener` injectable, timeout 20 s, User-Agent, erreurs HTTP / réseau / délai / page vide sans exception).
+- 12 tests (`src/tests/storage/test_mtgtop8.py`, sans réseau) ; suite : 394 OK ; essai réel : général 1447 decks, papier 1309 decks.
+- Page MTGTop8 gardée en mémoire seulement ; décision utilisateur : ne pas stocker les pages brutes dans `meta/`.
+- Étape 2 commitée et poussée (`f5142e7`). Étape 3 codée : `src/dcprepa/domain/mtgtop8.py` (`MetaPage`, `parse_meta_page` : total + parts ‰, erreurs si page inattendue, somme ± 20 ‰).
+- Fixtures réelles enregistrées : `src/tests/fixtures/mtgtop8_general.html` et `mtgtop8_paper.html` ; 14 tests ; suite : 408 OK ; `src/README.md` : `fixtures/` ajouté à l'organisation.
+- Étape 3 commitée et poussée (`ada5155`). Étape 4 codée : `src/dcprepa/domain/meta.py` (`MetaRow`, `build_meta` : noms de référence, fusion des ‰, poids ‰/10 à 2 décimales, decks estimés, tri, liste des inconnus).
+- 16 tests (`src/tests/domain/test_meta.py`) ; suite : 424 OK. Constat : avec le `oppos.yaml` actuel, tous les noms du méta sont inconnus (Ragavan, Kess, Tymna/Thrasios absents des 2 derniers mois).
+- Demandes utilisateur : garder seulement le top 20 de chaque méta (poids réels, pas ramenés à 100 %) ; ajouter automatiquement à `data/oppos.yaml`
+  les oppos du top absents (nom court avant la virgule + nom complet en variante, sinon nom complet).
+- Code : `domain/meta.py` (`META_TOP`, coupe dans `build_meta`, `propose_oppos`) ; `storage/oppos.py::append_oppos` (ajout en fin de fichier, commentaire daté, guillemets si besoin, `.tmp`).
+- Tests : 12 + 5 ; suite : 441 OK. Essai sur une copie de `oppos.yaml` avec les vraies pages : 20 oppos ajoutés, relus sans erreur, plus aucun inconnu ; top 20 ≈ 63 % du méta.
+- Étape 4 commitée (`7a69b49`). Étape 5 codée : `storage/meta.py::write_meta` (dossier daté, `.tmp`, poids sans zéro inutile) et `read_meta` extrait de `load_latest_meta` (réutilisé en 5b).
+- 10 tests (aller-retour, format du poids, remplacement du jour, autres dates intactes) ; suite : 451 OK.
+- Étape 5 commitée (`985bcc0`). Étape 5b codée : `load_latest_meta` lit le dossier daté le plus récent (`general.csv` + `paper.csv` requis) ;
+  `MatchupStats.weight_paper` / `weight_general`, tri papier puis général ; rapport : colonnes « Poids papier » + « Poids général », en-tête `meta/<date>/`.
+- Données : modèle `_modele-deck.md`, conventions `stats/README.md` ×3, `meta/README.md` ×3 réécrits, en-tête `synthese.md` ; méta de test_tournoi converti (`meta/2026-10-25/`) ; rapports régénérés.
+- Suite : 457 OK. Reste signalé : pages publiées `stats.md` / `donnees.md` (étape 8) ; `synthese.md` une seule colonne de poids (feat/stats-synthese).
+- Étape 6 codée : `src/dcprepa/services/import_meta.py` (`MetaReport`, `import_meta` : oppos.yaml → 2 pages → top 20 → nouveaux oppos → méta reconstruit → écriture méta puis oppos.yaml ; tout ou rien).
+- 11 tests d'intégration (`src/tests/services/test_import_meta.py`, fixtures à la place du réseau) ; suite : 468 OK.
+- Étape 7 codée : `run_meta` + `MODULES["meta"]` (`__main__.py`) ; bilan ✅ / 📝 oppos ajoutés / ❌ ; 4 tests ; suite : 472 OK ; `src/README.md` : commande `meta`.
+- Essai réel (réseau) sur une copie : OK (général 20 oppos / 1447 decks, papier 20 / 1309, 20 oppos ajoutés) ; `data/` non touché.
+- ⚠️ Constat : le méta fictif de test_tournoi est daté 2026-10-25 (futur) → il reste « le plus récent » ; à supprimer pour tester le vrai import.
+- ⚠️ `meta` modifie le vrai `data/oppos.yaml` (commun à tous les tournois), même lancé sur test_tournoi.
+- Test utilisateur : méta fictif 2026-10-25 supprimé, `meta test_tournoi` lancé → `meta/2026-09-24/` + 20 oppos dans `data/oppos.yaml` ; Ragavan, Kess, Tymna/Thrasios retirés par l'utilisateur.
+- À la demande : `test_tournoi/games.csv` régénéré avec les 20 oppos du méta (tirage pondéré par le poids général, graine fixe, script dans le scratchpad) :
+  418 games de septembre 2026 (winota 221, sythis 171, kinnan 26), self-play gardé, plus de lignes test-deck ; `stats` relancé : poids papier / général remplis ; suite : 472 OK.
+- Étape 8 : nouvelle page publiée `docs/03-architecture/import-meta.md` (source MTGTop8, commande, étapes, noms ajoutés à oppos.yaml, historique, code) + index du chapitre ;
+  `stats.md` et `donnees.md` mis à jour (dossier daté, Poids papier / général, commande `meta`) ; README : organisation de `docs/`.
+- Page publiée directement (pas de brouillon) car `stats.md` et `donnees.md` y renvoient déjà ; liens relatifs vérifiés.
+- Reste : commit de tout (données de test comprises), puis PR `feat/import-meta` → `main` (texte préparé).
+- Demande utilisateur : passer par un brouillon comme pour `stats.md` → page déplacée en `docs/.claude_brouillon-import-meta.md` ;
+  retirée de l'index du chapitre et du README ; liens de `stats.md` / `donnees.md` remplacés par du texte simple, à remettre à la publication.
+- Oubli signalé par l'utilisateur, corrigé : l'ajout automatique des oppos par `meta` est décrit dans `donnees.md` (section `oppos.yaml`) et dans l'en-tête de `data/oppos.yaml`.
+- Brouillon validé par l'utilisateur et publié : `docs/03-architecture/import-meta.md` ; index du chapitre, liens depuis `stats.md` et `donnees.md` (×2), README mis à jour.
 
 ### 2026-09-24 — Stats d'un deck : brique winrate (étape 3)
 - Étape 2 validée par l'utilisateur.
@@ -96,6 +148,7 @@
 - 9 tests ajoutés ; suite : 382 OK.
 - Push fait par l'utilisateur. Brouillon publié à la demande : `docs/.claude_brouillon-stats.md` → `docs/03-architecture/stats.md` ;
   `03-architecture/index.md` : lien ajouté ; README : organisation de `docs/` mise à jour ; feuille de route et plan : doc des stats ✅.
+- PR #4 `feat/stats-deck` fusionnée dans `main` ; `docs/.claude_plan_stats_deck.md` supprimé par l'utilisateur (branche finie) ; feuille de route : stats-deck ✅ (#4), import-meta 🔜.
 
 ### 2026-09-23 — Stats d'un deck : plan d'action
 - Branche `feat/stats-deck` créée par l'utilisateur ; périmètre : `stats/<deck>.md` seulement (synthèse et méta reportés à d'autres branches).

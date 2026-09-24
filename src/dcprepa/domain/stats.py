@@ -40,7 +40,7 @@ class BestVersion:
 class MatchupStats:
     """Un oppo : games et BO3 ; OTP / OTD seulement à partir de 10 games contre lui (sinon None).
 
-    weight : son poids dans le méta, en % (None sans méta ou si l'oppo n'y figure pas).
+    weight_paper / weight_general : son poids dans le méta papier / général, en % (None sans méta ou si l'oppo n'y figure pas).
     best_games / best_bo3 : meilleure version contre l'oppo, par game et par BO3
     (None si moins de deux versions l'ont joué).
     """
@@ -49,7 +49,8 @@ class MatchupStats:
     record: Record
     otp: Winrate | None
     otd: Winrate | None
-    weight: float | None = None
+    weight_paper: float | None = None
+    weight_general: float | None = None
     best_games: BestVersion | None = None
     best_bo3: BestVersion | None = None
 
@@ -67,14 +68,14 @@ class DeckStats:
 
 
 def compute_deck_stats(
-    games: list[dict[str, str]], deck: str, versions: list[str], weights: dict[str, float] | None = None
+    games: list[dict[str, str]], deck: str, versions: list[str], metas: dict[str, dict[str, float]] | None = None
 ) -> DeckStats:
     """Calcule les stats d'un deck à partir des lignes de games.csv (read_games).
 
     games : toutes les games du fichier, celles des autres decks sont ignorées ;
     versions : versions de la fiche, de la plus ancienne à la plus récente. Une version jouée
     mais absente de la fiche est ajoutée à la fin (le service le signale) ;
-    weights : poids du méta par oppo (load_latest_meta), None ou vide sans méta.
+    metas : poids par oppo de chaque méta, {"paper": {…}, "general": {…}} (load_latest_meta), None ou vide sans méta.
     """
     own = [game for game in games if game["deck"] == deck]
     self_play = [game for game in own if SELF_PLAY_MARK in game["oppo"]]
@@ -85,7 +86,7 @@ def compute_deck_stats(
         versions=_versions(played, versions),
         positions=_positions(played),
         sources=_sources(played),
-        matchups=_matchups(played, weights or {}, versions),
+        matchups=_matchups(played, metas or {}, versions),
         self_play=_matchups(self_play, {}, versions),
     )
 
@@ -159,11 +160,11 @@ def _sources(games: list[dict[str, str]]) -> dict[str, Record]:
     return {source: record([game for game in games if game["source"] == source]) for source in (*SOURCES, *extra)}
 
 
-def _matchups(games: list[dict[str, str]], weights: dict[str, float], versions: list[str]) -> list[MatchupStats]:
+def _matchups(games: list[dict[str, str]], metas: dict[str, dict[str, float]], versions: list[str]) -> list[MatchupStats]:
     """Un MatchupStats par oppo, avec la meilleure version contre lui (par game et par BO3).
 
-    Tri : par poids dans le méta (décroissant), les oppos absents du méta à la fin ;
-    à égalité, et toujours sans méta, par nombre de games (décroissant) puis par nom.
+    Tri : par poids dans le méta papier (décroissant) ; puis les oppos absents du papier, par poids général ;
+    puis ceux absents des deux ; à égalité, et toujours sans méta, par nombre de games (décroissant) puis par nom.
     """
     by_oppo = {}
     for game in games:
@@ -177,12 +178,18 @@ def _matchups(games: list[dict[str, str]], weights: dict[str, float], versions: 
         by_version = {name: record([game for game in oppo_games if game["version"] == name]) for name in names}
         matchups.append(
             MatchupStats(
-                oppo, overall, positions.get("OTP"), positions.get("OTD"), weights.get(oppo),
-                best_version({name: rec.games for name, rec in by_version.items()}, overall.games),
-                best_version({name: rec.bo3 for name, rec in by_version.items()}, overall.bo3),
+                oppo, overall, positions.get("OTP"), positions.get("OTD"),
+                weight_paper=metas.get("paper", {}).get(oppo),
+                weight_general=metas.get("general", {}).get(oppo),
+                best_games=best_version({name: rec.games for name, rec in by_version.items()}, overall.games),
+                best_bo3=best_version({name: rec.bo3 for name, rec in by_version.items()}, overall.bo3),
             )
         )
     return sorted(
         matchups,
-        key=lambda m: (m.weight is None, -(m.weight or 0), -m.record.games.total, m.oppo.lower()),
+        key=lambda m: (
+            m.weight_paper is None, -(m.weight_paper or 0),
+            m.weight_general is None, -(m.weight_general or 0),
+            -m.record.games.total, m.oppo.lower(),
+        ),
     )

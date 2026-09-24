@@ -43,7 +43,7 @@ def test_un_rapport_par_fiche(tournament):
     assert (report.decks, report.games, report.meta, report.warnings) == (["terra", "tymna"], 3, None, [])
 
     terra = (tournament / "stats" / "terra.md").read_text(encoding="utf-8")
-    assert terra.startswith("# Terra Midrange\n\n> Généré le 24/09/2026 à partir de `games.csv`, `decks/terra.yaml` et `meta/—.csv`.")
+    assert terra.startswith("# Terra Midrange\n\n> Généré le 24/09/2026 à partir de `games.csv`, `decks/terra.yaml` et `meta/—`.")
     assert "| Par game | ⚠️ 66.7 % (2/3) |" in terra
     assert "| Par BO3 | ⚠️ 100 % (1/1) |" in terra
 
@@ -54,12 +54,15 @@ def test_un_rapport_par_fiche(tournament):
 
 
 def test_avec_meta(tournament):
-    write(tournament / "meta" / "2026-10-01.csv", "oppo,decks,poids\nKess,10,20\nRagavan,5,10\n")
+    write(tournament / "meta" / "2026-09-10" / "general.csv", "oppo,decks,poids\nRagavan,50,50\n")  # import précédent
+    write(tournament / "meta" / "2026-09-24" / "general.csv", "oppo,decks,poids\nKess,10,20\nRagavan,5,10\n")
+    write(tournament / "meta" / "2026-09-24" / "paper.csv", "oppo,decks,poids\nRagavan,8,15\n")
     report = generate_stats(tournament, GENERATED)
-    assert report.meta == "2026-10-01.csv"
+    assert report.meta == "2026-09-24"
     terra = (tournament / "stats" / "terra.md").read_text(encoding="utf-8")
-    assert "et `meta/2026-10-01.csv`." in terra
-    assert terra.index("| Kess | 20 % |") < terra.index("| Ragavan | 10 % |")
+    assert "et `meta/2026-09-24/`." in terra
+    # tri par poids papier : Ragavan (papier 15 %) avant Kess (absent du papier)
+    assert terra.index("| Ragavan | 15 % | 10 % |") < terra.index("| Kess | — | 20 % |")
 
 
 def assert_nothing_written(tournament):
@@ -84,9 +87,12 @@ def test_fiche_invalide(tournament):
 
 
 def test_meta_invalide(tournament):
-    write(tournament / "meta" / "2026-10-01.csv", "oppo,decks,poids\nKess,10,beaucoup\n")
+    write(tournament / "meta" / "2026-09-24" / "general.csv", "oppo,decks,poids\nKess,10,beaucoup\n")
     report = generate_stats(tournament, GENERATED)
-    assert report.errors == ["meta/2026-10-01.csv : ligne 2 : poids attendu en nombre positif (ex. 12.5) : beaucoup"]
+    assert report.errors == [
+        "meta/2026-09-24/general.csv : ligne 2 : poids attendu en nombre positif (ex. 12.5) : beaucoup",
+        "meta/2026-09-24/paper.csv : fichier manquant",
+    ]
     assert_nothing_written(tournament)
 
 

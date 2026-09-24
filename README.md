@@ -28,10 +28,11 @@ Suivie de préparation de gros tournois DC, entrainement analyse méta winrate e
 │   │   ├── index.md       # présentation du chapitre et liste des pages
 │   │   ├── donnees.md     # organisation de data/ : fichiers, formats, conventions
 │   │   ├── import-inbox.md  # import de l'inbox : étapes, contrôles, code
+│   │   ├── import-meta.md   # import du méta MTGTop8 : source, étapes, noms ajoutés, code
 │   │   └── stats.md       # rapports de stats : règles de calcul, sections du rapport, méta, code
 │   ├── .claude_feuille_de_route.md  # branches faites et à faire pour finaliser le projet, privé
 │   ├── .claude_plan_modele.md      # modèle de plan d'action d'une branche, privé
-│   ├── .claude_plan_stats_deck.md  # plan d'action de la branche feat/stats-deck (étapes, fait / à faire), privé
+│   ├── .claude_plan_import_meta.md  # plan d'action de la branche feat/import-meta (étapes, fait / à faire), privé
 │   ├── .claude_doc.md     # notes de Claude, tenues en temps réel (hors PDF et hors ~/work)
 │   └── README.md          # règles de la documentation
 ├── src/

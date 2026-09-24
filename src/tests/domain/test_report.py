@@ -39,7 +39,7 @@ def test_deck_vide_suit_le_modele():
         TEMPLATE.read_text(encoding="utf-8")
         .replace("# <nom du deck>", "# <deck>")
         .replace("Généré le —", "Généré le 24/09/2026")
-        .replace("Triés par poids dans le méta", MATCHUPS_SORT_NO_META)
+        .replace("Triés par poids dans le méta papier", MATCHUPS_SORT_NO_META)
     )
     assert render_deck_report("<deck>", sheet, stats, GENERATED) == expected
 
@@ -48,7 +48,7 @@ def test_en_tete(sheet):
     text = render_deck_report("terra", sheet, compute_deck_stats([], "terra", sheet["versions"]), GENERATED)
     assert text.startswith(
         "# Terra Midrange\n\n"
-        "> Généré le 24/09/2026 à partir de `games.csv`, `decks/terra.yaml` et `meta/—.csv`. Ne pas modifier à la main.\n"
+        "> Généré le 24/09/2026 à partir de `games.csv`, `decks/terra.yaml` et `meta/—`. Ne pas modifier à la main.\n"
         "> Conventions : voir `README.md`.\n\n"
         "- **Commandant :** Terra, Magical Adept\n"
         "- **Statut :** envisage\n"
@@ -87,8 +87,8 @@ def test_sections_remplies(sheet):
         "| MTGO | ⚠️ 100 % (2/2) | ⚠️ 100 % (1/1) |",
     ]
     assert section(text, "Matchups")[4:] == [
-        "| Ragavan | — | ⚠️ 80 % (4/5) | — | ⚠️ 100 % (2/2) | — | — | — |",
-        "| Kess | — | ⚠️ 0 % (0/1) | — | — | — | — | — |",
+        "| Ragavan | — | — | ⚠️ 80 % (4/5) | — | ⚠️ 100 % (2/2) | — | — | — |",
+        "| Kess | — | — | ⚠️ 0 % (0/1) | — | — | — | — | — |",
     ]
     assert section(text, "Self-play")[3:] == ["| terra@v1 | ⚠️ 100 % (2/2) | ⚠️ 100 % (1/1) | — | — |"]
 
@@ -96,27 +96,29 @@ def test_sections_remplies(sheet):
 def test_otp_otd_du_matchup_des_10_games(sheet):
     games = [game(f"m{n}", "W", position=("OTP", "OTD")[n % 2]) for n in range(10)]
     text = render_deck_report("terra", sheet, compute_deck_stats(games, "terra", sheet["versions"]), GENERATED)
-    assert section(text, "Matchups")[4:] == ["| Ragavan | — | 100 % (10/10) | — | — | — | ⚠️ 100 % (5/5) | ⚠️ 100 % (5/5) |"]
+    assert section(text, "Matchups")[4:] == ["| Ragavan | — | — | 100 % (10/10) | — | — | — | ⚠️ 100 % (5/5) | ⚠️ 100 % (5/5) |"]
 
 
 def test_avec_meta(sheet):
     games = match("a", "WW") + match("b", "L", oppo="Kess")
-    stats = compute_deck_stats(games, "terra", sheet["versions"], {"Ragavan": 12.5, "Atraxa": 30.0})
-    text = render_deck_report("terra", sheet, stats, GENERATED, "2026-10-01.csv")
-    assert "`decks/terra.yaml` et `meta/2026-10-01.csv`." in text
+    metas = {"paper": {"Ragavan": 12.5, "Atraxa": 30.0}, "general": {"Ragavan": 10.25, "Kess": 4.0}}
+    stats = compute_deck_stats(games, "terra", sheet["versions"], metas)
+    text = render_deck_report("terra", sheet, stats, GENERATED, "2026-09-24")
+    assert "`decks/terra.yaml` et `meta/2026-09-24/`." in text
     matchups = section(text, "Matchups")
     assert matchups[0].startswith(f"{MATCHUPS_SORT_META}, self-play exclu.")
+    assert matchups[2] == "| Oppo | Poids papier | Poids général | Winrate (games) | Meilleure version (games) | Winrate BO3 | Meilleure version BO3 | OTP | OTD |"
     assert matchups[4:] == [
-        "| Ragavan | 12.5 % | ⚠️ 100 % (2/2) | — | ⚠️ 100 % (1/1) | — | — | — |",
-        "| Kess | — | ⚠️ 0 % (0/1) | — | — | — | — | — |",
+        "| Ragavan | 12.5 % | 10.3 % | ⚠️ 100 % (2/2) | — | ⚠️ 100 % (1/1) | — | — | — |",
+        "| Kess | — | 4 % | ⚠️ 0 % (0/1) | — | — | — | — | — |",
     ]
 
 
 def test_sans_meta(sheet):
     text = render_deck_report("terra", sheet, compute_deck_stats(match("a", "WW"), "terra", ["v1"]), GENERATED)
-    assert "`meta/—.csv`" in text
+    assert "`meta/—`" in text
     assert section(text, "Matchups")[0].startswith(f"{MATCHUPS_SORT_NO_META}, self-play exclu.")
-    assert section(text, "Matchups")[4:] == ["| Ragavan | — | ⚠️ 100 % (2/2) | — | ⚠️ 100 % (1/1) | — | — | — |"]
+    assert section(text, "Matchups")[4:] == ["| Ragavan | — | — | ⚠️ 100 % (2/2) | — | ⚠️ 100 % (1/1) | — | — | — |"]
 
 
 def test_meilleure_version(sheet):
@@ -128,7 +130,7 @@ def test_meilleure_version(sheet):
     matchups = section(text, "Matchups")
     assert matchups[1].startswith("Meilleure version : la version au meilleur winrate contre l'oppo")
     # matchup : 5/8 games = 62.5 %, 2/3 BO3 = 66.7 % ; v2 : 100 % et 100 %
-    assert matchups[4:] == ["| Ragavan | — | ⚠️ 62.5 % (5/8) | ⚠️ v2 (+37.5) | ⚠️ 66.7 % (2/3) | ⚠️ v2 (+33.3) | — | — |"]
+    assert matchups[4:] == ["| Ragavan | — | — | ⚠️ 62.5 % (5/8) | ⚠️ v2 (+37.5) | ⚠️ 66.7 % (2/3) | ⚠️ v2 (+33.3) | — | — |"]
 
 
 def test_meilleure_version_fiable_sans_warning(sheet):

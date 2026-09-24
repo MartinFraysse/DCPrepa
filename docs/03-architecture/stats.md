@@ -27,9 +27,9 @@ Quatre principes guident les stats :
 │ position, W/L…   │    │ lire, vérifier, calculer, écrire   │    │ deck, même sans game    │
 └──────────────────┘    └────────────────────────────────────┘    └─────────────────────────┘
          ▲                         ▲
-  🃏 decks/<deck>.yaml      🌍 meta/AAAA-MM-JJ.csv
+  🃏 decks/<deck>.yaml      🌍 meta/AAAA-MM-JJ/
   nom, commandant,          facultatif : poids de chaque
-  statut, versions          oppo dans le méta
+  statut, versions          oppo, méta papier et général
 ```
 
 ## Les fichiers en jeu
@@ -42,7 +42,9 @@ data/tournaments/<tournoi>/
 ├── decks/
 │   └── <deck>.yaml             une fiche par deck                        🃏
 ├── meta/
-│   └── AAAA-MM-JJ.csv          instantanés du méta (facultatifs)         🌍
+│   └── AAAA-MM-JJ/             un import du méta (facultatif)            🌍
+│       ├── general.csv
+│       └── paper.csv
 └── stats/
     ├── README.md               conventions de lecture des rapports       📖
     └── <deck>.md               un rapport par fiche deck (généré)        📈
@@ -52,7 +54,7 @@ data/tournaments/<tournoi>/
 |---|---|---|---|
 | `games.csv` | les games : deck, version, oppo, position, résultat, `match_id` | ✅ | — |
 | `decks/<deck>.yaml` | les decks à analyser : `name`, `commandant`, `statut`, versions | ✅ | — |
-| `meta/AAAA-MM-JJ.csv` | le plus récent donne le poids de chaque oppo (facultatif) | ✅ | — |
+| `meta/AAAA-MM-JJ/` | le dossier le plus récent donne le poids de chaque oppo, papier et général (facultatif) | ✅ | — |
 | `stats/<deck>.md` | le rapport du deck | — | réécrit à chaque lancement |
 
 Les fichiers de `decks/` qui commencent par `_` (`_alias.yaml`, `_modele.yaml`) ne sont pas des fiches deck : ils n'ont pas de rapport.
@@ -135,7 +137,7 @@ Issues possibles :
 
 ```
 ✅ 3 rapport(s) écrit(s) à partir de 404 game(s) : kinnan-combo, sythis-enchant, winota-aggro.
-   Méta : meta/2026-10-25.csv (matchups triés par poids).
+   Méta : meta/2026-09-24/ (matchups triés par poids papier).
 ⚠️  Avertissements :
   - games.csv : deck sans fiche : atraxa (41 game(s)) → pas de rapport
   - winota-aggro : version jouée absente de la fiche : v9
@@ -144,7 +146,7 @@ Issues possibles :
 ```
 ❌ Stats annulées, aucun rapport écrit. Erreurs à corriger :
   - games.csv : ligne 5 : position inconnue (OTP ou OTD) : OTX
-  - meta/2026-10-25.csv : ligne 3 : poids attendu en nombre positif (ex. 12.5) : beaucoup
+  - meta/2026-09-24/paper.csv : ligne 3 : poids attendu en nombre positif (ex. 12.5) : beaucoup
 ```
 
 | Code de sortie | Signification |
@@ -163,7 +165,7 @@ Les extraits ci-dessous viennent d'un petit exemple, déroulé en entier plus ba
 ```
 # Terra Midrange
 
-> Généré le 05/10/2026 à partir de `games.csv`, `decks/terra-midrange.yaml` et `meta/—.csv`. Ne pas modifier à la main.
+> Généré le 05/10/2026 à partir de `games.csv`, `decks/terra-midrange.yaml` et `meta/—`. Ne pas modifier à la main.
 
 - **Commandant :** Terra, Magical Adept
 - **Statut :** retenu
@@ -171,7 +173,7 @@ Les extraits ci-dessous viennent d'un petit exemple, déroulé en entier plus ba
 ```
 
 - Titre : le champ `name` de la fiche, ou le nom du fichier s'il est vide.
-- Date de génération au format JJ/MM/AAAA ; fichier méta utilisé, ou `meta/—.csv` sans méta.
+- Date de génération au format JJ/MM/AAAA ; dossier méta utilisé (`meta/2026-09-24/`), ou `meta/—` sans méta.
 - Dernière version : la dernière de la liste `versions` de la fiche.
 
 ### 📊 Général
@@ -228,16 +230,17 @@ Les trois sources sont toujours affichées, dans cet ordre, même sans game.
 
 Extrait d'un deck plus joué (Winota Aggro, deux versions, avec méta) :
 
-| Oppo | Poids méta | Winrate (games) | Meilleure version (games) | Winrate BO3 | Meilleure version BO3 | OTP | OTD |
-|---|---|---|---|---|---|---|---|
-| Asmo | 18.3 % | 50 % (22/44) | v2 (+7.7) | 50 % (8/16) | v2 (+10) | 60.9 % (14/23) | 38.1 % (8/21) |
-| Kess | 12.2 % | 69.2 % (27/39) | v2 (+20.8) | 80 % (12/15) | ⚠️ v2 (+20) | 78.6 % (11/14) | 64 % (16/25) |
-| Magda | 6.5 % | 54.5 % (6/11) | ⚠️ v1 (+5.5) | ⚠️ 50 % (2/4) | ⚠️ v2 (0) | ⚠️ 50 % (3/6) | ⚠️ 60 % (3/5) |
-| Ertai | — | 62.5 % (10/16) | ⚠️ v2 (+12.5) | ⚠️ 66.7 % (4/6) | ⚠️ v2 (+33.3) | ⚠️ 66.7 % (4/6) | 60 % (6/10) |
+| Oppo | Poids papier | Poids général | Winrate (games) | Meilleure version (games) | Winrate BO3 | Meilleure version BO3 | OTP | OTD |
+|---|---|---|---|---|---|---|---|---|
+| Asmo | 15.8 % | 18.3 % | 50 % (22/44) | v2 (+7.7) | 50 % (8/16) | v2 (+10) | 60.9 % (14/23) | 38.1 % (8/21) |
+| Kess | 9.6 % | 12.2 % | 69.2 % (27/39) | v2 (+20.8) | 80 % (12/15) | ⚠️ v2 (+20) | 78.6 % (11/14) | 64 % (16/25) |
+| Magda | 8.5 % | 6.5 % | 54.5 % (6/11) | ⚠️ v1 (+5.5) | ⚠️ 50 % (2/4) | ⚠️ v2 (0) | ⚠️ 50 % (3/6) | ⚠️ 60 % (3/5) |
+| Ertai | 3.7 % | — | 62.5 % (10/16) | ⚠️ v2 (+12.5) | ⚠️ 66.7 % (4/6) | ⚠️ v2 (+33.3) | ⚠️ 66.7 % (4/6) | 60 % (6/10) |
+| Aminatou | — | 5.2 % | 71.4 % (20/28) | ⚠️ v2 (+17.5) | 81.8 % (9/11) | ⚠️ v2 (+18.2) | ⚠️ 75 % (6/8) | 70 % (14/20) |
 
 - Une ligne par oppo rencontré (self-play exclu).
 - **OTP / OTD** : affichés seulement à partir de 10 games contre l'oppo ; en dessous, `—`.
-- **Ordre et poids** : dépendent de la présence d'un méta (voir « Le méta » ci-dessous).
+- **Poids et ordre** : poids de l'oppo dans le méta papier et dans le méta général ; ordre par poids papier (voir « Le méta » ci-dessous).
 - **Meilleure version** : la version du deck qui gagne le plus contre cet oppo, à côté du winrate qu'elle dépasse.
   Calculée deux fois, par game et par BO3, chacune comparée à son propre winrate :
 
@@ -261,40 +264,42 @@ Kess, par game       winrate du matchup (toutes versions)   69.2 %  (27/39)
 |---|---|---|---|---|
 | terra-midrange@v1 | ⚠️ 100 % (2/2) | ⚠️ 100 % (1/1) | — | — |
 
-Les games contre ses propres decks, avec les mêmes calculs que les matchups, mais sans poids méta.
+Les games contre ses propres decks, avec les mêmes calculs que les matchups, mais sans poids.
 Elles ne comptent dans aucune autre section.
 
 ## 🌍 Le méta
 
-Le méta dit quels decks adverses on croisera au tournoi, et avec quel poids. Il vit dans `meta/`, un fichier par import :
+Le méta dit quels decks adverses on croisera au tournoi, et avec quel poids. La commande `meta` l'importe de MTGTop8
+(voir [Import du méta](import-meta.md)) dans `meta/`, un dossier par import, avec deux fichiers :
 
 ```
-meta/2026-10-25.csv
-oppo,decks,poids
-Asmo,42,18.3
-Ragavan,35,15.2
-Kess,28,12.2
+meta/2026-09-24/
+├── general.csv          oppo,decks,poids     méta général des 2 derniers mois (paper + MTGO)
+└── paper.csv            oppo,decks,poids     méta papier des 2 derniers mois
 ```
 
-Les stats utilisent le fichier **le plus récent**, choisi d'après la date de son nom (`AAAA-MM-JJ.csv`) ;
-les autres fichiers du dossier (`README.md`, CSV mal nommé) sont ignorés. Le méta change la section Matchups :
+Les stats utilisent le dossier **le plus récent**, choisi d'après la date de son nom (`AAAA-MM-JJ`) ; les imports précédents,
+les autres fichiers (`README.md`) et l'ancien format `meta/AAAA-MM-JJ.csv` sont ignorés. Le méta change la section Matchups :
 
 ```
         sans méta                                     avec méta
-───────────────────────────────────    ───────────────────────────────────────────
-en-tête   meta/—.csv                   en-tête   meta/2026-10-25.csv
-phrase    Triés par nombre de games    phrase    Triés par poids dans le méta
-Poids     —                            Poids     14.5 %  (— si l'oppo n'y est pas)
-ordre     games ↓, puis nom            ordre     poids ↓, puis oppos hors méta
-                                                 (games ↓, puis nom)
+───────────────────────────────────    ─────────────────────────────────────────────────
+en-tête   meta/—                       en-tête   meta/2026-09-24/
+phrase    Triés par nombre de games    phrase    Triés par poids dans le méta papier
+Poids     —  (les deux colonnes)       Poids     papier 6 %, général 5.7 %
+                                                 (— si l'oppo n'est pas dans ce méta)
+ordre     games ↓, puis nom            ordre     poids papier ↓, puis absents du papier
+                                                 par poids général ↓, puis games ↓, puis nom
 ```
 
 - Un oppo du méta jamais rencontré n'apparaît pas : le tableau ne liste que les oppos joués.
 - Oppos du méta et de `games.csv` sont rapprochés par leur **nom exact** : les deux passent par les noms de référence de `data/oppos.yaml`.
-- Pas de méta (dossier vide ou absent) n'est pas une erreur. Un méta **invalide** en est une : aucun rapport n'est écrit.
+- Pas de méta (aucun dossier daté) n'est pas une erreur. Un méta **invalide** en est une, comme un dossier auquel il manque
+  `general.csv` ou `paper.csv` : aucun rapport n'est écrit.
 
 | Contrôle du méta | Refusé si… |
 |---|---|
+| fichiers | `general.csv` ou `paper.csv` absent du dossier le plus récent |
 | en-tête | pas exactement `oppo,decks,poids` |
 | colonnes | pas 3 valeurs sur la ligne |
 | oppo | vide, ou déjà présent plus haut |
@@ -329,7 +334,7 @@ python -m dcprepa stats <tournoi>
 - `read_games()` : toutes les lignes de `games.csv`. Vérifie l'en-tête, le nombre de colonnes, `OTP`/`OTD` et `W`/`L` ;
   chaque erreur donne son numéro de ligne.
 - `load_deck_sheets()` : chaque fiche deck, avec ses versions (mêmes règles que l'import) et ses champs `name`, `commandant`, `statut`.
-- `load_latest_meta()` : le fichier méta le plus récent et le poids de chaque oppo, ou rien s'il n'y a pas de méta.
+- `load_latest_meta()` : le dossier méta le plus récent et le poids de chaque oppo, papier et général, ou rien s'il n'y a pas de méta.
 
 ### 2. Une erreur quelque part ?
 
@@ -360,8 +365,8 @@ games.csv (toutes les lignes)
                   ├── versions + écarts        record(), version_gaps()    🔢
                   ├── position OTP / OTD       par game                    🎲
                   ├── paper / cockatrice / mtgo  record()                  🌐
-                  └── par oppo                 record(), tri, poids méta,  ⚔️
-                                               best_version()
+                  └── par oppo                 record(), best_version(),   ⚔️
+                                               poids papier et général, tri
 
 record(games)  =  Record(games = winrate par game, bo3 = winrate par BO3)
                    │
@@ -448,7 +453,7 @@ src/dcprepa/
 └── storage/                seul accès aux fichiers de data/
     ├── games.py            read_games
     ├── decks.py            load_deck_sheets
-    ├── meta.py             load_latest_meta
+    ├── meta.py             load_latest_meta, read_meta
     └── stats.py            write_report
 ```
 
