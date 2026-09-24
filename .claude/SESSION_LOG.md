@@ -5,11 +5,10 @@
 > Entrées les plus récentes en haut, une idée par puce.
 
 ## 🔜 Prochaines étapes
-- Compléter `tournament.yaml` de RelicFest 2026 (banlist).
-- Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- `feat/import-meta` : commit puis PR vers `main` ; branche suivante : `feat/stats-synthese`.
-- Import de l'inbox utilisable (`python -m dcprepa import relicfest-2026`) : premier vrai import à faire.
-- Ensuite : import méta MTGTop8 (`feat/import-meta`), puis `synthese.md` (`feat/stats-synthese`) ; plus tard vraie CLI, GUI.
+- `feat/stats-synthese` : relire et commiter l'étape 2 (`domain/synthese.py`), puis étape 3 (matchups non testés).
+- Premier vrai import de l'inbox (`python -m dcprepa import relicfest-2026`).
+- Compléter `tournament.yaml` de RelicFest 2026 (banlist) ; remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
+- Après `feat/stats-synthese` : vraie CLI, puis GUI.
 
 ## 🗓️ Historique
 
@@ -20,6 +19,19 @@
 - décisions prises
 - problèmes ouverts
 -->
+
+### 2026-09-24 — Synthèse du tournoi : plan d'action
+- Étape 1 (décisions) : calcul sur les données disponibles seulement ; ⚠️ si couverture < 30 % ; `—` sans oppo joué ; section Général validée ;
+  tableau Decks en méta papier seulement ; tableau Méta = union des top 20, une colonne par deck non écarté ; Claude code et explique, l'utilisateur supervise.
+- Couverture affichée (`49.8 % (16.2 % du méta)`) ; étape 1 ✅.
+- Étape 2 codée : `src/dcprepa/domain/synthese.py` (`ExpectedWinrate`, `expected_winrate`) + 10 tests (`src/tests/domain/test_synthese.py`) ; suite : 482 OK.
+- `.venv/` absent de la racine : tests lancés dans un venv du scratchpad.
+- Feuille de route : `feat/stats-synthese` 🔄.
+- Décisions utilisateur : winrate attendu calculé avec le méta papier ET général, par game ET par BO3, sur les seuls oppos joués du top 20 (poids ramenés à 100 %) ;
+  matchups non testés : top 10 papier, decks `envisage` / `retenu`, seuils 10 BO3 / 30 games.
+- Plan créé à partir du modèle : `docs/.claude_plan_stats_synthese.md` (7 étapes ; pas de nouvelle commande, `stats` écrit aussi `synthese.md`).
+- Ouverts : couverture affichée (« 16.2 % du méta »), ⚠️ si faible, colonnes des tableaux Decks et Méta, section Général du rapport de deck.
+- README : organisation de `docs/` (plan ajouté) ; feuille de route : décisions notées ; branche `feat/stats-synthese` à créer par l'utilisateur.
 
 ### 2026-09-24 — Import du méta : plan d'action
 - Branche `feat/import-meta` créée par l'utilisateur (depuis `main` après la PR #4).
@@ -72,6 +84,7 @@
   retirée de l'index du chapitre et du README ; liens de `stats.md` / `donnees.md` remplacés par du texte simple, à remettre à la publication.
 - Oubli signalé par l'utilisateur, corrigé : l'ajout automatique des oppos par `meta` est décrit dans `donnees.md` (section `oppos.yaml`) et dans l'en-tête de `data/oppos.yaml`.
 - Brouillon validé par l'utilisateur et publié : `docs/03-architecture/import-meta.md` ; index du chapitre, liens depuis `stats.md` et `donnees.md` (×2), README mis à jour.
+- PR #5 `feat/import-meta` fusionnée dans `main` ; feuille de route : import-meta ✅ (#5), stats-synthese 🔜.
 
 ### 2026-09-24 — Stats d'un deck : brique winrate (étape 3)
 - Étape 2 validée par l'utilisateur.

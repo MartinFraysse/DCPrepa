@@ -33,6 +33,7 @@ Suivie de préparation de gros tournois DC, entrainement analyse méta winrate e
 │   ├── .claude_feuille_de_route.md  # branches faites et à faire pour finaliser le projet, privé
 │   ├── .claude_plan_modele.md      # modèle de plan d'action d'une branche, privé
 │   ├── .claude_plan_import_meta.md  # plan d'action de la branche feat/import-meta (étapes, fait / à faire), privé
+│   ├── .claude_plan_stats_synthese.md  # plan d'action de la branche feat/stats-synthese (étapes, fait / à faire), privé
 │   ├── .claude_doc.md     # notes de Claude, tenues en temps réel (hors PDF et hors ~/work)
 │   └── README.md          # règles de la documentation
 ├── src/
