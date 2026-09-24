@@ -64,6 +64,50 @@ def append_oppos(path: Path, entries: dict[str, list[str]], comment: str) -> Non
     temporary.replace(path)
 
 
+def insert_variant(path: Path, reference: str, variant: str) -> bool:
+    """Ajoute une variante sous un nom de référence de data/oppos.yaml, sans toucher au reste (commentaires compris).
+
+    La ligne « - variante » (indentée de 4 espaces) est placée après les variantes existantes de la référence.
+    Le texte obtenu est relu avant l'écriture : si la variante n'y est pas rattachée à la référence (référence introuvable,
+    fichier inattendu), rien n'est écrit et la fonction renvoie False. Écriture via un fichier .tmp remplacé d'un coup.
+    """
+    content = path.read_text(encoding="utf-8")
+    lines = content.split("\n")
+    start = next((index for index, line in enumerate(lines) if _reference_of(line) == reference), None)
+    if start is None:
+        return False
+    end = start + 1
+    while end < len(lines) and lines[end][:1] in (" ", "\t"):
+        end += 1
+    lines.insert(end, f"    - {_yaml_scalar(variant)}")
+    updated = "\n".join(lines)
+
+    try:
+        parsed = yaml.safe_load(updated)
+    except yaml.YAMLError:
+        return False
+    if not isinstance(parsed, dict) or variant not in [str(v).strip() for v in parsed.get(reference) or []]:
+        return False
+
+    temporary = path.with_name(path.name + ".tmp")
+    temporary.write_text(updated, encoding="utf-8")
+    temporary.replace(path)
+    return True
+
+
+def _reference_of(line: str) -> str | None:
+    """Nom de référence d'une ligne « Référence: » non indentée (guillemets compris), None pour toute autre ligne."""
+    if not line or line[0] in " \t#" or not line.rstrip().endswith(":"):
+        return None
+    try:
+        parsed = yaml.safe_load(line)
+    except yaml.YAMLError:
+        return None
+    if isinstance(parsed, dict) and len(parsed) == 1:
+        return str(next(iter(parsed))).strip()
+    return None
+
+
 def _yaml_scalar(text: str) -> str:
     """Texte YAML d'un nom : tel quel si possible (« Phelia, Exuberant Shepherd »), sinon entre guillemets."""
     dumped = yaml.safe_dump(text, allow_unicode=True, width=10**6, default_style=None)

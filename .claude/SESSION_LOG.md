@@ -5,7 +5,8 @@
 > Entrées les plus récentes en haut, une idée par puce.
 
 ## 🔜 Prochaines étapes
-- `feat/saisie` : commiter les corrections de games (étape 2), corriger `_alias.yaml` de test_tournoi, puis étape 3 (`add_oppo`).
+- `feat/saisie` : commiter `add_oppo` (étape 3), puis étape 4 (`create_tournament`, `edit_tournament`).
+- `data/tournaments/test_tournoi/decks/_alias.yaml` : bloc `test-deck` à retirer (bloque import et corrections sur test_tournoi), en attente de l'accord de l'utilisateur.
 - Corriger l'en-tête de `__main__.py` (« en attendant la vraie CLI ») au premier commit de code.
 - Régénérer les rapports de RelicFest (`python -m dcprepa stats relicfest-2026`) : `synthese.md` encore à l'ancien modèle.
 - Premier vrai import de l'inbox (`python -m dcprepa import relicfest-2026`) ; `meta` sur RelicFest avant `stats`.
@@ -32,6 +33,8 @@
 - Commité par l'utilisateur (`70358e3`).
 - Corrections codées : `domain/edits.py` (BO reconstruit et revérifié par `prepare_block`), services `edit_game`, `edit_match`, `delete_game`, `delete_match`, `storage/games.py::write_games` ; 19 + 6 tests (dont L → W, ajouté après relecture) ; suite : 551 OK.
 - Constat : `data/tournaments/test_tournoi/decks/_alias.yaml` référence `test-deck` (inexistant, depuis #3) → import et corrections refusés sur test_tournoi ; signalé.
+- Corrections commitées par l'utilisateur (`6552503`) ; test L → W ajouté après sa relecture du plan (ligne de tests non cochée : oubli de Claude).
+- `add_oppo` codé : `services/oppos.py`, `domain/oppos.py::check_new_oppo`, `storage/oppos.py::insert_variant` (variante sous sa référence, commentaires gardés) ; 21 tests ; suite : 572 OK.
 
 ### AAAA-MM-JJ — titre
 - ce qui a été fait

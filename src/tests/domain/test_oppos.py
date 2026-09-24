@@ -1,6 +1,6 @@
 import pytest
 
-from dcprepa.domain.oppos import build_oppo_index, normalize_oppo
+from dcprepa.domain.oppos import build_oppo_index, check_new_oppo, normalize_oppo
 
 OPPOS = {
     "Ragavan": ["Ragavan, Nimble Pilferer", "raga"],
@@ -99,3 +99,23 @@ def test_index_vide_tout_est_inconnu():
         "Ragavan",
         "oppo inconnu : Ragavan → à ajouter dans data/oppos.yaml",
     )
+
+
+INDEX = build_oppo_index(OPPOS)[0]
+
+
+@pytest.mark.parametrize(
+    "name, variant_of, expected",
+    [
+        ("Atraxa", None, (None, [])),
+        ("  Ragavan   Nimble ", "raga", ("Ragavan", [])),
+        ("Thrasios Tymna", "tymna/thrasios", ("Tymna/Thrasios", [])),
+        ("", None, (None, ["nom d'oppo vide"])),
+        ("terra@v1", None, (None, ["« @ » est réservé au self-play (deck@version) : terra@v1"])),
+        ("RAGA", None, (None, ["oppo déjà connu : RAGA → Ragavan"])),
+        ("Kess ", "Ragavan", (None, ["oppo déjà connu : Kess → Kess"])),
+        ("Kinnan", "Atraxa", (None, ["oppo de référence inconnu : Atraxa"])),
+    ],
+)
+def test_check_new_oppo(name, variant_of, expected):
+    assert check_new_oppo(name, variant_of, INDEX) == expected
