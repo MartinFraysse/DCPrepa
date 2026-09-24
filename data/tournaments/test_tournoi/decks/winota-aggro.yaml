@@ -1,0 +1,22 @@
+# Deck fictif pour tester les stats (games générées).
+
+name: Winota Aggro
+commandant: Winota, Joiner of Forces
+statut: retenu
+versions:
+    -   version: v1
+        liste: |
+                1 Winota, Joiner of Forces
+                99 Mountain
+    -   version: v2
+        in:
+            - Lightning Bolt
+        out:
+            - Mountain
+        notes: Plus de removal contre les decks aggro.
+    -   version: v3
+        in:
+            - Chain Lightning
+        out:
+            - Mountain
+        notes: Version pas encore jouée (doit afficher « — »).

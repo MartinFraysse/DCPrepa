@@ -7,7 +7,7 @@
 ## 🔜 Prochaines étapes
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist).
 - Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- Stats d'un deck (branche `feat/stats-deck`) : relire l'étape 7, puis étape 8 du plan (`docs/.claude_plan_stats_deck.md`) : premier vrai lancement (test_tournoi, RelicFest), README de `stats/`, PR vers `main`.
+- Stats d'un deck (branche `feat/stats-deck`) : commit de la doc des stats, puis PR vers `main`.
 - Import de l'inbox utilisable (`python -m dcprepa import relicfest-2026`) : premier vrai import à faire.
 - Ensuite : import méta MTGTop8 (`feat/import-meta`), puis `synthese.md` (`feat/stats-synthese`) ; plus tard vraie CLI, GUI.
 
@@ -58,6 +58,44 @@
 - 4 tests (`src/tests/test_main.py`, sur copie de test_tournoi) ; suite : 373 OK ; `python -m dcprepa` liste bien le module `stats`.
 - Pas encore lancé sur les vrais dossiers de `data/` (écrit des fichiers : étape 8).
 - `src/README.md` : commande `stats` ajoutée dans « Commandes ».
+- Étape 7 commitée par l'utilisateur ; étape 8 lancée : jeu d'essai dans `data/tournaments/test_tournoi/`, à la demande.
+- 3 fiches deck fictives ajoutées : `winota-aggro` (v1-v3, v3 jamais jouée), `sythis-enchant` (v1-v2), `kinnan-combo` (v1, peu de parties) ; `test-deck` gardé.
+- `games.csv` : 19 lignes d'origine gardées + 404 générées (script à graine fixe dans le scratchpad, pas dans le dépôt) ; 11 oppos, self-play, 3 sources, BO1 et BO3.
+- `meta/2026-10-25.csv` fictif ajouté (9 oppos, dont Kraum/Tymna jamais joué ; Kinnan, Ertai, Tevesh Szat absents du méta).
+- Oppos fictifs non ajoutés à `data/oppos.yaml` (fichier commun réel) : inutile pour les stats.
+- Tests détachés du contenu de test_tournoi (`test_main.py` sur mini-tournoi, `test_test_tournoi` générique, `test_meta` adapté) ; suite : 373 OK.
+- Contrôle indépendant (csv brut) : winota 109/196 parties, 43/73 BO3 ; sythis 42/123, 10/40 ; kinnan 4/15, 1/5 ; test-deck 30/58, 10/19.
+- L'utilisateur a retiré les 19 lignes d'origine et `decks/test-deck.yaml` ; l'en-tête de `games.csv` est parti avec → erreur « en-tête inattendu ». En-tête remis par Claude ; 404 games lues sans erreur.
+- Reste : 41 games `test-deck` sans fiche → avertissement « deck sans fiche » au lancement (à trancher).
+- Décision utilisateur : vocabulaire des joueurs dans tout le projet — « game » (une manche) et « BO3 » / « BO1 », plus de « partie » ni de « match » ; `match_id` gardé.
+- Format des données changé : colonne `partie` → `game` dans `games.csv` (template, RelicFest, test_tournoi) ; champ d'inbox `parties:` → `games:` (code, validation, 3 inbox.yaml).
+- Textes : rapports (« Par game », « Par BO3 », « Games », « Écart (games) », « BO3 », « Winrate (games) », « Winrate BO3 »), messages CLI (« 3 BO, 6 game(s) »), docstrings, tests.
+- Aussi mis à jour à la demande : `data/` (modèles, README de stats, synthese.md, terra-midrange.md), `README.md`, `src/README.md`, `docs/03-architecture/donnees.md` et `import-inbox.md`, `.claude_doc.md` (glossaire : Game, BO1/BO3), plan.
+- Non touchés : historique du journal, `CLAUDE.md` (« une partie du projet » = un morceau), rapports déjà générés de test_tournoi (réécrits au prochain `stats`).
+- Suite : 373 OK.
+- Décision utilisateur : le tableau Versions affiche aussi les winrates (revient sur « pas de winrate par version ») ;
+  colonnes Version · Games · Winrate (games) · Écart (games) · BO3 · Winrate BO3 · Écart BO3 ; phrase d'intro = définition de l'écart.
+- Touchés : `domain/report.py`, `_modele-deck.md`, `relicfest-2026/stats/terra-midrange.md`, `test_report.py` ; suite : 373 OK.
+- Étape 8 finalisée à la demande : `stats` lancé sur test_tournoi (3 rapports, 404 games, avertissement test-deck sans fiche) et RelicFest (terra-midrange.md réécrit, vide).
+- Rapports test_tournoi = contrôle indépendant (winota 109/196, 43/73 ; sythis 42/123, 10/40 ; kinnan 4/15, 1/5).
+- README : `stats/README.md` ×3 citent la commande ; README du template : copie de `_modele-deck.md` remplacée par la commande ; README racine : test_tournoi sert aussi aux stats.
+- Reste pour clore la branche : commits, puis PR `feat/stats-deck` → `main` (texte préparé) ; page de doc officielle reportée (sur demande).
+- Créés à la demande : `docs/.claude_plan_modele.md` (modèle de plan de branche, structure du plan des stats) et
+  `docs/.claude_feuille_de_route.md` (branches faites / en cours / à faire : import-meta, stats-synthese, cli, gui, docs ; tâches de données).
+- README : organisation de `docs/` mise à jour ; plan des stats renvoie à la feuille de route.
+- `.claude/CLAUDE.md` modifié à la demande : `docs/.claude_feuille_de_route.md` ajouté aux fichiers que Claude tient à jour seul ; nouvelle section « Feuille de route » (quand, comment, plan de branche à partir du modèle).
+- Brouillon de doc demandé : `docs/.claude_brouillon-stats.md` (« Rapports de stats », sur le modèle de `import-inbox.md`) :
+  principes, fichiers, vocabulaire game / BO1 / BO3 et règles, lecture d'un winrate, commande, rapport section par section,
+  méta, étapes du service, trajet d'un deck (exemple chiffré vérifié avec le vrai code), erreurs, protection, code. À valider puis publier.
+- `docs/03-architecture/import-inbox.md` : 4 schémas réalignés (décalés par le remplacement partie → game).
+- README : organisation de `docs/` mise à jour (brouillon).
+- L'utilisateur a commité `src/` seulement (`428aa76`) ; `data/`, `docs/`, README, CLAUDE.md restent à commiter.
+- Demande : colonne « meilleure version » par matchup. Décisions utilisateur : écart au winrate du matchup (même ligne), par game ET par BO3, ⚠️ si la version a < 10 games / BO3 contre l'oppo.
+- Code : `BestVersion` + `best_version()` dans `domain/stats.py` (≥ 2 versions jouées, égalité → plus de games puis plus récente) ; `MatchupStats.best_games` / `best_bo3` ; `report.py` : colonnes « Meilleure version (games) » et « Meilleure version BO3 » à côté de chaque winrate, phrase d'explication ; self-play inchangé.
+- Modèle `_modele-deck.md`, conventions des 3 `stats/README.md`, brouillon de doc, claude_doc, plan, feuille de route mis à jour ; rapports test_tournoi et RelicFest régénérés.
+- 9 tests ajoutés ; suite : 382 OK.
+- Push fait par l'utilisateur. Brouillon publié à la demande : `docs/.claude_brouillon-stats.md` → `docs/03-architecture/stats.md` ;
+  `03-architecture/index.md` : lien ajouté ; README : organisation de `docs/` mise à jour ; feuille de route et plan : doc des stats ✅.
 
 ### 2026-09-23 — Stats d'un deck : plan d'action
 - Branche `feat/stats-deck` créée par l'utilisateur ; périmètre : `stats/<deck>.md` seulement (synthèse et méta reportés à d'autres branches).

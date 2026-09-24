@@ -1,7 +1,7 @@
-# Boîte de réception : parties jouées loin de l'ordinateur (à remplir depuis GitHub, sur téléphone).
+# Boîte de réception : games jouées loin de l'ordinateur (à remplir depuis GitHub, sur téléphone).
 # Le logiciel importe les blocs dans games.csv puis vide ce fichier.
 # Au moindre bloc invalide, rien n'est importé : corriger les erreurs affichées puis relancer.
-# Chaque match reçoit un match_id généré à l'import (JJ/MM/AAAA-NN) : rien à saisir.
+# Chaque BO reçoit un match_id généré à l'import (JJ/MM/AAAA-NN) : rien à saisir.
 #
 # Un bloc par session (même date, source, deck, version et oppo), blocs séparés par une ligne ---
 # Pas d'indentation : une ligne "champ: valeur" par champ.
@@ -12,7 +12,7 @@
 #   version     version du deck jouée (ex. v3)
 #   oppo        deck adverse (= son commandant), nom court de préférence (voir data/oppos.yaml)
 #               self-play Cockatrice : ton autre deck sous la forme deck@version, ex. terra-midrange@v1
-#   parties     les matchs de la session, séparés par / ; dans un match, les parties
+#   games       les BO de la session, séparés par / ; dans un BO, les games
 #               dans l'ordre (OTP/OTD + W/L), séparées par des virgules (une seule si BO1)
 #                 1 BO3          : OTP W, OTD L, OTP W
 #                 3 BO3          : OTP W, OTD W / OTD L, OTP W, OTP L / OTP W, OTD W
@@ -26,7 +26,7 @@
 # deck: tymna-thrasios
 # version: v3
 # oppo: Ragavan
-# parties: OTP W, OTD L, OTP W / OTD L, OTP W, OTP L / OTP W
+# games: OTP W, OTD L, OTP W / OTD L, OTP W, OTP L / OTP W
 # note/ressenti: Matchup jouable, le mull agressif paie.
 # ---
 

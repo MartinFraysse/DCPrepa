@@ -5,7 +5,7 @@
 
 ## Contexte
 
-Pendant la préparation d'un tournoi, les parties sont souvent jouées loin de l'ordinateur.
+Pendant la préparation d'un tournoi, les games sont souvent jouées loin de l'ordinateur.
 On les note donc vite, depuis le téléphone (via GitHub), dans une **boîte de réception** : `inbox.yaml`.
 Ensuite, sur l'ordinateur, une commande **importe** ces saisies dans `games.csv`, le fichier qui sert aux stats.
 
@@ -40,7 +40,7 @@ data/
 ├── oppos.yaml                  commun à tous les tournois          🌍
 └── tournaments/<tournoi>/
     ├── inbox.yaml              saisies à importer                  📥
-    ├── games.csv               parties importées                   📊
+    ├── games.csv               games importées                     📊
     └── decks/
         ├── <deck>.yaml         une fiche par deck (name, versions) 🃏
         └── _alias.yaml         appellations acceptées des decks    🔤
@@ -67,20 +67,20 @@ source: paper                     # paper | mtgo | cockatrice
 deck: terra mid                   # fichier, name ou variante de _alias.yaml
 version: v1                       # doit exister dans la fiche du deck
 oppo: raga                        # deck adverse ; self-play : terra@v2
-parties: OTP W, OTD W / OTD L     # BO séparés par « / », games par « , »
+games: OTP W, OTD W / OTD L       # BO séparés par « / », games par « , »
 note/ressenti: Matchup jouable    # facultatif
 ---
 date: 03/10/2026
 source: mtgo
 ```
 
-Le champ `parties` se lit ainsi :
+Le champ `games` se lit ainsi :
 
 ```
-parties:  OTP W, OTD W  /  OTD L
-          └────┬─────┘     └─┬─┘
-             BO 1          BO 2
-          2 games, 2-0     1 game (BO1)
+games:  OTP W, OTD W  /  OTD L
+        └────┬─────┘     └─┬─┘
+           BO 1          BO 2
+        2 games, 2-0     1 game (BO1)
 
 une game = position + résultat
            OTP : je commence    W : gagnée
@@ -98,7 +98,7 @@ python -m dcprepa import relicfest-2026
 Trois issues possibles :
 
 ```
-✅ 2 bloc(s) importé(s) : 3 match(s), 6 game(s).
+✅ 2 bloc(s) importé(s) : 3 BO, 6 game(s).
 ⚠️  Avertissements :
   - bloc 2 : oppo inconnu : Atraxa → à ajouter dans data/oppos.yaml
 ```
@@ -106,7 +106,7 @@ Trois issues possibles :
 ```
 ❌ Import annulé, aucun fichier modifié. Erreurs à corriger :
   - bloc 2 : source inconnue (paper, mtgo ou cockatrice) : arena
-  - bloc 2 : parties : BO 1 : game 3 : en trop, BO déjà terminé (2-0)
+  - bloc 2 : games : BO 1 : game 3 : en trop, BO déjà terminé (2-0)
 ```
 
 ```
@@ -129,7 +129,7 @@ python -m dcprepa import <tournoi>
         │
   1. Lire les fichiers         inbox, decks, appellations, oppos, games.csv   📂
         │
-  2. Vérifier chaque bloc      deck, champs, date, source, version, parties   🔍
+  2. Vérifier chaque bloc      deck, champs, date, source, version, games     🔍
         │
   3. Préparer les lignes       nom de l'oppo, une ligne par game, match_id    🧮
         │
@@ -162,14 +162,14 @@ Si un de ces fichiers manque ou est illisible, ou si l'inbox ne contient aucun b
 | Contrôle | Refusé si… | Exemple de message |
 |---|---|---|
 | forme du bloc | ce n'est pas une suite de « champ: valeur » | `bloc mal formé (…)` |
-| champs obligatoires | `date`, `source`, `deck`, `version`, `oppo` ou `parties` absent ou vide | `champ manquant : oppo` |
+| champs obligatoires | `date`, `source`, `deck`, `version`, `oppo` ou `games` absent ou vide | `champ manquant : oppo` |
 | date | pas au format JJ/MM/AAAA, ou date impossible | `date invalide (attendu : JJ/MM/AAAA) : 31/02/2026` |
 | source | pas `paper`, `mtgo` ou `cockatrice` | `source inconnue (…) : arena` |
 | deck | aucune fiche ne correspond | `deck inconnu : x (decks disponibles : …)` |
 | version | absente de la fiche du deck | `version inconnue pour terra-midrange : v9` |
-| parties | voir ci-dessous | `parties : BO 2 : game 1 : …` |
+| games | voir ci-dessous | `games : BO 2 : game 1 : …` |
 
-3. Pour le champ `parties`, `parse_bos()` découpe sur `/` et confie chaque BO à `_parse_games()` :
+3. Pour le champ `games`, `parse_bos()` découpe sur `/` et confie chaque BO à `_parse_games()` :
 
 ```
 parse_bos("OTP W, OTD W / OTD L")
@@ -183,7 +183,7 @@ contrôles : format « position résultat », OTP/OTD, W/L,
 ```
 
 Les messages s'emboîtent pour dire exactement où chercher :
-`bloc 2 : parties : BO 1 : game 3 : en trop, BO déjà terminé (2-0)`.
+`bloc 2 : games : BO 1 : game 3 : en trop, BO déjà terminé (2-0)`.
 
 ### 3. Préparer les lignes
 
@@ -204,8 +204,8 @@ Tous les blocs ont été vérifiés. S'il y a **au moins une erreur**, le servic
 1. `append_rows()` ajoute les lignes à la fin de `games.csv`.
 2. `clear_inbox()` vide `inbox.yaml` en gardant son en-tête commenté.
 
-L'ordre est volontaire : si le programme était coupé entre les deux, les parties seraient déjà dans
-`games.csv` et encore dans l'inbox. Au pire un doublon à retirer, **jamais une partie perdue**.
+L'ordre est volontaire : si le programme était coupé entre les deux, les games seraient déjà dans
+`games.csv` et encore dans l'inbox. Au pire un doublon à retirer, **jamais une game perdue**.
 
 ## 🔎 Le trajet d'un bloc
 
@@ -217,7 +217,7 @@ inbox.yaml                        ce que l'import en fait
 │ deck: terra mid          │      source  Paper        →  paper
 │ version: v1              │      BO      2 BO         →  2 match_id
 │ oppo: raga               │
-│ parties: OTP W, OTD W    │      games.csv contient déjà 02/10/2026-01,
+│ games: OTP W, OTD W      │      games.csv contient déjà 02/10/2026-01,
 │          / OTD L         │      les BO reçoivent donc -02 et -03
 │ note/ressenti: serré, OK │
 └──────────────────────────┘
@@ -226,7 +226,7 @@ inbox.yaml                        ce que l'import en fait
 Lignes ajoutées à `games.csv` :
 
 ```
-date,match_id,partie,source,deck,version,oppo,position,resultat,note/ressenti
+date,match_id,game,source,deck,version,oppo,position,resultat,note/ressenti
 02/10/2026,02/10/2026-02,1,paper,terra-midrange,v1,Ragavan,OTP,W,"serré, OK"
 02/10/2026,02/10/2026-02,2,paper,terra-midrange,v1,Ragavan,OTD,W,"serré, OK"
 02/10/2026,02/10/2026-03,1,paper,terra-midrange,v1,Ragavan,OTD,L,"serré, OK"
@@ -258,7 +258,7 @@ terra-midrange:                   Ragavan:
 | | ❌ Erreur | ⚠️ Avertissement |
 |---|---|---|
 | Effet | rien n'est importé | l'import se fait |
-| Exemples | date, source, deck, version ou parties invalides ; bloc YAML illisible ; fichier manquant ; `_alias.yaml` ou `oppos.yaml` incohérent | oppo inconnu ; deck inconnu dans un self-play |
+| Exemples | date, source, deck, version ou games invalides ; bloc YAML illisible ; fichier manquant ; `_alias.yaml` ou `oppos.yaml` incohérent | oppo inconnu ; deck inconnu dans un self-play |
 | Que faire | corriger puis relancer | ajouter le nom dans `oppos.yaml` ou `_alias.yaml` (facultatif) |
 
 ## 🛡️ Protection des données
@@ -293,6 +293,6 @@ src/dcprepa/
 ```
 
 - Les fonctions de `domain/` et `storage/` renvoient `(résultat, erreurs)` au lieu d'afficher ou d'arrêter le programme.
-- Le service renvoie un `ImportReport` (blocs, matchs, games, erreurs, avertissements) : la ligne de commande
+- Le service renvoie un `ImportReport` (blocs, BO, games, erreurs, avertissements) : la ligne de commande
   et l'interface graphique l'affichent chacune à leur façon, à partir du même service.
 - Chaque fichier a ses tests dans `src/tests/`, rangés de la même façon (`python -m pytest` depuis `src/`).

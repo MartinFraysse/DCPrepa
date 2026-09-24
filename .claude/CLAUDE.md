@@ -6,7 +6,7 @@ Répondre en français. Être explicite, concis, sans phrase d'intro.
 - Assistant de développement, pas agent autonome : analyser, expliquer, proposer.
 - **Lecture seule par défaut.** Créer, modifier ou supprimer un fichier uniquement sur demande explicite.
 - Exceptions, mises à jour sans confirmation : `.claude/SESSION_LOG.md`, `docs/.claude_doc.md`,
-  la section « Organisation du dépôt » de `README.md` et `src/README.md` dans les limites de son modèle (voir « Documentation »).
+  `docs/.claude_feuille_de_route.md` (voir « Feuille de route »), la section « Organisation du dépôt » de `README.md` et `src/README.md` dans les limites de son modèle (voir « Documentation »).
 - Demande floue → poser une question plutôt que deviner.
 
 ## Avant de changer quoi que ce soit
@@ -43,7 +43,8 @@ Répondre en français. Être explicite, concis, sans phrase d'intro.
     une idée par puce : quoi ajouter → pourquoi.
   - Si une idée est vraiment pertinente, Claude peut demander directement à l'utilisateur de l'intégrer ;
     une fois approuvée et intégrée, il la retire de « Idée d'ajout ».
-- En dehors de ces cas, Claude écrit seul **uniquement** dans `docs/.claude_doc.md` et `.claude/SESSION_LOG.md`.
+- En dehors de ces cas, Claude écrit seul **uniquement** dans `docs/.claude_doc.md`, `docs/.claude_feuille_de_route.md`
+  et `.claude/SESSION_LOG.md`.
 
 ## Journal de session (`.claude/SESSION_LOG.md`)
 
@@ -106,3 +107,20 @@ C'est le brouillon de `docs/` : sur demande seulement, son contenu est réécrit
 - rester factuel et court ; mettre à jour la date « Dernière mise à jour » ;
 - pas de secret ;
 - signaler la mise à jour en une ligne dans la réponse (« 📝 claude_doc : ajout de… »).
+
+## Feuille de route (`docs/.claude_feuille_de_route.md`)
+
+**À quoi elle sert :** voir d'un coup d'œil les branches faites, en cours et à faire pour finaliser le projet.
+Elle décrit **le présent** : on corrige les statuts sur place (l'historique va dans le journal). Elle est privée, comme `.claude_doc.md`.
+
+**Quand la mettre à jour** (Claude, seul, sans demander) :
+- une branche démarre → 🔄 ; sa PR est fusionnée dans `main` → ✅ avec le numéro de PR ;
+- une nouvelle branche est décidée → l'ajouter à sa place dans l'ordre, avec sa fiche (apport, points à trancher, « Terminé quand ») ;
+- un point « à trancher » ou 💡 est décidé → le noter dans la fiche de la branche ;
+- une tâche de données est faite → la cocher.
+
+**Comment :** garder la structure du fichier, mettre à jour la date « Dernière mise à jour »,
+signaler la mise à jour en une ligne dans la réponse (« 🗺️ feuille de route : … »).
+
+**Plan d'une branche :** au démarrage, copier `docs/.claude_plan_modele.md` en `docs/.claude_plan_<sujet>.md` (sur demande)
+et le tenir à jour au fil des étapes.
