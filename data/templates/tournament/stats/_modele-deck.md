@@ -17,11 +17,15 @@
 
 ## Versions
 
-| Version | Parties | Écart |
-|---|---|---|
-| — | — | — |
+Winrate de chaque version non affiché : seulement son écart aux autres versions.
+
+| Version | Parties | Écart (parties) | Matchs BO3 | Écart BO3 |
+|---|---|---|---|---|
+| — | — | — | — | — |
 
 ## Position
+
+Par partie seulement : la position change d'une game à l'autre dans un BO3.
 
 | OTP | OTD |
 |---|---|
@@ -29,9 +33,11 @@
 
 ## Source
 
-| Paper | Cockatrice | MTGO |
+| Source | Winrate (parties) | Winrate BO3 (matchs) |
 |---|---|---|
-| — | — | — |
+| Paper | — | — |
+| Cockatrice | — | — |
+| MTGO | — | — |
 
 ## Matchups
 

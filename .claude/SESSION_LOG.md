@@ -7,7 +7,7 @@
 ## 🔜 Prochaines étapes
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist).
 - Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- Stats d'un deck (branche `feat/stats-deck`) : relire l'étape 2, puis étape 3 du plan (`docs/.claude_plan_stats_deck.md`) : brique winrate.
+- Stats d'un deck (branche `feat/stats-deck`) : relire l'étape 3 (`domain/winrate.py`), puis étape 4 du plan (`docs/.claude_plan_stats_deck.md`) : calculs du deck (`domain/stats.py`).
 - Import de l'inbox utilisable (`python -m dcprepa import relicfest-2026`) : premier vrai import à faire.
 - Ensuite : import méta MTGTop8 (`feat/import-meta`), puis `synthese.md` (`feat/stats-synthese`) ; plus tard vraie CLI, GUI.
 
@@ -21,6 +21,17 @@
 - problèmes ouverts
 -->
 
+### 2026-09-24 — Stats d'un deck : brique winrate (étape 3)
+- Étape 2 validée par l'utilisateur.
+- Créé `src/dcprepa/domain/winrate.py` : `Winrate(wins, total)` figé ; `rate` (exact), `reliable` (≥ 10) ; `str` → `55 % (66/120)`, `⚠️ 33.3 % (1/3)`, `—`.
+- Décision utilisateur : pas d'arrondi à l'entier ; affichage au dixième, décimale nulle omise (`55 %`, `12.2 %`), via `format_percent()` (0,05 au-dessus, signe géré pour l'écart).
+- Décision : winrate par partie (toutes les games, BO1 + games des BO3) et winrate BO3 (matchs de 2-3 games) toujours distincts ; seuil ⚠️ BO3 = 10 matchs.
+- Rapports-modèles modifiés (`_modele-deck.md`, `relicfest-2026/stats/terra-midrange.md`) : Versions → Parties / Écart (parties) / Matchs BO3 / Écart BO3 ; Source en lignes avec winrate parties + BO3 ; Position reste par partie (note ajoutée).
+- Conventions des 3 `stats/README.md` (template, RelicFest, test_tournoi) : format au dixième, définition des deux winrates avec exemple, écart `+3.2` par type, ⚠️ BO3 en matchs.
+- 27 tests dans `src/tests/domain/test_winrate.py` ; suite complète : 310 OK (venv `.venv/` à la racine).
+- Correction : le venv est bien à la racine, `src/README.md` est juste ; le point « venv dans `src/.venv` » était faux, retiré.
+- Plan (`docs/.claude_plan_stats_deck.md`) pas mis à jour : il parle encore d'arrondi à l'entier et de `55 %` seul.
+
 ### 2026-09-23 — Stats d'un deck : plan d'action
 - Branche `feat/stats-deck` créée par l'utilisateur ; périmètre : `stats/<deck>.md` seulement (synthèse et méta reportés à d'autres branches).
 - Plan créé à la demande : `docs/.claude_plan_stats_deck.md` (objectif, chemin en 8 étapes, fichiers par couche, statuts ✅/⬜).
@@ -29,6 +40,9 @@
 - README : organisation de `docs/` mise à jour (plan ajouté, `.claude_avancement_import_inbox.md` absent du disque retiré de l'arbre).
 - Étape 2 codée par Claude : `storage/games.py::read_games` (en-tête, 10 colonnes, OTP/OTD, W/L, n° de ligne) et `storage/decks.py::load_deck_sheets` (versions via `load_decks`, + name/commandant/statut).
 - 22 tests ajoutés (`test_games.py`, `test_decks.py`) ; suite : 283 OK ; lancée dans un venv du scratchpad car `.venv/` absent de la racine.
+- Venv recréé par l'utilisateur dans `src/.venv` (ignoré par git) ; `src/README.md` dit encore « `.venv/` à la racine » : correction proposée, pas encore faite.
+- Commits proposés : `feat(stats): lire games.csv et les fiches deck complètes` + `docs(stats): plan d'action…` ; branche poussée par l'utilisateur (`git push -u origin feat/stats-deck`).
+- Pause : étape 2 livrée, en attente de relecture ; reprise à l'étape 3 (brique winrate).
 
 ### 2026-09-23 — Documentation officielle : chapitre Architecture
 - Brouillons publiés dans `docs/03-architecture/` : `donnees.md` et `import-inbox.md`, section « Voir aussi » retirée des deux.
