@@ -7,7 +7,7 @@
 ## 🔜 Prochaines étapes
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist).
 - Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- Stats d'un deck (branche `feat/stats-deck`) : relire l'étape 5 (`domain/report.py`), puis étape 6 du plan (`docs/.claude_plan_stats_deck.md`) : service `generate_stats()` + `storage/stats.py`.
+- Stats d'un deck (branche `feat/stats-deck`) : relire l'étape 6 (`services/stats.py`), puis étape 7 du plan (`docs/.claude_plan_stats_deck.md`) : commande `stats` dans `__main__.py`.
 - Import de l'inbox utilisable (`python -m dcprepa import relicfest-2026`) : premier vrai import à faire.
 - Ensuite : import méta MTGTop8 (`feat/import-meta`), puis `synthese.md` (`feat/stats-synthese`) ; plus tard vraie CLI, GUI.
 
@@ -48,6 +48,11 @@
 - `render_deck_report(..., meta_file)` : en-tête `meta/<fichier>`, phrase « Triés par poids dans le méta », colonne « Poids méta » (`12.5 %`) ; sans méta, comportement précédent.
 - Correspondance oppo méta ↔ games.csv au nom exact (les deux sont normalisés via `data/oppos.yaml`).
 - 21 tests ajoutés (`test_meta.py` 17, `test_stats.py` 2, `test_report.py` 2) ; suite : 357 OK.
+- Étapes 5 et 5b commitées par l'utilisateur.
+- Étape 6 codée : `src/dcprepa/storage/stats.py::write_report` (dossier créé si besoin, `.tmp` puis remplacement, LF).
+- `src/dcprepa/services/stats.py::generate_stats(tournament_dir, generated=None)` → `StatsReport(decks, games, meta, errors, warnings)` ; tout ou rien : erreur games.csv / fiche / méta → rien écrit.
+- Avertissements : deck de games.csv sans fiche (pas de rapport), version jouée absente de la fiche (ajoutée au tableau Versions).
+- 12 tests (`tests/storage/test_stats.py` 4, `tests/services/test_stats.py` 8, dont test_tournoi copié) ; suite : 369 OK.
 
 ### 2026-09-23 — Stats d'un deck : plan d'action
 - Branche `feat/stats-deck` créée par l'utilisateur ; périmètre : `stats/<deck>.md` seulement (synthèse et méta reportés à d'autres branches).
