@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from dcprepa.storage.oppos import load_oppos
+from dcprepa.storage.oppos import append_oppos, load_oppos
 
 DATA_DIR = Path(__file__).resolve().parents[3] / "data"
 
@@ -73,3 +73,54 @@ def test_yaml_illisible(tmp_path):
     assert oppos == {}
     assert len(errors) == 1
     assert errors[0].startswith("oppos.yaml : YAML illisible")
+
+
+ORIGINAL = "# Noms de référence des decks adverses.\n\nRagavan:\n    - raga\n"
+NEW = {"Phelia": ["Phelia, Exuberant Shepherd"], "Tifa Lockhart": [], "Brigid": ["Brigid, Clachan's Heart"]}
+
+
+def test_ajout_a_la_fin(tmp_path):
+    path = tmp_path / "oppos.yaml"
+    path.write_text(ORIGINAL, encoding="utf-8")
+    append_oppos(path, NEW, "Ajoutés par l'import du méta du 24/09/2026")
+    assert path.read_text(encoding="utf-8") == (
+        ORIGINAL
+        + "\n# Ajoutés par l'import du méta du 24/09/2026\n"
+        + "Phelia:\n    - Phelia, Exuberant Shepherd\n"
+        + "Tifa Lockhart:\n"
+        + "Brigid:\n    - Brigid, Clachan's Heart\n"
+    )
+    assert [p.name for p in tmp_path.iterdir()] == ["oppos.yaml"]  # pas de .tmp restant
+
+
+def test_ajout_relu_par_load_oppos(tmp_path):
+    path = tmp_path / "oppos.yaml"
+    path.write_text(ORIGINAL, encoding="utf-8")
+    append_oppos(path, {**NEW, "a: b": ["- x", "yes"]}, "Ajout")
+    oppos, errors = load_oppos(path)
+    assert errors == []
+    assert oppos == {"Ragavan": ["raga"], **NEW, "a: b": ["- x", "yes"]}
+
+
+def test_fichier_sans_fin_de_ligne(tmp_path):
+    path = tmp_path / "oppos.yaml"
+    path.write_text("Ragavan:\n    - raga", encoding="utf-8")
+    append_oppos(path, {"Tifa Lockhart": []}, "Ajout")
+    assert path.read_text(encoding="utf-8") == "Ragavan:\n    - raga\n\n# Ajout\nTifa Lockhart:\n"
+
+
+def test_rien_a_ajouter(tmp_path):
+    path = tmp_path / "oppos.yaml"
+    path.write_text(ORIGINAL, encoding="utf-8")
+    append_oppos(path, {}, "Ajout")
+    assert path.read_text(encoding="utf-8") == ORIGINAL
+
+
+def test_ajout_au_vrai_fichier(tmp_path):
+    path = tmp_path / "oppos.yaml"
+    path.write_text((DATA_DIR / "oppos.yaml").read_text(encoding="utf-8"), encoding="utf-8")
+    before, _ = load_oppos(path)
+    append_oppos(path, NEW, "Ajout")
+    after, errors = load_oppos(path)
+    assert errors == []
+    assert after == {**before, **NEW}

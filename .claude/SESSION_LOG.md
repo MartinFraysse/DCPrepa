@@ -7,7 +7,7 @@
 ## 🔜 Prochaines étapes
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist).
 - Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- `feat/import-meta` : relire l'étape 3, puis étape 4 du plan (`docs/.claude_plan_import_meta.md`) : construire le méta (`domain/meta.py`).
+- `feat/import-meta` : relire l'étape 4, puis étape 5 du plan (`docs/.claude_plan_import_meta.md`) : écrire le méta (`storage/meta.py::write_meta`).
 - Import de l'inbox utilisable (`python -m dcprepa import relicfest-2026`) : premier vrai import à faire.
 - Ensuite : import méta MTGTop8 (`feat/import-meta`), puis `synthese.md` (`feat/stats-synthese`) ; plus tard vraie CLI, GUI.
 
@@ -43,6 +43,12 @@
 - Page MTGTop8 gardée en mémoire seulement ; décision utilisateur : ne pas stocker les pages brutes dans `meta/`.
 - Étape 2 commitée et poussée (`f5142e7`). Étape 3 codée : `src/dcprepa/domain/mtgtop8.py` (`MetaPage`, `parse_meta_page` : total + parts ‰, erreurs si page inattendue, somme ± 20 ‰).
 - Fixtures réelles enregistrées : `src/tests/fixtures/mtgtop8_general.html` et `mtgtop8_paper.html` ; 14 tests ; suite : 408 OK ; `src/README.md` : `fixtures/` ajouté à l'organisation.
+- Étape 3 commitée et poussée (`ada5155`). Étape 4 codée : `src/dcprepa/domain/meta.py` (`MetaRow`, `build_meta` : noms de référence, fusion des ‰, poids ‰/10 à 2 décimales, decks estimés, tri, liste des inconnus).
+- 16 tests (`src/tests/domain/test_meta.py`) ; suite : 424 OK. Constat : avec le `oppos.yaml` actuel, tous les noms du méta sont inconnus (Ragavan, Kess, Tymna/Thrasios absents des 2 derniers mois).
+- Demandes utilisateur : garder seulement le top 20 de chaque méta (poids réels, pas ramenés à 100 %) ; ajouter automatiquement à `data/oppos.yaml`
+  les oppos du top absents (nom court avant la virgule + nom complet en variante, sinon nom complet).
+- Code : `domain/meta.py` (`META_TOP`, coupe dans `build_meta`, `propose_oppos`) ; `storage/oppos.py::append_oppos` (ajout en fin de fichier, commentaire daté, guillemets si besoin, `.tmp`).
+- Tests : 12 + 5 ; suite : 441 OK. Essai sur une copie de `oppos.yaml` avec les vraies pages : 20 oppos ajoutés, relus sans erreur, plus aucun inconnu ; top 20 ≈ 63 % du méta.
 
 ### 2026-09-24 — Stats d'un deck : brique winrate (étape 3)
 - Étape 2 validée par l'utilisateur.
