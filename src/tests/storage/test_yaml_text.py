@@ -1,7 +1,7 @@
 import pytest
 import yaml
 
-from dcprepa.storage.yaml_text import set_fields, yaml_scalar
+from dcprepa.storage.yaml_text import append_list_item, set_fields, yaml_scalar
 
 TEXT = (
     "# Fiche\n"
@@ -45,3 +45,11 @@ def test_texte_inattendu():
 def test_yaml_scalar():
     assert yaml_scalar("Phelia, Exuberant Shepherd") == "Phelia, Exuberant Shepherd"
     assert yaml_scalar("Été #3") == "'Été #3'"
+
+
+def test_append_list_item():
+    text = "# Appellations\nterra:\n    - Terra\n\nkinnan:\n"
+    assert append_list_item(text, "terra", "Terra mid") == "# Appellations\nterra:\n    - Terra\n    - Terra mid\n\nkinnan:\n"
+    assert append_list_item(text, "kinnan", "Kinnan") == text + "    - Kinnan\n"
+    assert append_list_item(text, "sythis", "Sythis") == text + "sythis:\n    - Sythis\n"
+    assert append_list_item("- liste\n", "terra", "x") is None

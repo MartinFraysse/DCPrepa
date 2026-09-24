@@ -5,7 +5,7 @@
 > Entrées les plus récentes en haut, une idée par puce.
 
 ## 🔜 Prochaines étapes
-- `feat/saisie` : commiter le tournoi (étape 4), puis étape 5 (decks : `create_deck`, `add_version`, `set_status`, `edit_deck`, `add_deck_alias`).
+- `feat/saisie` : confirmer les choix des decks et commiter (étape 5), puis étape 6 (exposer les services dans `__main__.py` avec `argparse`).
 - `data/tournaments/test_tournoi/decks/_alias.yaml` : bloc `test-deck` à retirer (bloque import et corrections sur test_tournoi), en attente de l'accord de l'utilisateur.
 - Corriger l'en-tête de `__main__.py` (« en attendant la vraie CLI ») au premier commit de code.
 - Régénérer les rapports de RelicFest (`python -m dcprepa stats relicfest-2026`) : `synthese.md` encore à l'ancien modèle.
@@ -38,6 +38,10 @@
 - `add_oppo` commité par l'utilisateur (`330d4dc`).
 - Tournoi codé : `services/tournament.py` (`create_tournament`, `edit_tournament`), `domain/saisie.py` (`slugify`, `check_tournament_fields`),
   `storage/tournament.py` (`create_tournament_dir` via `<slug>.tmp`, `update_tournament_file`), `storage/yaml_text.py` (`set_fields`, commentaires gardés) ; suite : 611 OK.
+- Tournoi commité par l'utilisateur (`b663733`).
+- Decks codés : `services/decks.py` (`create_deck`, `add_version`, `set_status`, `edit_deck`, `add_deck_alias`), contrôles dans `domain/saisie.py`,
+  écriture dans `storage/decks.py` ; `append_list_item` générique (oppos refactoré dessus) ; suite : 652 OK.
+- Choix de Claude à confirmer : fichier déduit du nom, version suivante automatique, liste de v1 facultative (avertissement si ≠ 100).
 
 ### AAAA-MM-JJ — titre
 - ce qui a été fait

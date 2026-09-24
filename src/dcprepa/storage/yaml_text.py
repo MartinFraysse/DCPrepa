@@ -44,3 +44,44 @@ def set_fields(text: str, fields: dict[str, str]) -> str | None:
         if (str(found) if found is not None else "") != expected:
             return None
     return updated
+
+
+def append_list_item(text: str, key: str, item: str) -> str | None:
+    """Ajoute « - item » à la liste d'une clé non indentée « key: » d'un texte YAML, sans toucher au reste.
+
+    La ligne (indentée de 4 espaces) est placée après les éléments existants de la clé ; clé absente : « key: » et l'élément
+    sont ajoutés à la fin. Le texte obtenu est relu : None si l'élément n'y est pas rattaché à la clé (fichier inattendu).
+    """
+    lines = text.split("\n")
+    start = next((index for index, line in enumerate(lines) if top_level_key(line) == key), None)
+    entry = f"    - {yaml_scalar(item)}"
+    if start is None:
+        position = len(lines) - 1 if lines and lines[-1] == "" else len(lines)
+        lines[position:position] = [f"{yaml_scalar(key)}:", entry]
+    else:
+        end = start + 1
+        while end < len(lines) and lines[end][:1] in (" ", "\t"):
+            end += 1
+        lines.insert(end, entry)
+    updated = "\n".join(lines)
+
+    try:
+        parsed = yaml.safe_load(updated)
+    except yaml.YAMLError:
+        return None
+    if not isinstance(parsed, dict) or item not in [str(value).strip() for value in parsed.get(key) or []]:
+        return None
+    return updated
+
+
+def top_level_key(line: str) -> str | None:
+    """Clé d'une ligne « clé: » non indentée (guillemets compris), None pour toute autre ligne."""
+    if not line or line[0] in " \t#" or not line.rstrip().endswith(":"):
+        return None
+    try:
+        parsed = yaml.safe_load(line)
+    except yaml.YAMLError:
+        return None
+    if isinstance(parsed, dict) and len(parsed) == 1:
+        return str(next(iter(parsed))).strip()
+    return None

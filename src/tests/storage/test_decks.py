@@ -1,9 +1,20 @@
+import difflib
 from pathlib import Path
 
 import pytest
 
-from dcprepa.storage.decks import load_deck_aliases, load_deck_sheets, load_decks
+from dcprepa.storage.decks import (
+    add_alias,
+    append_version,
+    create_deck_file,
+    load_deck_aliases,
+    load_deck_sheets,
+    load_decks,
+    update_deck_fields,
+    version_lines,
+)
 
+DATA_DIR = Path(__file__).resolve().parents[3] / "data"
 DECK_V1_V2 = """\
 name: Terra Midrange
 commandant: Terra, Magical Adept
@@ -311,3 +322,70 @@ def test_fiche_modele_du_template_rempli(tmp_path):
         {"terra-midrange": {"name": "", "commandant": "", "statut": "envisage", "versions": ["v1"]}},
         [],
     )
+
+
+REAL_DECK = DATA_DIR / "tournaments" / "relicfest-2026" / "decks" / "terra-midrange.yaml"
+
+
+def test_version_lines():
+    assert version_lines("v2", ["Force of Will"], ["Dismember"], [], "Plus d'interaction") == [
+        "    -   version: v2",
+        "        in:",
+        "            - Force of Will",
+        "        out:",
+        "            - Dismember",
+        "        notes: Plus d'interaction",
+    ]
+    assert version_lines("v1", [], [], ["1 Kinnan", "99 Island"], "") == [
+        "    -   version: v1", "        liste: |", "                1 Kinnan", "                99 Island", "        notes:",
+    ]
+
+
+def test_create_deck_file(tmp_path):
+    path = tmp_path / "decks" / "kinnan.yaml"
+    path.parent.mkdir()
+    fields = {"name": "Kinnan: Combo", "commandant": "Kinnan, Bonder Prodigy", "statut": "envisage"}
+    assert create_deck_file(path, "Fiche créée.", fields, ["1 Kinnan"], "") == []
+    assert load_deck_sheets(tmp_path)[0]["kinnan"] == {**fields, "versions": ["v1"]}
+    assert create_deck_file(path, "Fiche créée.", fields, [], "") == ["fiche déjà existante : kinnan.yaml"]
+
+
+def test_append_version_sur_la_vraie_fiche(tmp_path):
+    """La fiche RelicFest (liste de 100 cartes, exemple commenté en fin de fichier), copiée : v2 ajoutée avant l'exemple."""
+    path = tmp_path / "decks" / "terra-midrange.yaml"
+    path.parent.mkdir()
+    before = REAL_DECK.read_text(encoding="utf-8")
+    path.write_text(before, encoding="utf-8")
+    lines = version_lines("v2", ["Force of Will"], [], [], "")
+    assert append_version(path, lines, "v2") == []
+    after = path.read_text(encoding="utf-8")
+    assert load_deck_sheets(tmp_path)[0]["terra-midrange"]["versions"] == ["v1", "v2"]
+    changes = [line for line in difflib.ndiff(before.split("\n"), after.split("\n")) if line[:2] in ("+ ", "- ")]
+    assert sorted(changes) == sorted(["+ ", *(f"+ {line}" for line in lines)])  # rien de retiré, seulement la version
+    assert after.index("    -   version: v2") < after.index("# Exemple de version suivante")
+
+
+def test_append_version_refusee(tmp_path):
+    path = tmp_path / "x.yaml"
+    path.write_text("name: X\n", encoding="utf-8")
+    assert append_version(path, version_lines("v2", ["A"], [], [], ""), "v2") == ["x.yaml : champ « versions » introuvable"]
+    assert path.read_text(encoding="utf-8") == "name: X\n"
+
+
+def test_update_deck_fields_garde_le_reste(tmp_path):
+    path = tmp_path / "terra.yaml"
+    before = REAL_DECK.read_text(encoding="utf-8")
+    path.write_text(before, encoding="utf-8")
+    assert update_deck_fields(path, {"statut": "retenu"}) == []
+    after = path.read_text(encoding="utf-8")
+    changes = [line for line in difflib.ndiff(before.split("\n"), after.split("\n")) if line[:2] in ("+ ", "- ")]
+    assert changes == ["- statut: envisage", "+ statut: retenu"]
+
+
+def test_add_alias(tmp_path):
+    decks = tmp_path / "decks"
+    decks.mkdir()
+    assert add_alias(decks, "kinnan", "Kinnan") == []
+    assert add_alias(decks, "kinnan", "Kinnan turbo") == []
+    text = (decks / "_alias.yaml").read_text(encoding="utf-8")
+    assert text.endswith("kinnan:\n    - Kinnan\n    - Kinnan turbo\n")
