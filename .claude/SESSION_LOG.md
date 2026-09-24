@@ -5,11 +5,10 @@
 > Entrées les plus récentes en haut, une idée par puce.
 
 ## 🔜 Prochaines étapes
-- Compléter `tournament.yaml` de RelicFest 2026 (banlist).
-- Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- `feat/import-meta` : commit puis PR vers `main` ; branche suivante : `feat/stats-synthese`.
-- Import de l'inbox utilisable (`python -m dcprepa import relicfest-2026`) : premier vrai import à faire.
-- Ensuite : import méta MTGTop8 (`feat/import-meta`), puis `synthese.md` (`feat/stats-synthese`) ; plus tard vraie CLI, GUI.
+- `feat/stats-synthese` : relancer `stats` sur RelicFest, commiter (nom réservé, README des stats, doc), puis PR vers `main`.
+- Premier vrai import de l'inbox (`python -m dcprepa import relicfest-2026`).
+- Compléter `tournament.yaml` de RelicFest 2026 (banlist) ; remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
+- Après `feat/stats-synthese` : vraie CLI, puis GUI.
 
 ## 🗓️ Historique
 
@@ -20,6 +19,35 @@
 - décisions prises
 - problèmes ouverts
 -->
+
+### 2026-09-24 — Synthèse du tournoi : plan d'action
+- Étape 1 (décisions) : calcul sur les données disponibles seulement ; ⚠️ si couverture < 30 % ; `—` sans oppo joué ; section Général validée ;
+  tableau Decks en méta papier seulement ; tableau Méta = union des top 20, une colonne par deck non écarté ; Claude code et explique, l'utilisateur supervise.
+- Couverture affichée (`49.8 % (16.2 % du méta)`) ; étape 1 ✅.
+- Étape 2 codée : `src/dcprepa/domain/synthese.py` (`ExpectedWinrate`, `expected_winrate`) + 10 tests (`src/tests/domain/test_synthese.py`) ; suite : 482 OK.
+- `.venv/` absent de la racine : tests lancés dans un venv du scratchpad.
+- Feuille de route : `feat/stats-synthese` 🔄.
+- Étape 2 commitée et poussée par l'utilisateur (`e691515`).
+- Étape 3 codée : `untested_matchups` + `UntestedMatchup` dans `domain/synthese.py`, 11 tests ; suite : 493 OK ; statut vide ou mal écrit → deck ignoré, avec un avertissement dans le bilan de `stats` (décision utilisateur, étape 6).
+- Étape 3 commitée et poussée par l'utilisateur (`3f5f21c`).
+- Étape 4 codée : section Général du rapport de deck (`domain/report.py`, `_modele-deck.md`), tests adaptés ; suite : 493 OK ; essai sur une copie de `test_tournoi` OK.
+- `docs/03-architecture/stats.md` décrit encore l'ancienne section Général : signalé, à mettre à jour à l'étape 7.
+- Étape 4 commitée et poussée par l'utilisateur (`fa83d22`), rapports de `test_tournoi` régénérés avec `stats`.
+- Étape 5 codée : `src/dcprepa/domain/synthese_report.py` (`render_synthese`), modèle `synthese.md`, 5 tests ; suite : 498 OK ; rendu sur `test_tournoi` vérifié.
+- Étape 5 commitée et poussée par l'utilisateur (`9622878`).
+- Étape 6 codée : `services/stats.py` écrit `synthese.md` ; `storage/tournament.py` (nom du tournoi) ; avertissement statut vide / inconnu ; bilan `__main__.py` ; suite : 508 OK.
+- Étape 6 essayée par l'utilisateur et commitée (`304017f`).
+- Étape 7 : conventions ajoutées aux `stats/README.md` (modèle, test_tournoi, relicfest-2026) ; restent : `stats` sur RelicFest, doc `stats.md` (sur demande), PR.
+- Fiches au nom réservé (`synthese`, `README`, sans tenir compte des majuscules) : erreur bloquante dans `services/stats.py`, 3 tests ; suite : 511 OK.
+- Doc : Claude avait modifié `docs/03-architecture/stats.md` et `index.md` directement ; l'utilisateur a refusé → restaurés (`git restore`).
+- Décision utilisateur : un brouillon de page va dans un fichier privé `docs/.claude_brouillon_<page>.md`, nouveautés repérées ; la doc officielle ne change qu'après validation.
+- Brouillon créé : `docs/.claude_brouillon_stats.md` (🟩 nouveau, 🟨 modifié avec ancienne version repliée) ; README : organisation de `docs/` mise à jour.
+- Brouillon validé → publié dans `docs/03-architecture/stats.md` et `index.md` (texte identique, repères retirés) ; brouillon supprimé ; README à jour.
+- Décisions utilisateur : winrate attendu calculé avec le méta papier ET général, par game ET par BO3, sur les seuls oppos joués du top 20 (poids ramenés à 100 %) ;
+  matchups non testés : top 10 papier, decks `envisage` / `retenu`, seuils 10 BO3 / 30 games.
+- Plan créé à partir du modèle : `docs/.claude_plan_stats_synthese.md` (7 étapes ; pas de nouvelle commande, `stats` écrit aussi `synthese.md`).
+- Ouverts : couverture affichée (« 16.2 % du méta »), ⚠️ si faible, colonnes des tableaux Decks et Méta, section Général du rapport de deck.
+- README : organisation de `docs/` (plan ajouté) ; feuille de route : décisions notées ; branche `feat/stats-synthese` à créer par l'utilisateur.
 
 ### 2026-09-24 — Import du méta : plan d'action
 - Branche `feat/import-meta` créée par l'utilisateur (depuis `main` après la PR #4).
@@ -72,6 +100,7 @@
   retirée de l'index du chapitre et du README ; liens de `stats.md` / `donnees.md` remplacés par du texte simple, à remettre à la publication.
 - Oubli signalé par l'utilisateur, corrigé : l'ajout automatique des oppos par `meta` est décrit dans `donnees.md` (section `oppos.yaml`) et dans l'en-tête de `data/oppos.yaml`.
 - Brouillon validé par l'utilisateur et publié : `docs/03-architecture/import-meta.md` ; index du chapitre, liens depuis `stats.md` et `donnees.md` (×2), README mis à jour.
+- PR #5 `feat/import-meta` fusionnée dans `main` ; feuille de route : import-meta ✅ (#5), stats-synthese 🔜.
 
 ### 2026-09-24 — Stats d'un deck : brique winrate (étape 3)
 - Étape 2 validée par l'utilisateur.

@@ -9,11 +9,11 @@
 
 ## Général
 
-| | Winrate |
-|---|---|
-| Par game | — |
-| Par BO3 | — |
-| Winrate attendu au tournoi | — |
+| | Par game | Par BO3 |
+|---|---|---|
+| Winrate | — | — |
+| Winrate attendu (méta papier) | — | — |
+| Winrate attendu (méta général) | — | — |
 
 ## Versions
 

@@ -1,6 +1,7 @@
 from datetime import date
 
 from dcprepa.domain.stats import BestVersion, DeckStats, MatchupStats
+from dcprepa.domain.synthese import expected_winrate
 from dcprepa.domain.validation import DATE_FORMAT
 from dcprepa.domain.winrate import NO_DATA, WARNING, Winrate, format_percent
 
@@ -15,7 +16,7 @@ def render_deck_report(deck: str, sheet: dict, stats: DeckStats, generated: date
     deck : nom du fichier de la fiche ; sheet : fiche de load_deck_sheets (name, commandant, statut, versions) ;
     meta_dir : dossier méta utilisé par compute_deck_stats (ex. « 2026-09-24 »), None sans méta.
     Avec méta : l'en-tête le cite, matchups triés par poids papier, colonnes « Poids papier » et « Poids général » remplies.
-    Sans méta : « meta/— », matchups triés par games. « Winrate attendu au tournoi » reste à « — ».
+    Sans méta : « meta/— », matchups triés par games, winrates attendus à « — ».
     """
     versions = sheet.get("versions") or []
     meta_path = f"meta/{meta_dir}/" if meta_dir else f"meta/{NO_DATA}"
@@ -33,11 +34,11 @@ def render_deck_report(deck: str, sheet: dict, stats: DeckStats, generated: date
         "## Général",
         "",
         *_table(
-            ["", "Winrate"],
+            ["", "Par game", "Par BO3"],
             [
-                ["Par game", stats.overall.games],
-                ["Par BO3", stats.overall.bo3],
-                ["Winrate attendu au tournoi", NO_DATA],
+                ["Winrate", stats.overall.games, stats.overall.bo3],
+                ["Winrate attendu (méta papier)", *_expected(stats.matchups, "paper")],
+                ["Winrate attendu (méta général)", *_expected(stats.matchups, "general")],
             ],
         ),
         "",
@@ -99,6 +100,11 @@ def render_deck_report(deck: str, sheet: dict, stats: DeckStats, generated: date
         ),
     ]
     return "\n".join(lines) + "\n"
+
+
+def _expected(matchups: list[MatchupStats], meta: str) -> list:
+    """Winrate attendu d'un méta, par game puis par BO3."""
+    return [expected_winrate(matchups, meta, base) for base in ("games", "bo3")]
 
 
 def _table(header: list[str], rows: list[list]) -> list[str]:

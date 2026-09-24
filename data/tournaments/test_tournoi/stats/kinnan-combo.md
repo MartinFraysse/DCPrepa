@@ -9,11 +9,11 @@
 
 ## Général
 
-| | Winrate |
-|---|---|
-| Par game | 38.5 % (10/26) |
-| Par BO3 | ⚠️ 33.3 % (3/9) |
-| Winrate attendu au tournoi | — |
+| | Par game | Par BO3 |
+|---|---|---|
+| Winrate | 38.5 % (10/26) | ⚠️ 33.3 % (3/9) |
+| Winrate attendu (méta papier) | ⚠️ 37.8 % (18.6 % du méta) | ⚠️ 32.7 % (18.6 % du méta) |
+| Winrate attendu (méta général) | ⚠️ 41.2 % (18.6 % du méta) | ⚠️ 36.2 % (18.6 % du méta) |
 
 ## Versions
 

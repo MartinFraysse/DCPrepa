@@ -1,13 +1,16 @@
 # Rapports de stats
 
-> Comment les games de `games.csv` deviennent un rapport par deck, `stats/<deck>.md` : les fichiers, la commande,
-> les règles de calcul, chaque section du rapport et les fonctions appelées. Pour lire les rapports ou faire évoluer leur calcul.
+> Comment les games de `games.csv` deviennent un rapport par deck, `stats/<deck>.md`, et une synthèse du tournoi, `stats/synthese.md` :
+> les fichiers, la commande, les règles de calcul, le winrate attendu, chaque section des rapports et les fonctions appelées.
+> Pour lire les rapports ou faire évoluer leur calcul.
 
 ## Contexte
 
 Préparer un tournoi, c'est choisir un deck et savoir contre quoi il tient. Les games jouées s'accumulent dans `games.csv`
 (voir [Import de l'inbox](import-inbox.md)) ; une commande en tire, pour chaque deck, un **rapport Markdown**
 lisible directement sur GitHub : winrate général, par version, par position, par source, par oppo.
+Une **synthèse du tournoi** met ensuite tous les decks côte à côte : leur winrate attendu face au méta,
+leur winrate contre chaque oppo du méta, et les matchups qu'il reste à tester.
 
 Quatre principes guident les stats :
 
@@ -25,7 +28,9 @@ Quatre principes guident les stats :
 │ 1 ligne par game │    │ python -m dcprepa stats <tournoi>  │    │ stats/<deck>.md         │
 │ deck, oppo,      │ ─> │                                    │ ─> │ un rapport par fiche    │
 │ position, W/L…   │    │ lire, vérifier, calculer, écrire   │    │ deck, même sans game    │
-└──────────────────┘    └────────────────────────────────────┘    └─────────────────────────┘
+└──────────────────┘    └────────────────────────────────────┘    │ stats/synthese.md       │
+                                                                  │ tous les decks, le méta │
+                                                                  └─────────────────────────┘
          ▲                         ▲
   🃏 decks/<deck>.yaml      🌍 meta/AAAA-MM-JJ/
   nom, commandant,          facultatif : poids de chaque
@@ -38,6 +43,7 @@ Tous vivent dans le dossier du tournoi, `data/tournaments/<tournoi>/`.
 
 ```
 data/tournaments/<tournoi>/
+├── tournament.yaml             la fiche du tournoi : son nom             🏆
 ├── games.csv                   les games jouées, une ligne par game      📊
 ├── decks/
 │   └── <deck>.yaml             une fiche par deck                        🃏
@@ -47,17 +53,25 @@ data/tournaments/<tournoi>/
 │       └── paper.csv
 └── stats/
     ├── README.md               conventions de lecture des rapports       📖
+    ├── synthese.md             la synthèse du tournoi (générée)          🧭
     └── <deck>.md               un rapport par fiche deck (généré)        📈
 ```
 
 | Fichier | Rôle dans les stats | Lu | Écrit |
 |---|---|---|---|
+| `tournament.yaml` | le nom du tournoi, titre de la synthèse (facultatif : nom du dossier sinon) | ✅ | — |
 | `games.csv` | les games : deck, version, oppo, position, résultat, `match_id` | ✅ | — |
 | `decks/<deck>.yaml` | les decks à analyser : `name`, `commandant`, `statut`, versions | ✅ | — |
 | `meta/AAAA-MM-JJ/` | le dossier le plus récent donne le poids de chaque oppo, papier et général (facultatif) | ✅ | — |
 | `stats/<deck>.md` | le rapport du deck | — | réécrit à chaque lancement |
+| `stats/synthese.md` | la synthèse du tournoi | — | réécrite à chaque lancement |
 
 Les fichiers de `decks/` qui commencent par `_` (`_alias.yaml`, `_modele.yaml`) ne sont pas des fiches deck : ils n'ont pas de rapport.
+Les noms `synthese` et `README` sont **réservés** (majuscules comprises) : une fiche `decks/synthese.yaml` écraserait la synthèse,
+elle est refusée.
+
+Le champ `statut` d'une fiche dit où en est le deck : `retenu`, `envisage` ou `ecarte`. Les decks écartés restent dans les rapports,
+mais la synthèse ne les compare plus au méta (voir « La synthèse du tournoi »).
 
 ## 📏 Le vocabulaire et les règles de calcul
 
@@ -131,27 +145,29 @@ python -m dcprepa stats relicfest-2026
 Issues possibles :
 
 ```
-✅ 3 rapport(s) écrit(s) à partir de 404 game(s) : kinnan-combo, sythis-enchant, winota-aggro.
+✅ 3 rapport(s) + synthèse écrits à partir de 404 game(s) : kinnan-combo, sythis-enchant, winota-aggro.
    Pas de méta : matchups triés par nombre de games.
 ```
 
 ```
-✅ 3 rapport(s) écrit(s) à partir de 404 game(s) : kinnan-combo, sythis-enchant, winota-aggro.
+✅ 3 rapport(s) + synthèse écrits à partir de 404 game(s) : kinnan-combo, sythis-enchant, winota-aggro.
    Méta : meta/2026-09-24/ (matchups triés par poids papier).
 ⚠️  Avertissements :
   - games.csv : deck sans fiche : atraxa (41 game(s)) → pas de rapport
   - winota-aggro : version jouée absente de la fiche : v9
+  - kinnan-combo : statut inconnu « envisagé » (retenu, envisage ou ecarte) → absent du tableau Méta et des matchups non testés
 ```
 
 ```
 ❌ Stats annulées, aucun rapport écrit. Erreurs à corriger :
   - games.csv : ligne 5 : position inconnue (OTP ou OTD) : OTX
   - meta/2026-09-24/paper.csv : ligne 3 : poids attendu en nombre positif (ex. 12.5) : beaucoup
+  - decks/synthese.yaml : nom réservé (stats/synthese.md serait écrasé par la synthèse du tournoi) → renommer la fiche
 ```
 
 | Code de sortie | Signification |
 |---|---|
-| `0` | rapports écrits (avec ou sans avertissements) |
+| `0` | rapports et synthèse écrits (avec ou sans avertissements) |
 | `1` | erreurs : aucun rapport écrit |
 | `2` | mauvaise utilisation (module ou tournoi inconnu) |
 
@@ -178,14 +194,22 @@ Les extraits ci-dessous viennent d'un petit exemple, déroulé en entier plus ba
 
 ### 📊 Général
 
-| | Winrate |
-|---|---|
-| Par game | ⚠️ 50 % (3/6) |
-| Par BO3 | ⚠️ 50 % (1/2) |
-| Winrate attendu au tournoi | — |
+| | Par game | Par BO3 |
+|---|---|---|
+| Winrate | ⚠️ 50 % (3/6) | ⚠️ 50 % (1/2) |
+| Winrate attendu (méta papier) | — | — |
+| Winrate attendu (méta général) | — | — |
 
 Toutes les games du deck, toutes versions réunies, self-play exclu.
-Le winrate attendu au tournoi relève de la synthèse du tournoi (`stats/synthese.md`) : il reste à `—` dans le rapport du deck.
+Les winrates attendus restent à `—` ici : l'exemple n'a pas de méta. Avec un méta, par exemple pour Winota Aggro :
+
+| | Par game | Par BO3 |
+|---|---|---|
+| Winrate | 42.3 % (88/208) | 39.7 % (29/73) |
+| Winrate attendu (méta papier) | 42.7 % (51.7 % du méta) | 45 % (51.7 % du méta) |
+| Winrate attendu (méta général) | 42.2 % (51.6 % du méta) | 44.2 % (51.6 % du méta) |
+
+Le calcul est expliqué plus bas, dans « Le winrate attendu ».
 
 ### 🔢 Versions
 
@@ -279,7 +303,8 @@ meta/2026-09-24/
 ```
 
 Les stats utilisent le dossier **le plus récent**, choisi d'après la date de son nom (`AAAA-MM-JJ`) ; les imports précédents,
-les autres fichiers (`README.md`) et l'ancien format `meta/AAAA-MM-JJ.csv` sont ignorés. Le méta change la section Matchups :
+les autres fichiers (`README.md`) et l'ancien format `meta/AAAA-MM-JJ.csv` sont ignorés. Le méta remplit le winrate attendu
+et la synthèse, et change la section Matchups :
 
 ```
         sans méta                                     avec méta
@@ -306,6 +331,77 @@ ordre     games ↓, puis nom            ordre     poids papier ↓, puis absent
 | decks | pas un nombre entier |
 | poids | pas un nombre positif avec un point décimal (`12.5`, pas `12,5` ni `12%`) |
 
+## 🎯 Le winrate attendu
+
+Le winrate brut d'un deck dépend des oppos qu'on a le plus joués. Le **winrate attendu** corrige ce biais :
+il pèse chaque matchup selon la place de l'oppo dans le méta, pour estimer le winrate du deck **au tournoi**.
+
+```
+attendu  =  Σ poids(oppo) × winrate(deck contre oppo)  /  Σ poids(oppo)
+
+         pour chaque oppo du méta (top 20) contre lequel le deck a joué
+
+ex.  méta papier   Cloud 6 %   Phelia 5.2 %   Aragorn 5 %     (autres oppos du top 20 : jamais joués)
+     winrates      69.2 %      35 %           41.9 %
+     attendu = (6 × 69.2 + 5.2 × 35 + 5 × 41.9) / (6 + 5.2 + 5) = 806.7 / 16.2 = 49.8 %
+```
+
+- **Seules les données disponibles comptent** : un oppo du méta jamais joué est ignoré, et les poids retenus sont ramenés à 100 %.
+  Le reste du méta n'entre pas dans le calcul.
+- **Quatre valeurs par deck** : méta papier ou général, par game ou par BO3. En BO3, seuls comptent les oppos joués en BO3 :
+  un oppo joué seulement en BO1 est ignoré.
+- **Couverture** : la part du méta sur laquelle repose le chiffre (Σ des poids retenus), affichée à côté : `49.8 % (16.2 % du méta)`.
+  Le top 20 pèse environ 63 % du méta : c'est le maximum atteignable.
+- ⚠️ si la couverture est **sous 30 %** du méta : le chiffre repose sur trop peu d'oppos.
+- `—` si le deck n'a joué aucun oppo du méta, ou s'il n'y a pas de méta.
+- Self-play exclu. Le calcul utilise les winrates exacts, pas les winrates arrondis affichés.
+
+## 🧭 La synthèse du tournoi
+
+`stats/synthese.md` suit le modèle `data/templates/tournament/stats/synthese.md`. Son en-tête cite le nom du tournoi
+(champ `name` de `tournament.yaml`, ou le nom du dossier) et le dossier méta utilisé. Extraits de `test_tournoi` :
+
+### 🃏 Decks
+
+| Deck | Statut | Dernière version | Winrate (games) | Winrate BO3 | Attendu papier (games) | Attendu papier (BO3) |
+|---|---|---|---|---|---|---|
+| [Winota Aggro](winota-aggro.md) | retenu | v3 | 42.3 % (88/208) | 39.7 % (29/73) | 42.7 % (51.7 % du méta) | 45 % (51.7 % du méta) |
+| [Sythis Enchantress](sythis-enchant.md) | envisage | v2 | 34.4 % (53/154) | 23.6 % (13/55) | 34.5 % (48.3 % du méta) | 25.7 % (44.4 % du méta) |
+| [Kinnan Combo](kinnan-combo.md) | ecarte | v1 | 38.5 % (10/26) | ⚠️ 33.3 % (3/9) | ⚠️ 37.8 % (18.6 % du méta) | ⚠️ 32.7 % (18.6 % du méta) |
+
+- Tous les decks, avec un lien vers leur rapport.
+- Ordre : par statut (`retenu`, `envisage`, `ecarte`, puis statut vide ou inconnu), puis par winrate attendu papier par game, du plus haut au plus bas.
+- Méta papier seulement : le tournoi se joue en papier ; le méta général reste dans chaque rapport de deck.
+
+### 🌍 Méta
+
+| Oppo | Poids papier | Poids général | Winota Aggro | Sythis Enchantress |
+|---|---|---|---|---|
+| Cloud | 6 % | 5.7 % | 69.2 % (9/13) | — |
+| Phelia | 5.2 % | 5.8 % | 35 % (7/20) | 18.2 % (4/22) |
+| Brigid | 4.3 % | 5.1 % | 18.8 % (3/16) | ⚠️ 0 % (0/2) |
+
+- Une ligne par oppo du top 20 papier **ou** général, même jamais joué ; même ordre que les matchups des rapports (poids papier ↓,
+  puis les absents du papier par poids général ↓).
+- Une colonne par deck `retenu` ou `envisage`, avec son winrate par game contre l'oppo ; `—` s'il ne l'a jamais joué.
+  Le détail par BO3 est dans les rapports de deck.
+
+### 🔍 Matchups non testés
+
+| Deck | Oppo | Rang papier | Poids papier | BO3 joués | Games jouées |
+|---|---|---|---|---|---|
+| Winota Aggro | Cloud | 1 | 6 % | 4 | 13 |
+| Winota Aggro | Terra | 7 | 3.9 % | 9 | 25 |
+| Sythis Enchantress | Cloud | 1 | 6 % | 0 | 0 |
+
+La liste de ce qu'il reste à jouer avant le tournoi :
+
+- les oppos du **top 10 du méta papier** (rang : 1 = le plus joué ; à poids égal, par nom) ;
+- pour les decks `retenu` ou `envisage` : un deck écarté n'a plus besoin d'être testé ;
+- **non testé** = moins de 10 BO3 **et** moins de 30 games contre l'oppo. Atteindre un seul des deux seuils suffit.
+  Ex. Winota contre Terra : 9 BO3 et 25 games, il manque un BO3.
+- Ordre : deck par deck (ordre du tableau Decks), puis par rang.
+
 ## ⚙️ Ce qui se passe, étape par étape
 
 `dcprepa/__main__.py` retrouve le dossier du tournoi, appelle le service `generate_stats()`
@@ -315,16 +411,17 @@ ordre     games ↓, puis nom            ordre     poids papier ↓, puis absent
 python -m dcprepa stats <tournoi>
         │
   1. Lire les fichiers           games.csv, fiches deck, méta le plus récent    📂
+                                 (+ noms de fiche réservés)
         │
   2. Une erreur quelque part ?
         │
         ├── oui ──  rien n'est écrit                                           🚫
         │
-        └── non ──  3. Avertissements   deck sans fiche, version hors fiche     ⚠️
+        └── non ──  3. Avertissements   deck sans fiche, version hors fiche,    ⚠️
+                          │             statut inconnu, tournament.yaml illisible
+                    4. Calculer et rédiger TOUS les rapports et la synthèse    🧮
                           │
-                    4. Calculer et rédiger TOUS les rapports, en mémoire       🧮
-                          │
-                    5. Écrire stats/<deck>.md, un par fiche                    💾
+                    5. Écrire stats/<deck>.md, un par fiche, puis synthese.md  💾
 
   Dans tous les cas : bilan affiché   ✅ écrits   ❌ erreurs   ⚠️ avertissements
 ```
@@ -335,6 +432,7 @@ python -m dcprepa stats <tournoi>
   chaque erreur donne son numéro de ligne.
 - `load_deck_sheets()` : chaque fiche deck, avec ses versions (mêmes règles que l'import) et ses champs `name`, `commandant`, `statut`.
 - `load_latest_meta()` : le dossier méta le plus récent et le poids de chaque oppo, papier et général, ou rien s'il n'y a pas de méta.
+- Une fiche au nom réservé (`synthese`, `README`) est une erreur.
 
 ### 2. Une erreur quelque part ?
 
@@ -346,7 +444,10 @@ les anciens restent en place. On corrige tout d'un coup, puis on relance.
 L'écriture se fait quand même, mais le bilan signale :
 
 - un deck présent dans `games.csv` **sans fiche** : ses games ne sont dans aucun rapport ;
-- une version jouée **absente de la fiche** : elle apparaît quand même dans le tableau Versions.
+- une version jouée **absente de la fiche** : elle apparaît quand même dans le tableau Versions ;
+- un **statut vide ou inconnu** (ni `retenu`, `envisage` ni `ecarte`, ex. `envisagé`) : le deck n'a pas de colonne dans le tableau Méta
+  de la synthèse, ni de matchups non testés ;
+- un `tournament.yaml` **illisible** : la synthèse prend le nom du dossier (`load_tournament_name()`).
 
 ### 4. Calculer et rédiger
 
@@ -374,13 +475,24 @@ record(games)  =  Record(games = winrate par game, bo3 = winrate par BO3)
                        gardées si 2 ou 3 games ; gagné = 2 victoires
 ```
 
-2. `render_deck_report()` (`domain/report.py`) transforme ce `DeckStats` en texte Markdown, section par section.
+2. `render_deck_report()` (`domain/report.py`) transforme ce `DeckStats` en texte Markdown, section par section ;
+   la section Général appelle `expected_winrate()` (`domain/synthese.py`) pour les quatre winrates attendus.
 
-Tous les rapports sont rédigés **en mémoire** avant la première écriture.
+Puis, pour la synthèse, `render_synthese()` (`domain/synthese_report.py`) reçoit les fiches et les `DeckStats` de tous les decks :
+
+```
+fiches + DeckStats de tous les decks + méta
+   │
+   ├── Decks                  expected_winrate(matchups, "paper", …)   tri statut, puis attendu   🃏
+   ├── Méta                   union des top 20, decks retenu / envisage                          🌍
+   └── Matchups non testés    untested_matchups() : top 10 papier, seuils 10 BO3 / 30 games      🔍
+```
+
+Tous les rapports et la synthèse sont rédigés **en mémoire** avant la première écriture.
 
 ### 5. Écrire
 
-`write_report()` écrit chaque `stats/<deck>.md`, en remplaçant l'ancien. Un rapport est écrit **pour chaque fiche**,
+`write_report()` écrit chaque `stats/<deck>.md`, en remplaçant l'ancien, puis `stats/synthese.md`. Un rapport est écrit **pour chaque fiche**,
 même sans aucune game : il est alors rempli de `—`.
 
 ## 🔎 Le trajet d'un deck
@@ -424,13 +536,13 @@ Tous les chiffres portent un ⚠️ : aucun total n'atteint 10.
 
 | | ❌ Erreur | ⚠️ Avertissement |
 |---|---|---|
-| Effet | aucun rapport écrit | les rapports sont écrits |
-| Exemples | `games.csv` absent, en-tête inattendu, position ou résultat inconnu ; fiche deck illisible ou sans version ; méta invalide | deck de `games.csv` sans fiche ; version jouée absente de la fiche |
-| Que faire | corriger puis relancer | créer la fiche ou ajouter la version (facultatif) |
+| Effet | aucun rapport écrit, ni la synthèse | les rapports et la synthèse sont écrits |
+| Exemples | `games.csv` absent, en-tête inattendu, position ou résultat inconnu ; fiche deck illisible ou sans version ; fiche au nom réservé (`synthese`, `README`) ; méta invalide | deck de `games.csv` sans fiche ; version jouée absente de la fiche ; statut vide ou inconnu ; `tournament.yaml` illisible |
+| Que faire | corriger puis relancer | créer la fiche, ajouter la version ou corriger le statut (facultatif) |
 
 ## 🛡️ Protection des données
 
-- **Lecture seule sur les données** : `games.csv`, les fiches deck et le méta ne sont jamais modifiés par les stats.
+- **Lecture seule sur les données** : `games.csv`, les fiches deck, `tournament.yaml` et le méta ne sont jamais modifiés par les stats.
 - **Tout est préparé avant la moindre écriture** : une seule erreur suffit à tout annuler, les anciens rapports restent en place.
 - **Écriture en deux temps** : `write_report()` écrit d'abord un fichier `.tmp`, puis le renomme d'un coup par-dessus l'ancien rapport.
   Une coupure pendant l'écriture ne laisse jamais un rapport à moitié écrit.
@@ -449,11 +561,14 @@ src/dcprepa/
 │   ├── winrate.py          Winrate, format_percent : un winrate et son affichage
 │   ├── stats.py            compute_deck_stats, record, bo3_matches, version_gaps, best_version
 │   │                       Record, VersionStats, BestVersion, MatchupStats, DeckStats
-│   └── report.py           render_deck_report : DeckStats → Markdown
+│   ├── report.py           render_deck_report : DeckStats → Markdown
+│   ├── synthese.py         expected_winrate, ExpectedWinrate, untested_matchups, UntestedMatchup
+│   └── synthese_report.py  render_synthese : fiches + DeckStats de tous les decks → Markdown
 └── storage/                seul accès aux fichiers de data/
     ├── games.py            read_games
     ├── decks.py            load_deck_sheets
     ├── meta.py             load_latest_meta, read_meta
+    ├── tournament.py       load_tournament_name
     └── stats.py            write_report
 ```
 

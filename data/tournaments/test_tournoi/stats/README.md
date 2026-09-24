@@ -3,7 +3,7 @@
 Rapports de statistiques générés par le logiciel (`python -m dcprepa stats <slug>`, depuis `src/`) à partir de `games.csv`, `decks/`, `meta/` et `data/oppos.yaml`.
 Fichiers Markdown, lisibles directement sur GitHub : ne pas les modifier à la main, ils sont réécrits à chaque génération.
 
-- `synthese.md` : tous les decks côte à côte, poids des oppos dans le méta, winrate attendu, matchups non testés.
+- `synthese.md` : tous les decks côte à côte avec leur winrate attendu, winrate de chaque deck contre les oppos du méta, matchups non testés.
 - `<deck>.md` : détail d'un deck (même nom que sa fiche dans `decks/`).
 
 Conventions :
@@ -18,6 +18,14 @@ Conventions :
 - Poids papier / Poids général : part de l'oppo dans le méta papier / général des 2 derniers mois (MTGTop8, top 20,
   dossier `meta/AAAA-MM-JJ/` le plus récent) ; matchups triés par poids papier ; `—` si l'oppo n'est pas dans ce méta.
 - Winrate général : toutes les games réunies, toutes versions confondues.
+- Winrate attendu au tournoi : moyenne des winrates du deck contre les oppos du méta (top 20), pondérée par leur poids.
+  Seuls comptent les oppos joués (au moins une game ; au moins un BO3 pour le winrate BO3) : le reste du méta est ignoré, les poids retenus sont ramenés à 100 %.
+  Calculé avec le méta papier et avec le méta général, par game et par BO3. Ex. `49.8 % (16.2 % du méta)` : la part du méta sur laquelle il repose ;
+  ⚠️ sous 30 % du méta ; `—` si le deck n'a joué aucun oppo du méta.
+- Statut d'un deck (fiche) : `retenu`, `envisage` ou `ecarte` ; seuls les decks retenus ou envisagés ont une colonne dans le tableau Méta de la synthèse
+  et des matchups non testés.
+- Matchups non testés : oppos du top 10 du méta papier contre lesquels un deck retenu ou envisagé a moins de 10 BO3 **et** moins de 30 games
+  (un seul des deux seuils atteint suffit pour considérer le matchup testé).
 - Écart d'une version : son winrate − la moyenne simple des winrates des autres versions, en points (ex. `+3.2`), calculé à part pour les games et pour les BO3.
 - Meilleure version contre un oppo : la version au meilleur winrate contre lui, et son écart au winrate du matchup
   (toutes versions), en points (ex. `v2 (+12)`), par game et par BO3 ; ⚠️ si elle a moins de 10 games (ou BO3) contre l'oppo ;
