@@ -156,7 +156,20 @@ Tymna/Thrasios:
 ```
 
 Nom de référence (le nom court du commandant, `/` entre deux partenaires) puis ses variantes.
-C'est le nom de référence qui est écrit dans `games.csv`, pour qu'un même deck adverse n'y ait qu'un nom.
+C'est le nom de référence qui est écrit dans `games.csv` et dans `meta/`, pour qu'un même deck adverse n'ait qu'un nom partout.
+
+Le fichier se remplit aussi tout seul : à chaque import du méta (commande `meta`), les oppos du top 20 qui n'y sont pas
+encore sont **ajoutés à la fin**, sous un commentaire daté, sans toucher au reste :
+
+```yaml
+# Ajoutés par l'import du méta du 24/09/2026 (top 20 MTGTop8) : à renommer ou regrouper au besoin.
+Phelia:
+    - Phelia, Exuberant Shepherd
+Partner WUR:
+```
+
+Nom court (avant la virgule) en référence et nom complet MTGTop8 en variante ; sans virgule, ou si le nom court est déjà pris,
+le nom complet seul. On peut ensuite les renommer, ou rattacher un « Partner » à un duo en l'ajoutant comme variante (voir [Import du méta](import-meta.md)).
 
 ### `inbox.yaml` : la boîte de réception
 

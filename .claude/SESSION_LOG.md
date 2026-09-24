@@ -68,6 +68,10 @@
   `stats.md` et `donnees.md` mis à jour (dossier daté, Poids papier / général, commande `meta`) ; README : organisation de `docs/`.
 - Page publiée directement (pas de brouillon) car `stats.md` et `donnees.md` y renvoient déjà ; liens relatifs vérifiés.
 - Reste : commit de tout (données de test comprises), puis PR `feat/import-meta` → `main` (texte préparé).
+- Demande utilisateur : passer par un brouillon comme pour `stats.md` → page déplacée en `docs/.claude_brouillon-import-meta.md` ;
+  retirée de l'index du chapitre et du README ; liens de `stats.md` / `donnees.md` remplacés par du texte simple, à remettre à la publication.
+- Oubli signalé par l'utilisateur, corrigé : l'ajout automatique des oppos par `meta` est décrit dans `donnees.md` (section `oppos.yaml`) et dans l'en-tête de `data/oppos.yaml`.
+- Brouillon validé par l'utilisateur et publié : `docs/03-architecture/import-meta.md` ; index du chapitre, liens depuis `stats.md` et `donnees.md` (×2), README mis à jour.
 
 ### 2026-09-24 — Stats d'un deck : brique winrate (étape 3)
 - Étape 2 validée par l'utilisateur.
