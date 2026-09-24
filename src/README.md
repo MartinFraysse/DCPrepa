@@ -34,6 +34,7 @@ python -m venv .venv
 pip install -r src/requirements-dev.txt   # dépendances d'exécution + pytest
 # lancer un module sur un tournoi (depuis src/) ; sans argument : liste des modules
 python -m dcprepa import relicfest-2026
+python -m dcprepa meta relicfest-2026     # méta MTGTop8 (général + papier) → meta/AAAA-MM-JJ/, complète data/oppos.yaml
 python -m dcprepa stats relicfest-2026    # écrit stats/<deck>.md pour chaque fiche deck
 # tester (depuis src/)
 python -m pytest

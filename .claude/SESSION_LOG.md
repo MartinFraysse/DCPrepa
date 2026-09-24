@@ -7,7 +7,7 @@
 ## 🔜 Prochaines étapes
 - Compléter `tournament.yaml` de RelicFest 2026 (banlist).
 - Remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
-- `feat/import-meta` : relire l'étape 6, puis étape 7 du plan (`docs/.claude_plan_import_meta.md`) : commande `meta` dans `__main__.py`.
+- `feat/import-meta` : étape 8 du plan (`docs/.claude_plan_import_meta.md`) : essai par l'utilisateur, doc, PR.
 - Import de l'inbox utilisable (`python -m dcprepa import relicfest-2026`) : premier vrai import à faire.
 - Ensuite : import méta MTGTop8 (`feat/import-meta`), puis `synthese.md` (`feat/stats-synthese`) ; plus tard vraie CLI, GUI.
 
@@ -57,6 +57,10 @@
 - Suite : 457 OK. Reste signalé : pages publiées `stats.md` / `donnees.md` (étape 8) ; `synthese.md` une seule colonne de poids (feat/stats-synthese).
 - Étape 6 codée : `src/dcprepa/services/import_meta.py` (`MetaReport`, `import_meta` : oppos.yaml → 2 pages → top 20 → nouveaux oppos → méta reconstruit → écriture méta puis oppos.yaml ; tout ou rien).
 - 11 tests d'intégration (`src/tests/services/test_import_meta.py`, fixtures à la place du réseau) ; suite : 468 OK.
+- Étape 7 codée : `run_meta` + `MODULES["meta"]` (`__main__.py`) ; bilan ✅ / 📝 oppos ajoutés / ❌ ; 4 tests ; suite : 472 OK ; `src/README.md` : commande `meta`.
+- Essai réel (réseau) sur une copie : OK (général 20 oppos / 1447 decks, papier 20 / 1309, 20 oppos ajoutés) ; `data/` non touché.
+- ⚠️ Constat : le méta fictif de test_tournoi est daté 2026-10-25 (futur) → il reste « le plus récent » ; à supprimer pour tester le vrai import.
+- ⚠️ `meta` modifie le vrai `data/oppos.yaml` (commun à tous les tournois), même lancé sur test_tournoi.
 
 ### 2026-09-24 — Stats d'un deck : brique winrate (étape 3)
 - Étape 2 validée par l'utilisateur.

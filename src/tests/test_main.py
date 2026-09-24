@@ -2,7 +2,9 @@ from pathlib import Path
 
 import pytest
 
-from dcprepa.__main__ import MODULES, run_stats
+import dcprepa.__main__ as main_module
+from dcprepa.__main__ import MODULES, run_meta, run_stats
+from dcprepa.services.import_meta import MetaReport
 from dcprepa.storage.games import COLUMNS
 
 HEADER_CSV = ",".join(COLUMNS) + "\n"
@@ -61,3 +63,35 @@ def test_stats_erreur(tournament, capsys):
     out = capsys.readouterr().out
     assert out.startswith("❌ Stats annulées, aucun rapport écrit. Erreurs à corriger :\n  - meta/2026-09-24/general.csv : en-tête inattendu")
     assert not (tournament / "stats" / "terra.md").exists()
+
+
+def test_module_meta_declare():
+    assert MODULES["meta"][0] is run_meta
+
+
+@pytest.mark.parametrize(
+    "report, output, code",
+    [
+        (
+            MetaReport(folder="2026-09-24", metas={"general": (20, 1447), "paper": (20, 1309)}, added_oppos=["Phelia", "Cloud"]),
+            "✅ meta/2026-09-24/ écrit : général 20 oppos (1447 decks), papier 20 oppos (1309 decks).\n"
+            "📝 2 oppo(s) ajouté(s) à data/oppos.yaml : Phelia, Cloud.\n",
+            0,
+        ),
+        (
+            MetaReport(folder="2026-09-24", replaced=True, metas={"general": (20, 1447), "paper": (20, 1309)}),
+            "✅ meta/2026-09-24/ écrit (remplace l'import du jour) : général 20 oppos (1447 decks), papier 20 oppos (1309 decks).\n",
+            0,
+        ),
+        (
+            MetaReport(errors=["méta papier : MTGTop8 ne répond pas (délai de 20 s dépassé)"]),
+            "❌ Import du méta annulé, aucun fichier modifié. Erreurs à corriger :\n"
+            "  - méta papier : MTGTop8 ne répond pas (délai de 20 s dépassé)\n",
+            1,
+        ),
+    ],
+)
+def test_meta_bilan(monkeypatch, tmp_path, capsys, report, output, code):
+    monkeypatch.setattr(main_module, "import_meta", lambda tournament_dir, oppos_path: report)
+    assert run_meta(tmp_path) == code
+    assert capsys.readouterr().out == output
