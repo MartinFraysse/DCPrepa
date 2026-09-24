@@ -5,17 +5,32 @@
 > Entrées les plus récentes en haut, une idée par puce.
 
 ## 🔜 Prochaines étapes
-- `feat/saisie` : commit (améliorations, modèles de data/, doc `saisie.md`), puis PR vers `main`.
-- `data/tournaments/test_tournoi/decks/_alias.yaml` : bloc `test-deck` à retirer (bloque import et corrections sur test_tournoi), en attente de l'accord de l'utilisateur.
-- Régénérer les rapports de RelicFest (`python -m dcprepa stats relicfest-2026`) : `synthese.md` encore à l'ancien modèle.
-- Premier vrai import de l'inbox (`python -m dcprepa import relicfest-2026`) ; `meta` sur RelicFest avant `stats`.
-- Compléter `tournament.yaml` de RelicFest 2026 (banlist) ; remplir `data/oppos.yaml` au fil des decks adverses rencontrés.
+- `feat/gui` : commiter l'étape 2 (services de lecture), puis étape 3 (squelette PySide6 : dépendance, fenêtre, onglets, `python -m dcprepa gui`).
+- Commiter tout de suite les fichiers de suivi modifiés (deux pertes au passage par `main`).
 - Recréer `.venv/` à la racine (absent : tests lancés dans un venv du scratchpad).
+- Premier vrai import de l'inbox et `meta` sur RelicFest ; régénérer ses rapports ; compléter son `tournament.yaml` (banlist).
+- Facultatif : message « YAML illisible » sur une ligne (aujourd'hui message brut PyYAML, multiligne, en anglais).
 
 ## 🗓️ Historique
 
 <!-- Ajouter les entrées ici, la plus récente en haut :
-### 2026-09-24 — Services de saisie : plan d'action
+### AAAA-MM-JJ — titre
+- ce qui a été fait
+- fichiers touchés
+- décisions prises
+- problèmes ouverts
+-->
+
+### 2026-09-24 — Interface graphique : plan d'action
+- Branche `feat/gui` créée par l'utilisateur (depuis `main` après la PR #7).
+- Mises à jour de fin de `feat/saisie` (README, feuille de route, journal) perdues au passage par `main` (non commitées, pas de stash) : refaites sur `feat/gui`.
+- Plan créé à partir du modèle : `docs/.claude_plan_gui.md` ; feuille de route : `feat/saisie` ✅ (#7), `feat/gui` 🔄.
+- Technologies comparées (Tkinter, PySide6, Flask, NiceGUI, Textual) ; Claude recommandait NiceGUI (accès téléphone, code court).
+- Décision utilisateur : **PySide6** (application de bureau stable, installable plus tard) ; pas d'accès téléphone, l'inbox reste la saisie mobile.
+- V1 validée : dépendance PySide6, tests pytest-qt, `python -m dcprepa gui`, une fenêtre à onglets (Saisie, Games, Decks, Oppos, Stats), zone de bilans. Étape 1 ✅.
+- Étape 2 codée : `services/lecture.py` (5 lectures + `list_reports`), `domain/matches.py` (BO regroupés, score, issue), `load_tournament_sheet` ; 19 tests ; suite : 684 OK.
+
+### 2026-09-24 — Services de saisie (feat/saisie, PR #7)
 - Branche `feat/saisie` créée par l'utilisateur ; plan de `feat/stats-synthese` supprimé par l'utilisateur (branche finie).
 - Plan créé à partir du modèle : `docs/.claude_plan_saisie.md` (7 étapes : décisions, games, tournoi, deck, version / statut, lancement minimal, essai).
 - Idée directrice : `add_games()` reçoit un bloc identique à l'inbox et réutilise ses contrôles (`validate_block`, `parse_bos`, `build_rows`, `append_rows`).
@@ -53,13 +68,7 @@
   plus d'erreur en cascade pour une fiche illisible, messages argparse en français ; suite : 665 OK ; recette rejouée : 91/91.
 - Brouillon `saisie.md` mis à jour : tableau des 16 modules (arguments, options, rôle ; vérifié contre `--help`), messages en français, games.csv invalide refusé.
 - Brouillon validé, « Voir aussi » retiré (demande utilisateur), publié : `docs/03-architecture/saisie.md` + `index.md` ; brouillon supprimé ; README à jour.
-
-### AAAA-MM-JJ — titre
-- ce qui a été fait
-- fichiers touchés
-- décisions prises
-- problèmes ouverts
--->
+- Commit `3a9d78f` (doc) ; plan `docs/.claude_plan_saisie.md` supprimé par l'utilisateur (branche finie) ; PR #7 fusionnée dans `main` : `feat/saisie` ✅.
 
 ### 2026-09-24 — Synthèse du tournoi (feat/stats-synthese, PR #6)
 - Étape 1 (décisions) : calcul sur les données disponibles seulement ; ⚠️ si couverture < 30 % ; `—` sans oppo joué ; section Général validée ;

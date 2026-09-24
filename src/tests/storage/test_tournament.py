@@ -1,6 +1,6 @@
 import pytest
 
-from dcprepa.storage.tournament import create_tournament_dir, load_tournament_name
+from dcprepa.storage.tournament import create_tournament_dir, load_tournament_name, load_tournament_sheet
 
 
 @pytest.fixture
@@ -51,3 +51,16 @@ def test_creation_modele_inattendu(tmp_path):
     errors = create_tournament_dir(template, tmp_path / "x", {"name": "X"})
     assert errors == ["modèle tournament.yaml inattendu : impossible d'y écrire name"]
     assert not (tmp_path / "x").exists()
+
+
+def test_load_tournament_sheet(tmp_path):
+    folder = tmp_path / "relicfest-2026"
+    folder.mkdir()
+    assert load_tournament_sheet(folder) == (
+        {"name": "relicfest-2026", "slug": "", "format": "", "date": "", "location": "", "banlist": "", "notes": ""}, []
+    )
+    (folder / "tournament.yaml").write_text("name: RelicFest 2026\ndate: 31/10/2026   # JJ/MM/AAAA\nnotes:\n", encoding="utf-8")
+    sheet, errors = load_tournament_sheet(folder)
+    assert (sheet["name"], sheet["date"], sheet["notes"], errors) == ("RelicFest 2026", "31/10/2026", "", [])
+    (folder / "tournament.yaml").write_text("name: [\n", encoding="utf-8")
+    assert load_tournament_sheet(folder)[1] == ["tournament.yaml : YAML illisible"]

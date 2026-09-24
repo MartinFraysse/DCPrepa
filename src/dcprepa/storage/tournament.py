@@ -77,3 +77,31 @@ def update_tournament_file(tournament_dir: Path, fields: dict[str, str]) -> list
     temporary.write_text(updated, encoding="utf-8")
     temporary.replace(path)
     return []
+
+
+SHEET_FIELDS = ("name", "slug", "format", "date", "location", "banlist", "notes")
+
+
+def load_tournament_sheet(tournament_dir: Path) -> tuple[dict[str, str], list[str]]:
+    """Fiche du tournoi (tournament.yaml), champs en texte (« » si absent ou vide) ; name vaut le nom du dossier s'il est vide.
+
+    Fichier absent : fiche vide avec le nom du dossier, sans erreur ; YAML illisible ou inattendu : même fiche et une erreur.
+    """
+    sheet = {field: "" for field in SHEET_FIELDS}
+    sheet["name"] = tournament_dir.name
+    path = tournament_dir / TOURNAMENT_FILE
+    if not path.is_file():
+        return sheet, []
+    try:
+        content = yaml.safe_load(path.read_text(encoding="utf-8"))
+    except yaml.YAMLError:
+        return sheet, [f"{TOURNAMENT_FILE} : YAML illisible"]
+    if content is None:
+        return sheet, []
+    if not isinstance(content, dict):
+        return sheet, [f"{TOURNAMENT_FILE} : attendu une ligne « champ: valeur » par champ"]
+    for field in SHEET_FIELDS:
+        value = content.get(field)
+        if value is not None and str(value).strip():
+            sheet[field] = " ".join(str(value).split())
+    return sheet, []
