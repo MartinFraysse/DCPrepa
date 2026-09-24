@@ -86,9 +86,9 @@ def test_sections_remplies(sheet):
         "| Cockatrice | — | — |",
         "| MTGO | ⚠️ 100 % (2/2) | ⚠️ 100 % (1/1) |",
     ]
-    assert section(text, "Matchups")[3:] == [
-        "| Ragavan | — | ⚠️ 80 % (4/5) | ⚠️ 100 % (2/2) | — | — |",
-        "| Kess | — | ⚠️ 0 % (0/1) | — | — | — |",
+    assert section(text, "Matchups")[4:] == [
+        "| Ragavan | — | ⚠️ 80 % (4/5) | — | ⚠️ 100 % (2/2) | — | — | — |",
+        "| Kess | — | ⚠️ 0 % (0/1) | — | — | — | — | — |",
     ]
     assert section(text, "Self-play")[3:] == ["| terra@v1 | ⚠️ 100 % (2/2) | ⚠️ 100 % (1/1) | — | — |"]
 
@@ -96,7 +96,7 @@ def test_sections_remplies(sheet):
 def test_otp_otd_du_matchup_des_10_games(sheet):
     games = [game(f"m{n}", "W", position=("OTP", "OTD")[n % 2]) for n in range(10)]
     text = render_deck_report("terra", sheet, compute_deck_stats(games, "terra", sheet["versions"]), GENERATED)
-    assert section(text, "Matchups")[3:] == ["| Ragavan | — | 100 % (10/10) | — | ⚠️ 100 % (5/5) | ⚠️ 100 % (5/5) |"]
+    assert section(text, "Matchups")[4:] == ["| Ragavan | — | 100 % (10/10) | — | — | — | ⚠️ 100 % (5/5) | ⚠️ 100 % (5/5) |"]
 
 
 def test_avec_meta(sheet):
@@ -106,9 +106,9 @@ def test_avec_meta(sheet):
     assert "`decks/terra.yaml` et `meta/2026-10-01.csv`." in text
     matchups = section(text, "Matchups")
     assert matchups[0].startswith(f"{MATCHUPS_SORT_META}, self-play exclu.")
-    assert matchups[3:] == [
-        "| Ragavan | 12.5 % | ⚠️ 100 % (2/2) | ⚠️ 100 % (1/1) | — | — |",
-        "| Kess | — | ⚠️ 0 % (0/1) | — | — | — |",
+    assert matchups[4:] == [
+        "| Ragavan | 12.5 % | ⚠️ 100 % (2/2) | — | ⚠️ 100 % (1/1) | — | — | — |",
+        "| Kess | — | ⚠️ 0 % (0/1) | — | — | — | — | — |",
     ]
 
 
@@ -116,7 +116,26 @@ def test_sans_meta(sheet):
     text = render_deck_report("terra", sheet, compute_deck_stats(match("a", "WW"), "terra", ["v1"]), GENERATED)
     assert "`meta/—.csv`" in text
     assert section(text, "Matchups")[0].startswith(f"{MATCHUPS_SORT_NO_META}, self-play exclu.")
-    assert section(text, "Matchups")[3:] == ["| Ragavan | — | ⚠️ 100 % (2/2) | ⚠️ 100 % (1/1) | — | — |"]
+    assert section(text, "Matchups")[4:] == ["| Ragavan | — | ⚠️ 100 % (2/2) | — | ⚠️ 100 % (1/1) | — | — | — |"]
+
+
+def test_meilleure_version(sheet):
+    games = (
+        match("a", "WLW", version="v1") + match("b", "LL", version="v1")  # v1 : 2/5 games, 1/2 BO3
+        + match("c", "WW", version="v2") + match("d", "W", version="v2")  # v2 : 3/3 games, 1/1 BO3
+    )
+    text = render_deck_report("terra", sheet, compute_deck_stats(games, "terra", sheet["versions"]), GENERATED)
+    matchups = section(text, "Matchups")
+    assert matchups[1].startswith("Meilleure version : la version au meilleur winrate contre l'oppo")
+    # matchup : 5/8 games = 62.5 %, 2/3 BO3 = 66.7 % ; v2 : 100 % et 100 %
+    assert matchups[4:] == ["| Ragavan | — | ⚠️ 62.5 % (5/8) | ⚠️ v2 (+37.5) | ⚠️ 66.7 % (2/3) | ⚠️ v2 (+33.3) | — | — |"]
+
+
+def test_meilleure_version_fiable_sans_warning(sheet):
+    games = [game(f"a{n}", "W", version="v2", position=("OTP", "OTD")[n % 2]) for n in range(10)]
+    games += [game(f"b{n}", "L", version="v1") for n in range(5)]
+    text = render_deck_report("terra", sheet, compute_deck_stats(games, "terra", sheet["versions"]), GENERATED)
+    assert "| 66.7 % (10/15) | v2 (+33.3) |" in text
 
 
 @pytest.mark.parametrize(

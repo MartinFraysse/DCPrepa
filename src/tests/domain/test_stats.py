@@ -1,6 +1,6 @@
 import pytest
 
-from dcprepa.domain.stats import bo3_matches, compute_deck_stats, record, version_gaps
+from dcprepa.domain.stats import BestVersion, best_version, bo3_matches, compute_deck_stats, record, version_gaps
 from dcprepa.domain.winrate import Winrate
 
 
@@ -162,3 +162,37 @@ def test_self_play_sans_poids():
     games = match("a", "WW", oppo="terra@v1")
     stats = compute_deck_stats(games, "terra", ["v1"], {"terra@v1": 10.0})
     assert stats.self_play[0].weight is None
+
+
+def test_meilleure_version_par_matchup():
+    games = (
+        match("a", "WLW", version="v1", oppo="Kess") + match("b", "LL", version="v1", oppo="Kess")
+        + match("c", "WW", version="v2", oppo="Kess") + match("d", "L", version="v2", oppo="Kess")
+        + match("e", "WW", version="v1")  # Ragavan : une seule version
+    )
+    kess, ragavan = compute_deck_stats(games, "terra", ["v1", "v2"]).matchups
+    # Kess : 4/8 games ; v1 2/5, v2 2/3 → v2 ; BO3 : 2/3 ; v1 1/2, v2 1/1 → v2
+    assert kess.best_games == BestVersion("v2", Winrate(2, 3), pytest.approx(200 / 3 - 50))
+    assert kess.best_bo3 == BestVersion("v2", Winrate(1, 1), pytest.approx(100 - 200 / 3))
+    assert (ragavan.best_games, ragavan.best_bo3) == (None, None)
+
+
+@pytest.mark.parametrize(
+    "winrates, expected",
+    [
+        ({}, None),
+        ({"v1": Winrate(3, 4), "v2": Winrate(0, 0)}, None),  # une seule version jouée
+        ({"v1": Winrate(1, 2), "v2": Winrate(2, 4)}, "v2"),  # égalité de winrate : le plus grand total
+        ({"v1": Winrate(1, 2), "v2": Winrate(1, 2)}, "v2"),  # égalité complète : la plus récente
+        ({"v1": Winrate(2, 2), "v2": Winrate(1, 4), "v3": Winrate(0, 1)}, "v1"),
+    ],
+)
+def test_best_version(winrates, expected):
+    overall = Winrate(sum(w.wins for w in winrates.values()), sum(w.total for w in winrates.values()))
+    best = best_version(winrates, overall)
+    assert (best.version if best else None) == expected
+
+
+def test_best_version_ecart():
+    best = best_version({"v1": Winrate(1, 4), "v2": Winrate(3, 4)}, Winrate(4, 8))
+    assert best == BestVersion("v2", Winrate(3, 4), 25.0)

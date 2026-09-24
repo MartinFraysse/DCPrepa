@@ -28,10 +28,21 @@ class VersionStats:
 
 
 @dataclass(frozen=True)
+class BestVersion:
+    """La version au meilleur winrate contre un oppo ; gap = son winrate − celui du matchup, en points."""
+
+    version: str
+    winrate: Winrate
+    gap: float
+
+
+@dataclass(frozen=True)
 class MatchupStats:
     """Un oppo : games et BO3 ; OTP / OTD seulement à partir de 10 games contre lui (sinon None).
 
     weight : son poids dans le méta, en % (None sans méta ou si l'oppo n'y figure pas).
+    best_games / best_bo3 : meilleure version contre l'oppo, par game et par BO3
+    (None si moins de deux versions l'ont joué).
     """
 
     oppo: str
@@ -39,6 +50,8 @@ class MatchupStats:
     otp: Winrate | None
     otd: Winrate | None
     weight: float | None = None
+    best_games: BestVersion | None = None
+    best_bo3: BestVersion | None = None
 
 
 @dataclass(frozen=True)
@@ -72,8 +85,8 @@ def compute_deck_stats(
         versions=_versions(played, versions),
         positions=_positions(played),
         sources=_sources(played),
-        matchups=_matchups(played, weights or {}),
-        self_play=_matchups(self_play, {}),
+        matchups=_matchups(played, weights or {}, versions),
+        self_play=_matchups(self_play, {}, versions),
     )
 
 
@@ -116,6 +129,19 @@ def _bo3_won(match: list[dict[str, str]]) -> bool:
     return sum(game["resultat"] == "W" for game in match) >= WINS_TO_WIN_BO3
 
 
+def best_version(winrates: dict[str, Winrate], overall: Winrate) -> BestVersion | None:
+    """Version au meilleur winrate parmi celles qui ont joué (total > 0), comparée au winrate d'ensemble.
+
+    winrates : winrate de chaque version, dans l'ordre de la fiche. À égalité : le plus grand total,
+    puis la version la plus récente. None si moins de deux versions ont joué.
+    """
+    played = [(index, version, winrate) for index, (version, winrate) in enumerate(winrates.items()) if winrate.total]
+    if len(played) < 2:
+        return None
+    _, version, winrate = max(played, key=lambda item: (item[2].rate, item[2].total, item[0]))
+    return BestVersion(version, winrate, winrate.rate - overall.rate)
+
+
 def _versions(games: list[dict[str, str]], versions: list[str]) -> list[VersionStats]:
     names = list(versions) + [v for v in dict.fromkeys(game["version"] for game in games) if v not in versions]
     records = {name: record([game for game in games if game["version"] == name]) for name in names}
@@ -133,8 +159,8 @@ def _sources(games: list[dict[str, str]]) -> dict[str, Record]:
     return {source: record([game for game in games if game["source"] == source]) for source in (*SOURCES, *extra)}
 
 
-def _matchups(games: list[dict[str, str]], weights: dict[str, float]) -> list[MatchupStats]:
-    """Un MatchupStats par oppo.
+def _matchups(games: list[dict[str, str]], weights: dict[str, float], versions: list[str]) -> list[MatchupStats]:
+    """Un MatchupStats par oppo, avec la meilleure version contre lui (par game et par BO3).
 
     Tri : par poids dans le méta (décroissant), les oppos absents du méta à la fin ;
     à égalité, et toujours sans méta, par nombre de games (décroissant) puis par nom.
@@ -146,8 +172,15 @@ def _matchups(games: list[dict[str, str]], weights: dict[str, float]) -> list[Ma
     matchups = []
     for oppo, oppo_games in by_oppo.items():
         positions = _positions(oppo_games) if len(oppo_games) >= MIN_RELIABLE else {}
+        overall = record(oppo_games)
+        names = list(versions) + [v for v in dict.fromkeys(game["version"] for game in oppo_games) if v not in versions]
+        by_version = {name: record([game for game in oppo_games if game["version"] == name]) for name in names}
         matchups.append(
-            MatchupStats(oppo, record(oppo_games), positions.get("OTP"), positions.get("OTD"), weights.get(oppo))
+            MatchupStats(
+                oppo, overall, positions.get("OTP"), positions.get("OTD"), weights.get(oppo),
+                best_version({name: rec.games for name, rec in by_version.items()}, overall.games),
+                best_version({name: rec.bo3 for name, rec in by_version.items()}, overall.bo3),
+            )
         )
     return sorted(
         matchups,

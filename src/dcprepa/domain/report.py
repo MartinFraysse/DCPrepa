@@ -1,8 +1,8 @@
 from datetime import date
 
-from dcprepa.domain.stats import DeckStats, MatchupStats
+from dcprepa.domain.stats import BestVersion, DeckStats, MatchupStats
 from dcprepa.domain.validation import DATE_FORMAT
-from dcprepa.domain.winrate import NO_DATA, Winrate, format_percent
+from dcprepa.domain.winrate import NO_DATA, WARNING, Winrate, format_percent
 
 SOURCE_LABELS = {"paper": "Paper", "cockatrice": "Cockatrice", "mtgo": "MTGO"}
 MATCHUPS_SORT_META = "Triés par poids dans le méta"
@@ -74,9 +74,19 @@ def render_deck_report(deck: str, sheet: dict, stats: DeckStats, generated: date
         "",
         f"{MATCHUPS_SORT_META if meta_file else MATCHUPS_SORT_NO_META}, self-play exclu. OTP / OTD affichés seulement à partir de 10 games contre l'oppo.",
         "",
+        "Meilleure version : la version au meilleur winrate contre l'oppo et son écart au winrate du matchup, en points"
+        " (« — » si une seule version l'a joué).",
+        "",
         *_table(
-            ["Oppo", "Poids méta", "Winrate (games)", "Winrate BO3", "OTP", "OTD"],
-            [[m.oppo, _weight(m.weight), *_matchup_cells(m)] for m in stats.matchups],
+            ["Oppo", "Poids méta", "Winrate (games)", "Meilleure version (games)", "Winrate BO3", "Meilleure version BO3", "OTP", "OTD"],
+            [
+                [
+                    m.oppo, _weight(m.weight),
+                    m.record.games, _best(m.best_games), m.record.bo3, _best(m.best_bo3),
+                    m.otp or NO_DATA, m.otd or NO_DATA,
+                ]
+                for m in stats.matchups
+            ],
         ),
         "",
         "## Self-play",
@@ -108,6 +118,14 @@ def _row(cells: list) -> str:
 
 def _matchup_cells(matchup: MatchupStats) -> list:
     return [matchup.record.games, matchup.record.bo3, matchup.otp or NO_DATA, matchup.otd or NO_DATA]
+
+
+def _best(best: BestVersion | None) -> str:
+    """Meilleure version : « v2 (+12) », « ⚠️ v2 (+12) » si elle a moins de 10 games (ou BO3) contre l'oppo, « — » sinon."""
+    if best is None:
+        return NO_DATA
+    text = f"{best.version} ({_gap(best.gap)})"
+    return text if best.winrate.reliable else f"{WARNING} {text}"
 
 
 def _count(winrate: Winrate) -> str:
